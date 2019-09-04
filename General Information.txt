@@ -1,0 +1,27 @@
+General Information
+ 
+Item
+Software
+We will be using Microsoft Visual Studio Code for editing source files. This is an open-source and cross-platform IDE. It is installed on the laboratory machines and you can install it at home from here.
+
+In the lab we will be using MinGW/MSYS for compiling and running the code. This is Windows-only and can be obtained from here. macOS users can install command line tools by launching Terminal and typing in the following command:
+
+xcode-select --install
+
+Sample code is provided for each lab and is hosted on GitHub. You can download the code in a .zip and extract it to a directory. It is recommended that you keep the directory in your MSYS home directory. You can then easily navigate to the code for each week e.g.
+
+cd 101
+
+You can also specify a sub-directory.
+
+cd 101/classes
+
+'cd' is the command for changing directory. You can go up a level in the directory tree as follows:
+
+cd ..
+
+You can go up a level in the directory tree and directly into another directory. Suppose you are in '101' and you want to go to '102':
+
+cd ../102
+
+'ls' is the command for listing the contents of the current directory. You can find the current directory by typing 'pwd'. This is 'print working directory'.

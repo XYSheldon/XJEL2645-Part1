@@ -1,0 +1,2 @@
+main.exe: main.cpp maths.cpp
+	g++ -o main.exe -Wall main.cpp maths.cpp 

@@ -1,0 +1,41 @@
+Task 1
+ 
+Look at the main.cpp file in the code style directory. This is just a simple example that reads in a number from the command line and then checks whether it is an odd or even number and whether it is a prime number or not.
+Compile and run the code to test that it works.
+g++ -Wall -o main.exe main.cpp
+
+Look again at the style of the source code, the formatting and structure is terrible! It looks like it has been written by an ELEC1620 student! Go through the code and re-style it following the guidelines in the learning resources.
+That's better, it now looks like it has been written by an ELEC2645 student! This is the style of code that we want to see in the lab. It is an insult to be asked to fix someone's code for them and be presented with horribly formatted and styled code. If you expect someone to fix your code for you, at least be polite enough to present them with well-structured and readable code!
+Also go through the code and give the variables and functions better names following the naming conventions covered in the notes.
+
+Task 2
+ 
+Using the library example code as a starting point, add a few more (simple) maths functions to the maths library. Suggestions are functions to calculate the product of two integers, a min function that returns the smallest of two integers and a max function that returns the largest.
+Use your new functions in main.cpp to test that they work as expected.
+
+Task 3
+ 
+Copy the example Makefile into your library directory.
+Run the makefile by typing 'make' (you may need to delete any existing .exe first)
+Pay close attention to the build messages in the terminal.
+Now go back and make a minor change to one of the files. This can just be adding a comment.
+Now re-make the project and pay close attention to the build messages in terminal. Note that only the file you changed was re-compiled.
+
+Task 4
+ 
+Open the class example files.
+Add in methods to the class that return the circumference and diameter of a circle.
+Use these methods in the main.cpp file to ensure that they work.
+Using the libraries makefile as a template, create a makefile for compiling your class example. Pay particular attention to the correct use of tabs in the makefile. If the commands are incorrectly tabbed, the makefile will not work.
+
+Extra Tasks (Optional)
+ 
+Look online and see if you can find a clang-formatter website. If you can, upload the code style example and format it according to the Google code style. How close does this match your manually styled file?
+Create a class for a sphere with methods for setting the radius and calculating the surface area and volume.
+Create a class for a rectangle with methods for setting the height and width, both separately and together i.e.
+
+void set_width(int width);
+void set_height(int height);
+void set_height_and_width(int width, int width);
+
+Create methods for calculating the area and perimeter.
