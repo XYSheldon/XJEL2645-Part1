@@ -1,0 +1,7 @@
+#ifndef MAIN_H
+#define MAIN_H
+
+#include "funcs.h"
+#include "tests.h"
+
+#endif
