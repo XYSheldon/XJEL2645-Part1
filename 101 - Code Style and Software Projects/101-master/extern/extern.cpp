@@ -2,5 +2,5 @@
 #include "main.h"
 
 void change_global_variable() {
-  global_variable = 0;
+  global_variable = 11;
 }

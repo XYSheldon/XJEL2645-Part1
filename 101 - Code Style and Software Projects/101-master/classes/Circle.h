@@ -8,10 +8,12 @@ class Circle {
   // only accessors and mutators are public in this example
   void set_radius(float radius);
   float get_area();
+  float get_radius();
+  float get_circumference();
+  float get_diameter();
  private:
   // member variables are private and set/get via accessor/mutator
   float _radius;
-  float _area;
 };
 
 #endif

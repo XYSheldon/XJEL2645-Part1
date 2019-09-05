@@ -2,7 +2,8 @@
 // include the class header file in main
 #include "Circle.h"
 
-int main() {
+int main()
+{
   std::cout << "Enter circle radius (in metres): ";
   float radius;
   std::cin >> radius;
@@ -11,5 +12,11 @@ int main() {
   circle.set_radius(radius);
   float area = circle.get_area();
   std::cout << "The circle has an area of " << area << " m^2.\n";
+
+  float circumference = circle.get_circumference();
+  std::cout << "The circle has an circumference of " << circumference << " m.\n";
+
+  float diameter = circle.get_diameter();
+  std::cout << "The circle has an diameter of " << diameter << " m.\n";
   return 0;
 }
