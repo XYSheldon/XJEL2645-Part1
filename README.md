@@ -9,10 +9,16 @@
 
 #### Tasks Included
 
-- [x] 101 - Code Style and Software Projects
+- [x] Lab 101 - Code Style and Software Projects
     - [x] Extra Tasks
-- [ ] P1-102
-- [ ] P1-103
+- [ ] Lab 102 - More C++ Classes
+- [ ] Lab 103 - User Interaction
+- [ ] Lab 104 - Pointers and Arrays
+- [ ] Lab 105 - Working with Files
+- [ ] Lab 106 - Code Testing
+- [ ] Lab 107 - C++ Standard Library
+- [ ] Lab 108 - De-bugging
+- [ ] Lab 109 - Documentation
     
 版权归属 Copyright:
 Craig A. Evans @eencae University of Leeds, UK
