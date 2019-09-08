@@ -1,0 +1,21 @@
+Task 1
+ 
+Obtain the footballer example code. Compile and run the code. Inspect the code so you get a feel for it. Note that it sub-classes the Person class.
+Add in a 'hat_trick' method to the Footballer class. This method is to be called when the player scores a hat-trick and the goal tally should increase by 3. Call this method in the main function and print a suitable message to the terminal.
+Add in a private member variable '_price' with a appropriate data type to the Footballer class. Ensure it is initialised to zero. Add in accessor and mutator methods. Call this method in the main function, set a transfer fee and print a suitable message to the terminal.
+Add in a 'release_on_a_free' method to the Footballer class. This method is to be called when the player is released by their club at the end of their contract. It should set the club to "Free Agent" and their price to zero.
+
+Task 2
+ 
+In the Person class, create a struct to hold the height in imperial units. It should contain two members, an integer to store the height in feet and a float to store inches.
+Add a '_height' private member variable using your new date type to the Person class along with accessor and mutator methods. Ensure it is initialsed in the constructor to a suitable value.
+Repeat the above process for weight. Use imperial units and specifiy the weight in stones (int) and pounds (float).
+
+Task 3
+ 
+Modify the Footballer class so it can initialise the new height and weight properties.
+Add code to the main function to set the height and weight of a player and print relevant messages to the terminal.
+
+Extra Tasks (Optional)
+ 
+Can you think of and implement another sub-class of a Person? What unique properties does it contain that makes it a (sub-)class of it's own?

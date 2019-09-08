@@ -2,15 +2,16 @@
 
 // constructors (default)
 Footballer::Footballer()
-    : Person{"A", "Player", {1, Month::Jan, 1900}},
+    : Person{"A", "Player", {1, Month::Jan, 1900}, {5,5.0}, {10,10.55} },
       _position{Position::Goalkeeper},
       _club{"Free Agent"},
       _apps{0},
-      _goals{0} {}
+      _goals{0},
+      _price{0} {}
 // constructor (user-specified)
-Footballer::Footballer(std::string forename, std::string surname, Date dob,
+Footballer::Footballer(std::string forename, std::string surname, Date dob, Height height, Weight weight,
                        Position position, std::string club, int apps, int goals)
-    : Person{forename, surname, dob},
+    : Person{forename, surname, dob, height, weight},
       _position{position},
       _club{club},
       _apps{apps},
@@ -21,29 +22,52 @@ void Footballer::set_club(std::string club) { _club = club; }
 void Footballer::set_position(Position position) { _position = position; }
 void Footballer::set_goals(int goals) { _goals = goals; }
 void Footballer::set_apps(int apps) { _apps = apps; }
+void Footballer::set_price(float price) { _price = price; }
 // accessors
 std::string Footballer::get_club() { return _club; }
 int Footballer::get_goals() { return _goals; }
 int Footballer::get_apps() { return _apps; }
-std::string Footballer::get_position() {
-  if (_position == Position::Goalkeeper) {
+float Footballer::get_price() { return _price; }
+std::string Footballer::get_position()
+{
+  if (_position == Position::Goalkeeper)
+  {
     return "Goalkeeper";
-  } else if (_position == Position::Defender) {
+  }
+  else if (_position == Position::Defender)
+  {
     return "Defender";
-  } else if (_position == Position::Midfielder) {
+  }
+  else if (_position == Position::Midfielder)
+  {
     return "Midfielder";
-  } else {
+  }
+  else
+  {
     return "Forward";
   }
 }
 // methods
-void Footballer::scored() {
+void Footballer::scored()
+{
   _goals++;
   std::cout << "GOALLLLL!!!!!!!\n";
 }
-void Footballer::played_game() {
+void Footballer::played_game()
+{
   _apps++;
   std::cout << "Played a game.\n";
 }
 
 // get them to add a hat trick method
+void Footballer::hat_trick()
+{
+  _goals += 3;
+}
+
+void Footballer::release_on_a_free()
+{
+  std::cout << "Player released.\n";
+  set_club("Free Agent");
+  _price = 0;
+}
