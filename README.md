@@ -11,7 +11,8 @@
 
 - [x] Lab 101 - Code Style and Software Projects
     - [x] Extra Tasks
-- [ ] Lab 102 - More C++ Classes
+- [x] Lab 102 - More C++ Classes
+    - [X] Extra Tasks with 55 Kai
 - [ ] Lab 103 - User Interaction
 - [ ] Lab 104 - Pointers and Arrays
 - [ ] Lab 105 - Working with Files
