@@ -9,27 +9,27 @@ void print_word(std::string word);
 void welcome();
 bool is_integer(std::string num);
 int get_input(int low, int high);
-
+bool gameloop();
 int main(int argc, char const *argv[]) {
   welcome();
   int low = 1;
   int high = 10;
+  do{
+    // beginning of game loop
+    int n = get_random_number(low, high);
+    // for de-bugging only! Comment the line below to play properly!
+    // std::cout << n << std::endl;
+    std::cout << "\nYou need to guess the number in the range " << low << " to "
+              << high << std::endl;
+    int guess = get_input(low, high);
 
-  // beginning of game loop
-  int n = get_random_number(low, high);
-  // for de-bugging only! Comment the line below to play properly!
-  // std::cout << n << std::endl;
-  std::cout << "\nYou need to guess the number in the range " << low << " to "
-            << high << std::endl;
-  int guess = get_input(low, high);
-
-  if (guess == n) {
-    std::cout << "\nYou've guessed correctly! Winner!\n\n";
-  } else {
-    std::cout << "\nIncorrect! Loser!\n\n";
-  }
-  // end of game loop
-
+    if (guess == n) {
+      std::cout << "\nYou've guessed correctly! Winner!\n\n";
+    } else {
+      std::cout << "\nIncorrect! Loser!\n\n";
+    }
+    // end of game loop
+  }while(gameloop());
   print_line(80);
 }
 
@@ -91,4 +91,14 @@ int get_input(int low, int high) {
   } while (valid_input == false);
 
   return guess;
+}
+
+bool gameloop(){
+  std::cout << "\nPlay again? Enter 'y' or 'n':";
+  char x;
+  std::cin >> x;
+  if (x=='Y' || x=='y') return 1;
+  if (x=='N' || x=='n') return 0;
+  std::cout << "\n\n ERROR! Input invalid";
+  exit(1);
 }

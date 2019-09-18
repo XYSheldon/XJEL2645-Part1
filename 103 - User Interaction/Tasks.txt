@@ -1,0 +1,16 @@
+Task 1
+ 
+Obtain the flag example code for calculating the area of a circle. Compile and run the code, and practice using the different command line flags.
+The code currently does not check whether a valid radius has been entered. Try entering a string for the radius. What does the atof() function return?
+Modify the code so it checks for a valid radius (hint: think sign) and prints an error message and exits if there is an invalid radius.
+
+Task 2
+ 
+Obtain the user-input example. Compile the code and play the game a few times, going through the code as you do until you understand what it does.
+Enclose the game loop (marked out using comments in the code) in a do...while loop that runs for as long as the user wants to play again. When the game is over, the user should be asked "Play again? Enter 'y' or 'n':". You should validate the input to ensure that only 'y' or 'Y' and 'N' and 'n' can be entered. Depending on this input, the game loop should run again or end. Note that the user will be entering characters rather than an integer, so consult the flag example code to see how to best handle this.
+
+Task 3
+ 
+Obtain the menu example code. Compile and run the code, interacting with the menu while looking through the source code until you understand the logic behind it and how it works.
+You will now modify the code and turn it into a currency converter. When the program launches, the user should be presented with a list of possible conversions (e.g. GBP to USD, USD to GBP, GBP to EUR, EUR to GBP). In each of the relevant sub-functions, the user should be prompted to enter a value of currency to convert, the conversion should be calculated and the converted value presented before asking the user whether they wish to return to the main menu.
+Try and modify the menu appearance - experiment with different symbols to create a menu style that you like best e.g. try using # or * to draw the boxes. Have some fun and be creative!

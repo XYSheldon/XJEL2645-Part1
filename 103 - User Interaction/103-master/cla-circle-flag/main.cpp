@@ -38,7 +38,13 @@ void parse_flags(int argc, char const *argv[]) {
       if (i + 1 < argc) {
         double radius = atof(argv[i + 1]);
         double area = PI * pow(radius, 2.0);
-        std::cout << "\nCircle area = " << area << " m^2.\n\n";
+        if (radius > 0){
+          std::cout << "\nCircle area = " << area << " m^2.\n\n";
+        } else {
+          std::cerr << "\nERROR! -r option requires positive numerical value!\n\n";
+          print_usage(argv);
+          exit(1);
+        }
       } else {
         std::cerr << "\nERROR! -r option requires radius value!\n\n";
         print_usage(argv);
