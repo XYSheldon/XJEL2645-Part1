@@ -17,6 +17,7 @@ struct Student {
 int count_lines();
 void read_into_array(Student array[], int n);
 void print_array(const Student array[], int n);
+void analysis(Student array[], int n);
 
 int main() {
   // count the number of lines in the CSV
@@ -27,7 +28,8 @@ int main() {
   // read the CSV file into the array
   read_into_array(students, n);
   // and then print for debug purposes
-  print_array(students, n);
+  //print_array(students, n);
+  analysis(students, n);
 }
 
 int count_lines() {
@@ -88,4 +90,45 @@ void print_array(const Student array[], int n) {
               << array[i].test1 << " | " << array[i].test2 << " | "
               << array[i].test3 << " | " << array[i].test4 << std::endl;
   }
+}
+
+void analysis(Student array[], int n) {
+  double testavg[4]={0,0,0,0};
+  double passrate=0;
+  double maxavg=0,minavg=1e19;
+  int maxindex=-1,minindex=-1;
+  for (int i = 0;i < n; i++ ) {
+    testavg[0]+=array[i].test1;
+    testavg[1]+=array[i].test2;
+    testavg[2]+=array[i].test3;
+    testavg[3]+=array[i].test4;
+    array[i].average=array[i].test1+array[i].test2+array[i].test3+array[i].test4;
+    array[i].average/=4;
+    if (array[i].average>=40) passrate+=1;
+    std::cout << array[i].surname << " | " << array[i].sid << " | "
+              << array[i].test1 << " | " << array[i].test2 << " | "
+              << array[i].test3 << " | " << array[i].test4 << " | " 
+              << array[i].average << std::endl;
+    if (array[i].average>maxavg) {maxavg=array[i].average; maxindex=i;};
+    if (array[i].average<minavg) {minavg=array[i].average; minindex=i;};
+   }
+  testavg[0]/=n;
+  testavg[1]/=n;
+  testavg[2]/=n;
+  testavg[3]/=n;
+  passrate/=n;
+  std::cout << "=================" << std::endl; 
+  std::cout << "Test 1 Avg: " << testavg[0]
+            << " | Test 2 Avg: " << testavg[1]
+            << " | Test 3 Avg: " << testavg[2]
+            << " | Test 4 Avg: " << testavg[3] << std::endl;
+  std::cout << "=================" << std::endl;
+  std::cout << "Highest Avg. Mark: " << array[maxindex].surname << " (SID:"
+            << array[maxindex].sid << ") " << array[maxindex].average << std::endl;
+  std::cout << "Lowest  Avg. Mark: " << array[minindex].surname << " (SID:"
+            << array[minindex].sid << ") " << array[minindex].average << std::endl;
+  std::cout << "=================" << std::endl;
+  std::cout << "Pass Rate of This Module: " << passrate*100 << "%" << std::endl;
+  
+
 }

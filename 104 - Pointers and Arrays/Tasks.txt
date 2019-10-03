@@ -1,0 +1,27 @@
+Task 1
+ 
+Obtain the task template code from the required files.
+Create two dynamic arrays y and t. You should use a variable n to set the length of these arrays. Initially use a value of 20. These arrays will be used to store the values of time and a mathematical function y.
+
+Task 2
+ 
+Create a new double variable f to set the frequency of the function (e.g. 100 Hz). Use f to calculate the period T. Then use n to calculate the time-step dt.
+Using a for loop, fill the t array with the correct values. For example, a function with a period of 1.0 s and 5 values would have values of 0.0, 0.25, 0.5, 0.75 and 1.0
+Using the math library 'cmath', fill the y array with the values
+sin(ωt)
+in which ω is equal to 2πf
+
+Task 3
+ 
+After you have filled in the arrays, use a for loop to print them to screen in comma-separated variable (csv) format t,y e.g.
+0.0,0.0
+0.2, 0.34
+
+When you run your .exe file, pipe the output to a text file e.g.
+main.exe > output.txt
+
+Import your text file into Excel or another suitable program and plot the graph to see if you are correct.
+
+Task 4
+ 
+Extend the 'passing arrays' example code by adding a function to calculate the mean (average) value of an array.

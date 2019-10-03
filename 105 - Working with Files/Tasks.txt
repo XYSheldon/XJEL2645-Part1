@@ -1,0 +1,15 @@
+Task 1
+ 
+Expand the writing CSV example by adding in a third column that contains
+cos(x)
+Run the code to create the .csv file. Import into Excel (or similar) and create a .png image of the plot. Add this to your code repository. 
+
+Task 2
+ 
+In this task you will expand the reading CSV example.
+
+With the data imported into the array, write functions to calculate the average mark for each test.
+Work out the average mark for each student in the class (assuming that the mark for each test is of equal weighting). Note that the struct contains an element to store the average.
+Create a function to find the highest average mark in the class. Print out the name and SID of the student with the highest average. Who is the smartest student?
+Repeat for the lowest average mark.
+Considering the module pass mark is 40, what is the pass rate of the module i.e. the percentage of students with an average >= 40?

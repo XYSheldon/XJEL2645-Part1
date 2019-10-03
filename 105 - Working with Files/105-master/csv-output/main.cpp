@@ -19,7 +19,7 @@ int main() {
   // loop through values 0 to 2PI in small steps
   for (double x = 0.0; x <= 2 * PI; x += 0.01) {
     // print x and sin(x) in CSV format
-    output << x << "," << sin(x) << std::endl;
+    output << x << "," << sin(x) << ',' << cos(x) << std::endl;
   }
   output.close();
 }

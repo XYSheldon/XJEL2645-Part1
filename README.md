@@ -14,8 +14,8 @@
 - [x] Lab 102 - More C++ Classes
     - [x] Extra Tasks with 55 Kai
 - [x] Lab 103 - User Interaction
-- [ ] Lab 104 - Pointers and Arrays
-- [ ] Lab 105 - Working with Files
+- [x] Lab 104 - Pointers and Arrays
+- [x] Lab 105 - Working with Files
 - [ ] Lab 106 - Code Testing
 - [ ] Lab 107 - C++ Standard Library
 - [ ] Lab 108 - De-bugging

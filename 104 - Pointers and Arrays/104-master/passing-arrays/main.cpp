@@ -1,6 +1,7 @@
 #include <iostream>
 
 int sum_of_array(const int array[], int n);
+int mean_of_array(const int array[], int n);
 void square_array(int array[], int n);
 
 int main() {
@@ -9,6 +10,8 @@ int main() {
   // pass the array to the function (and its size) so we can calculate the sum
   int sum = sum_of_array(array, 5);
   std::cout << "Sum = " << sum << std::endl;
+  int mean = mean_of_array(array, 5);
+  std::cout << "Mean = " << mean << std::endl;
   // now pass to a function to square each value
   square_array(array, 5);
   for (int i = 0; i < 5; i++) {
@@ -17,6 +20,8 @@ int main() {
   // calculate the new sum
   sum = sum_of_array(array, 5);
   std::cout << "New sum = " << sum << std::endl;
+  mean = mean_of_array(array, 5);
+  std::cout << "New mean = " << mean << std::endl;
 }
 // note that the array is described as const here so that the function cannot
 // modify the contents
@@ -32,4 +37,8 @@ void square_array(int array[], int n) {
   for (int i = 0; i < n; i++) {
     array[i] = array[i] * array[i];
   }
+}
+
+int mean_of_array(const int array[], int n){
+  return sum_of_array(array, n)/n;
 }
