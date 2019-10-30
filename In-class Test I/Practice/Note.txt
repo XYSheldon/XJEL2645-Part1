@@ -1,0 +1,16 @@
+
+Test Decription
+There are several questions, each in a separate file named qX.cpp where X is the question number.
+
+For each question, you must implement a function in the .cpp file that carries out a specified task. The API can be found in the qX.h file.
+
+Each question also contains and header and main file. You do not need to modify these. The main files runs several tests on your function and prints out whether they have passed or failed. This is how the test is assessed.
+
+However, please note that the real test will not have testing functions. You will be expected to test your own code!
+
+
+Logistics
+The test is 60 minutes in duration.
+Must use laboratory PCs
+GitHub webpages only. No files or sample code.
+No Internet.
