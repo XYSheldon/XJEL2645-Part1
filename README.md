@@ -16,9 +16,9 @@
 - [x] Lab 103 - User Interaction
 - [x] Lab 104 - Pointers and Arrays
 - [x] Lab 105 - Working with Files
-- [ ] Lab 106 - Code Testing
-- [ ] Lab 107 - C++ Standard Library
-- [ ] Lab 108 - De-bugging
+- [x] Lab 106 - Code Testing
+- [x] Lab 107 - C++ Standard Library
+- [x] Lab 108 - De-bugging
 - [ ] Lab 109 - Documentation
     
 版权归属 Copyright:
