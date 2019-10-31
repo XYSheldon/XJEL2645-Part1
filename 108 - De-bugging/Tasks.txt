@@ -1,0 +1,32 @@
+Task 1
+ 
+Follow through the simple sum example. Compile the code and run in GDB. Practice setting watchpoints and breakpoints and inspecting variables.
+
+Task 2
+ 
+Run the Fibonacci example in GDB. Again, practice setting watchpoints and breakpoints and step through the code with the de-bugger.
+Display 'fn', 'fn_minus1' and 'fn_minus2' so you can see their values each time the code halts.
+
+Task 3
+ 
+Write some code that loops through the numbers 2 to n and prints out whether the number is prime or not.
+A prime number is one that is only divisible by 1 and itself. 
+You will need 2 loops.
+One loop is to loop through the numbers 2 to n
+There should be an inner loop that loops from 1 up to the number itself and checks whether the number is divisible
+Hint: a number is divisible if you divide it by a number and there is no remainder (%)
+The output should be something like:
+2 is prime
+3 is prime
+4 is not prime
+5 is prime
+6 is not prime
+7 is prime
+8 is not prime
+9 is not prime
+10 is not prime
+11 is prime
+...
+Use the de-bugging techniques covered in the lab to help you de-bug the inevitable mistakes that you make.
+Try to make use of GDB
+YOU ARE NOT PERMITTED TO GET ANY HELP DEVELOPING THIS CODE! THE WHOLE POINT IS FOR YOU TO GET BETTER AT DE-BUGGING AND FINDING YOUR OWN MISTAKES!

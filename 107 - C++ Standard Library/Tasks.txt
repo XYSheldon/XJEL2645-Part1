@@ -1,0 +1,27 @@
+Task 1
+ 
+Write a program that prompts the user to enter a complex impedance. 
+
+They should enter values for the real and imaginary parts.
+Then ask then to enter a value for the voltage in polar form (hint: consult the complex class documentation online).
+You should then be able to work out the (complex) current and display its absolute value and phase angle.
+
+Task 2
+ 
+Write a programs that takes in a binary value from the user and outputs the decimal value.
+
+(Hint: a bitset has a fixed-width, so you will need to check how many bits the user has entered (think string size) and then prompt them if they have entered too many).
+
+
+Task 3
+ 
+Attached Files
+File MOCK_DATA.csv (1.066 KB)
+Using the MOCK_DATA.csv file which contains names and scores, write a program that reads the data into a map (string, int). Look back at the CSV code from a previous lab for inspiration.
+Once the data is in a map, ask the user to enter a name. Look for the name in the map and print the score (if it exists).
+
+Task 4
+ 
+Create a vector of ints. Add some values to it.
+Iterate through the array and remove any odd numbers.
+Print to the terminal to check it has worked as expected.

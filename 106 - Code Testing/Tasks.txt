@@ -1,12 +1,8 @@
-#ifndef FUNCS_H
-#define FUNCS_H
-
-// returns the sum of two numbers
-int sum(int a, int b);
-// returns the square of a number
-double sqr(double a);
-// returns the minimum value in an array
-int min_array_value(int array[], int n);
+Task 1
+ 
+For this week's task you are required to implement several functions and create testing functions for them. Use the 'project' sample code and add the functions to funcs.h and funcs.cpp. Add the tests to tests.h and tests.cpp. Call the tests in main().
+Ensure you use 'make debug' to compile the code.
+Application Programming Interface (API)
 
 // function returns the biggest value out of a and b
 int biggest(int a, int b);
@@ -21,5 +17,3 @@ double bmi(double height, double weight);
 // the function returns the average value of an array of integer
 // note that it should return a double
 double array_average(int array[], int n);
-
-#endif
