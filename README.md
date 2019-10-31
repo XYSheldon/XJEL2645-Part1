@@ -19,7 +19,7 @@
 - [x] Lab 106 - Code Testing
 - [x] Lab 107 - C++ Standard Library
 - [x] Lab 108 - De-bugging
-- [ ] Lab 109 - Documentation
+- [x] Lab 109 - Documentation
     
 版权归属 Copyright:
 Craig A. Evans @eencae University of Leeds, UK

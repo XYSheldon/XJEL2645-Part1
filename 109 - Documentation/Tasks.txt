@@ -1,0 +1,13 @@
+Task 1
+ 
+Follow the example and create a PDF version of the RTF report.
+
+Ensure your name is displayed on the report.
+
+Upload to the submission link.
+
+Task 2
+ 
+Now go to:
+
+/Assessment/Assignment
