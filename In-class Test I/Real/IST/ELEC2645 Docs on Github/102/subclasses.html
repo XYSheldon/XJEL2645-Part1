@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Sub-classes</h1>
+
+    <!-- Introduction -->
+    <section>
+        <h2>Introduction</h2>
+        <p>We have seen several examples of making classes. A class represents a 'thing' and that 'thing' typically has some <i>data</i> (member variables) associated with it and usually some <i>methods</i> (member functions) that perform operations on the data. Additionally, there are usually <i>constructors</i> that are used to create objects of that particular class.</p>
+        <p>We will now look at <i>sub-classes</i> which are an important aspect of object-oriented programming (OOP) and let us take advantage of the concept of <i>inheritance</i>.</p>
+        <p>Consider a class used to represent a person. We might have some properties such as forename, surname and date of birth. We could create accessor and mutator methods to allow us to interact with the properties. The <i>class diagram</i> would look something like below:</p>
+        <img src="images/Person_class_diagram.png" alt="Person Class Diagram" style="display:block;margin-left: auto;margin-right: auto">
+        <p>The top box contains the class name. The second block contains the member variables and their type. Note the the negative sign "-" denotes that they are private. The third box then contains the class methods, showing the arguments and return types. The positive sign "+" denotes that these are public.</p>
+        <p>Now, imagine we want to make a class to represent a student and include things like ID number and average grade on top of the usual stuff like name and date of birth.</p>
+        <img src="images/Student_class_diagram.png" alt="Person Class Diagram" style="display:block;margin-left: auto;margin-right: auto">
+        <p>We can immediately see that there are a lot of similarities. That's good, we can just copy-paste our Person class code and use it as a starting point to create our Student class. Well actually, we can do something cleverer than that. We can make our Student class a <i>sub-class</i> of our Person class and <i>inherit</i> its (public) member methods and variables.</p>
+    </section>
+
+    <!-- Person -->
+    <section>
+        <h2>Person class</h2>
+        <p>The code for the Person class is shown below.</p>
+        <p><i>Person.h</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#ifndef PERSON_H</span>
+<span style="color: #BC7A00">#define PERSON_H</span>
+
+<span style="color: #BC7A00">#include &lt;string&gt;</span>
+
+<span style="color: #408080; font-style: italic">// class enums for hair colour and month</span>
+<span style="color: #008000; font-weight: bold">enum</span> <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Month</span> { Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec };
+
+<span style="color: #408080; font-style: italic">// POD struct to hold date of birth</span>
+<span style="color: #008000; font-weight: bold">struct</span> Date {
+  <span style="color: #B00040">int</span> day;
+  Month month;
+  <span style="color: #B00040">int</span> year;
+};
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Person</span> {
+ <span style="color: #A0A000">public:</span>
+  <span style="color: #408080; font-style: italic">// constructors</span>
+  Person();
+  Person(std<span style="color: #666666">::</span>string forename, std<span style="color: #666666">::</span>string surname, Date dob);
+  <span style="color: #408080; font-style: italic">// mutators</span>
+  <span style="color: #B00040">void</span> <span style="color: #0000FF">set_forename</span>(std<span style="color: #666666">::</span>string forename);
+  <span style="color: #B00040">void</span> <span style="color: #0000FF">set_surname</span>(std<span style="color: #666666">::</span>string surname);
+  <span style="color: #B00040">void</span> <span style="color: #0000FF">set_dob</span>(Date dob);
+  <span style="color: #408080; font-style: italic">// accessors</span>
+  std<span style="color: #666666">::</span>string get_forename();
+  std<span style="color: #666666">::</span>string get_surname();
+  std<span style="color: #666666">::</span>string get_dob();
+
+ <span style="color: #A0A000">private:</span>
+  std<span style="color: #666666">::</span>string _forename;
+  std<span style="color: #666666">::</span>string _surname;
+  Date _dob;
+};
+<span style="color: #BC7A00">#endif</span>
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>Note that C++ does not have a datatype for storing dates and so we create one using a struct. We also use an enum class to create the months of the year. We include a default constructor, as well as one that allows us to specify the properties when we create the Person object.</p>
+
+        <p><i>Person.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &quot;Person.h&quot;</span>
+
+<span style="color: #408080; font-style: italic">// list initialisation in constructor (&#39;default&#39; values)</span>
+Person<span style="color: #666666">::</span>Person()
+    <span style="color: #666666">:</span> _forename(<span style="color: #BA2121">&quot;John&quot;</span>), _surname(<span style="color: #BA2121">&quot;Doe&quot;</span>), _dob({<span style="color: #666666">1</span>, Month<span style="color: #666666">::</span>Jan, <span style="color: #666666">1900</span>}) {}
+<span style="color: #408080; font-style: italic">// alternatively, initialise class members using constructor arguments</span>
+Person<span style="color: #666666">::</span>Person(std<span style="color: #666666">::</span>string forename, std<span style="color: #666666">::</span>string surname, Date dob)
+    <span style="color: #666666">:</span> _forename(forename), _surname(surname), _dob(dob) {}
+
+<span style="color: #408080; font-style: italic">// mutators</span>
+<span style="color: #B00040">void</span> Person<span style="color: #666666">::</span>set_forename(std<span style="color: #666666">::</span>string forename) { _forename <span style="color: #666666">=</span> forename; }
+<span style="color: #B00040">void</span> Person<span style="color: #666666">::</span>set_surname(std<span style="color: #666666">::</span>string surname) { _surname <span style="color: #666666">=</span> surname; }
+<span style="color: #B00040">void</span> Person<span style="color: #666666">::</span>set_dob(Date dob) { _dob <span style="color: #666666">=</span> dob; }
+<span style="color: #408080; font-style: italic">// accessors</span>
+std<span style="color: #666666">::</span>string Person<span style="color: #666666">::</span>get_forename() { <span style="color: #008000; font-weight: bold">return</span> _forename; }
+std<span style="color: #666666">::</span>string Person<span style="color: #666666">::</span>get_surname() { <span style="color: #008000; font-weight: bold">return</span> _surname; }
+std<span style="color: #666666">::</span>string Person<span style="color: #666666">::</span>get_dob() {
+  std<span style="color: #666666">::</span>string day <span style="color: #666666">=</span> std<span style="color: #666666">::</span>to_string(_dob.day);
+  std<span style="color: #666666">::</span>string year <span style="color: #666666">=</span> std<span style="color: #666666">::</span>to_string(_dob.year);
+
+  <span style="color: #008000; font-weight: bold">if</span> (_dob.month <span style="color: #666666">==</span> Month<span style="color: #666666">::</span>Jan) {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/01/&quot;</span> <span style="color: #666666">+</span> year;
+  } <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (_dob.month <span style="color: #666666">==</span> Month<span style="color: #666666">::</span>Feb) {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/02/&quot;</span> <span style="color: #666666">+</span> year;
+  } <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (_dob.month <span style="color: #666666">==</span> Month<span style="color: #666666">::</span>Mar) {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/03/&quot;</span> <span style="color: #666666">+</span> year;
+  } <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (_dob.month <span style="color: #666666">==</span> Month<span style="color: #666666">::</span>Apr) {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/04/&quot;</span> <span style="color: #666666">+</span> year;
+  } <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (_dob.month <span style="color: #666666">==</span> Month<span style="color: #666666">::</span>May) {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/05/&quot;</span> <span style="color: #666666">+</span> year;
+  } <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (_dob.month <span style="color: #666666">==</span> Month<span style="color: #666666">::</span>Jun) {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/06/&quot;</span> <span style="color: #666666">+</span> year;
+  } <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (_dob.month <span style="color: #666666">==</span> Month<span style="color: #666666">::</span>Jul) {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/07/&quot;</span> <span style="color: #666666">+</span> year;
+  } <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (_dob.month <span style="color: #666666">==</span> Month<span style="color: #666666">::</span>Aug) {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/08/&quot;</span> <span style="color: #666666">+</span> year;
+  } <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (_dob.month <span style="color: #666666">==</span> Month<span style="color: #666666">::</span>Sep) {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/09/&quot;</span> <span style="color: #666666">+</span> year;
+  } <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (_dob.month <span style="color: #666666">==</span> Month<span style="color: #666666">::</span>Oct) {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/10/&quot;</span> <span style="color: #666666">+</span> year;
+  } <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (_dob.month <span style="color: #666666">==</span> Month<span style="color: #666666">::</span>Nov) {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/11/&quot;</span> <span style="color: #666666">+</span> year;
+  } <span style="color: #008000; font-weight: bold">else</span> {
+    <span style="color: #008000; font-weight: bold">return</span> day <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;/12/&quot;</span> <span style="color: #666666">+</span> year;
+  }
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>Note the <i>get_dob()</i> function. This simply converts the date of birth (in our custom type <i>Date</i>) and return a string in the format <i>dd/mm/yyyy</i>.</p>
+
+
+    </section>
+
+    <!-- Student -->
+    <section>
+        <h2>Student class</h2>
+        <p>When creating our student class, we just need to tell it to inherit from our Person class in the class definition. Note the use of the public keyword.</p>
+        <p><i>Student.h</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#ifndef STUDENT_H</span>
+<span style="color: #BC7A00">#define STUDENT_H</span>
+
+<span style="color: #BC7A00">#include &lt;string&gt;</span>
+<span style="color: #BC7A00">#include &quot;Person.h&quot;</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Student</span> <span style="color: #666666">:</span> <span style="color: #008000; font-weight: bold">public</span> Person {
+ <span style="color: #A0A000">public:</span>
+  <span style="color: #408080; font-style: italic">// constructors</span>
+  Student();
+  Student(std<span style="color: #666666">::</span>string forename, std<span style="color: #666666">::</span>string surname, Date dob, <span style="color: #B00040">int</span> id,
+          <span style="color: #B00040">float</span> grade);
+  <span style="color: #408080; font-style: italic">// mutators</span>
+  <span style="color: #B00040">void</span> <span style="color: #0000FF">set_id</span>(<span style="color: #B00040">int</span> club);
+  <span style="color: #B00040">void</span> <span style="color: #0000FF">set_grade</span>(<span style="color: #B00040">float</span> _grade);
+  <span style="color: #408080; font-style: italic">// accessors</span>
+  <span style="color: #B00040">int</span> <span style="color: #0000FF">get_id</span>();
+  <span style="color: #B00040">float</span> <span style="color: #0000FF">get_grade</span>();
+
+ <span style="color: #A0A000">private:</span>
+  <span style="color: #408080; font-style: italic">// private member variables</span>
+  <span style="color: #B00040">int</span> _id;
+  <span style="color: #B00040">float</span> _grade;
+};
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p><i>Student.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &quot;Student.h&quot;</span>
+
+<span style="color: #408080; font-style: italic">// constructors (default)</span>
+Student<span style="color: #666666">::</span>Student() <span style="color: #666666">:</span> Person(), _id{<span style="color: #666666">0</span>}, _grade{<span style="color: #666666">0.00</span>} {}
+<span style="color: #408080; font-style: italic">// constructor (user-specified)</span>
+Student<span style="color: #666666">::</span>Student(std<span style="color: #666666">::</span>string forename, std<span style="color: #666666">::</span>string surname, Date dob, <span style="color: #B00040">int</span> id,
+                 <span style="color: #B00040">float</span> grade)
+    <span style="color: #666666">:</span> Person{forename, surname, dob}, _id{id}, _grade{grade} {}
+
+<span style="color: #408080; font-style: italic">// mutators</span>
+<span style="color: #B00040">void</span> Student<span style="color: #666666">::</span>set_id(<span style="color: #B00040">int</span> id) { _id <span style="color: #666666">=</span> id; }
+<span style="color: #B00040">void</span> Student<span style="color: #666666">::</span>set_grade(<span style="color: #B00040">float</span> grade) { _grade <span style="color: #666666">=</span> grade; }
+<span style="color: #408080; font-style: italic">// accessors</span>
+<span style="color: #B00040">int</span> Student<span style="color: #666666">::</span>get_id() { <span style="color: #008000; font-weight: bold">return</span> _id; }
+<span style="color: #B00040">float</span> Student<span style="color: #666666">::</span>get_grade() { <span style="color: #008000; font-weight: bold">return</span> _grade; }
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>Since we have made Student a sub-class of Person, we do not have to both implementing the code for the forename, surname and date of birth. We can just add in our extra properties and associated accessors and mutators (ID and average grade). Note that we need to include the <i>Person.h</i> file in our Student class header. Also, pay particular attention to the Student constructor, here we call the default constructor of the Person class. We could have also created a specific Person object here with different properties if we wished.</p>
+    </section>
+    <!-- Example -->
+    <section>
+        <h2>Example</h2>
+        <p>The code below shows an example of using these two classes.</p>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+<span style="color: #BC7A00">#include &quot;Person.h&quot;</span>
+<span style="color: #BC7A00">#include &quot;Student.h&quot;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #408080; font-style: italic">// create a &#39;default&#39; Person object</span>
+  Person person;
+  <span style="color: #408080; font-style: italic">// default person is called &#39;John&#39;</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> person.get_forename() <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #408080; font-style: italic">// we can assign all the object properties using a initialiser list</span>
+  person <span style="color: #666666">=</span> {<span style="color: #BA2121">&quot;Peter&quot;</span>, <span style="color: #BA2121">&quot;Rabbit&quot;</span>, {<span style="color: #666666">17</span>, Month<span style="color: #666666">::</span>Apr, <span style="color: #666666">1947</span>}};
+  <span style="color: #408080; font-style: italic">// person is now called &#39;Peter&#39;</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> person.get_forename() <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// can also create a specific person using the constructor</span>
+  Person another_person(<span style="color: #BA2121">&quot;Jane&quot;</span>, <span style="color: #BA2121">&quot;Smith&quot;</span>, {<span style="color: #666666">23</span>, Month<span style="color: #666666">::</span>May, <span style="color: #666666">1999</span>});
+
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> another_person.get_forename() <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; was born on &quot;</span>
+            <span style="color: #666666">&lt;&lt;</span> another_person.get_dob() <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// Now create a student object</span>
+  Student student;
+  <span style="color: #408080; font-style: italic">// default student is called &#39;John&#39; like the person</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> student.get_forename() <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #408080; font-style: italic">// now we&#39;ll assign a profile to the student using a list</span>
+  student <span style="color: #666666">=</span> {<span style="color: #BA2121">&quot;Albert&quot;</span>, <span style="color: #BA2121">&quot;Einstein&quot;</span>, {<span style="color: #666666">14</span>, Month<span style="color: #666666">::</span>Mar, <span style="color: #666666">1879</span>}, <span style="color: #666666">201123456</span>, <span style="color: #666666">99.9</span>};
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> student.get_forename() <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; has an average of &quot;</span>
+            <span style="color: #666666">&lt;&lt;</span> student.get_grade() <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;\%. Wow! What a genius!</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+
+  <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">0</span>;
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>This code does several things. First we create a 'default' person which will pick up the default values for the forename, surname and date of birth. We then show how we can use an initialiser list to set all of the properties for the person object. Using initialiser lists like this is a C++11 language feature and a C++11 (or newer) compiler must be used. We then create a specific person using the constructor with arguments. Lastly we create a default student object and then assign values to it using a initialiser list.</p>
+        <p>The output of the code is as below:</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">John
+Peter
+Jane was born on <span style="color: #666666">23/05/1999</span>
+John
+Albert has an average of <span style="color: #666666">99.9%</span>. Wow<span style="color: #666666">!</span> What a genius<span style="color: #666666">!</span>
+</pre>
+        </div>
+
+
+
+    </section>
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

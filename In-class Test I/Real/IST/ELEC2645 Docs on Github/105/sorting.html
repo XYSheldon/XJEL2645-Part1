@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+            <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+        </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Sorting Data</h1>
+
+    <!-- Intro -->
+    <section>
+        <h2>Introduction</h2>
+        <p>If your program has some data, a common task is to do some sorting. Luckily the C++ <i>standard template library</i> contains some useful functions to make this simple.</p>
+    </section>
+
+    <!-- Example -->
+    <section>
+        <h2>Example</h2>
+        <p>The following example writes some random values to a text file. It then reads the values in the text file into an array. The values are then sorted and printed to a new file.</p>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;height:400px;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%">  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;algorithm&gt;</span>
+<span style="color: #BC7A00">#include &lt;chrono&gt;</span>
+<span style="color: #BC7A00">#include &lt;fstream&gt;</span>
+<span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+<span style="color: #BC7A00">#include &lt;random&gt;</span>
+<span style="color: #BC7A00">#include &lt;string&gt;</span>
+
+<span style="color: #408080; font-style: italic">// function prototypes</span>
+<span style="color: #B00040">void</span> <span style="color: #0000FF">write_random_number_file</span>();
+<span style="color: #B00040">int</span> <span style="color: #0000FF">get_random_number</span>(<span style="color: #B00040">int</span> low, <span style="color: #B00040">int</span> high);
+<span style="color: #B00040">int</span> <span style="color: #0000FF">count_lines</span>();
+<span style="color: #B00040">void</span> <span style="color: #0000FF">read_into_array</span>(<span style="color: #B00040">int</span> array[], <span style="color: #B00040">int</span> n);
+<span style="color: #B00040">void</span> <span style="color: #0000FF">order_array</span>(<span style="color: #B00040">int</span> array[], <span style="color: #B00040">int</span> n);
+<span style="color: #B00040">void</span> <span style="color: #0000FF">write_array_to_file</span>(<span style="color: #B00040">int</span> array[], <span style="color: #B00040">int</span> n);
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #408080; font-style: italic">// write random numbers to file &#39;random.txt&#39;</span>
+  write_random_number_file();
+  <span style="color: #408080; font-style: italic">// count the lines and create array of correct size</span>
+  <span style="color: #B00040">int</span> n <span style="color: #666666">=</span> count_lines();
+  <span style="color: #B00040">int</span> <span style="color: #666666">*</span>array <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">new</span> <span style="color: #B00040">int</span>[n];
+  <span style="color: #408080; font-style: italic">// read the random numbers into the array</span>
+  read_into_array(array, n);
+  <span style="color: #408080; font-style: italic">// order the values in the array</span>
+  order_array(array, n);
+  <span style="color: #408080; font-style: italic">// then write ordered values to file &#39;ordered.txt&#39;</span>
+  write_array_to_file(array, n);
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">write_random_number_file</span>() {
+  <span style="color: #408080; font-style: italic">// create an output file stream</span>
+  std<span style="color: #666666">::</span>ofstream output;
+  <span style="color: #408080; font-style: italic">// use it to open a file named &#39;output.txt&#39;</span>
+  output.open(<span style="color: #BA2121">&quot;random.txt&quot;</span>);
+  <span style="color: #408080; font-style: italic">// check if the file is not open</span>
+  <span style="color: #008000; font-weight: bold">if</span> (<span style="color: #666666">!</span>output.is_open()) {
+    <span style="color: #408080; font-style: italic">// print error message and quit if a problem occurred</span>
+    std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Error creating file!</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    exit(<span style="color: #666666">1</span>);
+  }
+  <span style="color: #408080; font-style: italic">// write 100 random numbers in range 0 to 100 to the file</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> <span style="color: #666666">100</span>; i<span style="color: #666666">++</span>) {
+    <span style="color: #B00040">int</span> number <span style="color: #666666">=</span> get_random_number(<span style="color: #666666">0</span>, <span style="color: #666666">100</span>);
+    output <span style="color: #666666">&lt;&lt;</span> number <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+  output.close();
+}
+
+<span style="color: #408080; font-style: italic">// get random number in range</span>
+<span style="color: #B00040">int</span> <span style="color: #0000FF">get_random_number</span>(<span style="color: #B00040">int</span> low, <span style="color: #B00040">int</span> high) {
+  <span style="color: #B00040">int</span> seed <span style="color: #666666">=</span>
+      std<span style="color: #666666">::</span>chrono<span style="color: #666666">::</span>high_resolution_clock<span style="color: #666666">::</span>now().time_since_epoch().count();
+  std<span style="color: #666666">::</span>mt19937 generator(seed);
+  std<span style="color: #666666">::</span>uniform_int_distribution<span style="color: #666666">&lt;</span><span style="color: #B00040">int</span><span style="color: #666666">&gt;</span> distribution(low, high);
+  <span style="color: #008000; font-weight: bold">return</span> distribution(generator);
+}
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">count_lines</span>() {
+  <span style="color: #408080; font-style: italic">// create an input file stream</span>
+  std<span style="color: #666666">::</span>ifstream input;
+  <span style="color: #408080; font-style: italic">// use it to open a file named &#39;random.txt&#39;</span>
+  input.open(<span style="color: #BA2121">&quot;random.txt&quot;</span>);
+  <span style="color: #408080; font-style: italic">// check if the file is not open</span>
+  <span style="color: #008000; font-weight: bold">if</span> (<span style="color: #666666">!</span>input.is_open()) {
+    <span style="color: #408080; font-style: italic">// print error message and quit if a problem occurred</span>
+    std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Error! No input file found!</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    exit(<span style="color: #666666">1</span>);
+  }
+  <span style="color: #B00040">int</span> n <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  std<span style="color: #666666">::</span>string dummy;
+  <span style="color: #408080; font-style: italic">// keep reading lines in file until no lines left to read</span>
+  <span style="color: #408080; font-style: italic">// read into dummy string and increment count</span>
+  <span style="color: #008000; font-weight: bold">while</span> (getline(input, dummy)) {
+    n<span style="color: #666666">++</span>;
+  }
+  input.close();
+  <span style="color: #008000; font-weight: bold">return</span> n;
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">read_into_array</span>(<span style="color: #B00040">int</span> array[], <span style="color: #B00040">int</span> n) {
+  <span style="color: #408080; font-style: italic">// create an input file stream</span>
+  std<span style="color: #666666">::</span>ifstream input;
+  <span style="color: #408080; font-style: italic">// use it to open a file named &#39;MOCK_DATA.csv&#39;</span>
+  input.open(<span style="color: #BA2121">&quot;random.txt&quot;</span>);
+  <span style="color: #408080; font-style: italic">// check if the file is not open</span>
+  <span style="color: #008000; font-weight: bold">if</span> (<span style="color: #666666">!</span>input.is_open()) {
+    <span style="color: #408080; font-style: italic">// print error message and quit if a problem occurred</span>
+    std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Error! No input file found!</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    exit(<span style="color: #666666">1</span>);
+  }
+  <span style="color: #408080; font-style: italic">// loop through each line in file</span>
+  std<span style="color: #666666">::</span>string dummy;
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> n; i<span style="color: #666666">++</span>) {
+    input <span style="color: #666666">&gt;&gt;</span> dummy;
+    <span style="color: #408080; font-style: italic">// read in value, covert to int and write to array</span>
+    array[i] <span style="color: #666666">=</span> std<span style="color: #666666">::</span>stoi(dummy);
+  }
+  input.close();
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">order_array</span>(<span style="color: #B00040">int</span> array[], <span style="color: #B00040">int</span> n) {
+  std<span style="color: #666666">::</span>sort(array, array <span style="color: #666666">+</span> n);  <span style="color: #408080; font-style: italic">// ascending</span>
+  <span style="color: #408080; font-style: italic">// std::sort(array, array + n, std::greater&lt;int&gt;());  // descending</span>
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">write_array_to_file</span>(<span style="color: #B00040">int</span> array[], <span style="color: #B00040">int</span> n) {
+  <span style="color: #408080; font-style: italic">// create an output file stream</span>
+  std<span style="color: #666666">::</span>ofstream output;
+  <span style="color: #408080; font-style: italic">// use it to open a file named &#39;output.txt&#39;</span>
+  output.open(<span style="color: #BA2121">&quot;ordered.txt&quot;</span>);
+  <span style="color: #408080; font-style: italic">// check if the file is not open</span>
+  <span style="color: #008000; font-weight: bold">if</span> (<span style="color: #666666">!</span>output.is_open()) {
+    <span style="color: #408080; font-style: italic">// print error message and quit if a problem occurred</span>
+    std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Error creating file!</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    exit(<span style="color: #666666">1</span>);
+  }
+  <span style="color: #408080; font-style: italic">// loop through and print array</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> n; i<span style="color: #666666">++</span>) {
+    output <span style="color: #666666">&lt;&lt;</span> array[i] <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+  output.close();
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>Firstly 100 random numbers (in the range 0 to 100) are written to a text file. The random numbers are generated using the function covered in a previous <a href="../103/flags.html"> lab</a>.</p>
+        <p>The values in the file are then read into an array before the <code>order_array()</code> function sorts the data in the array using the <code>std::sort</code> function.</p>
+        <p><code>std::sort(array, array + n);</code></p>
+        <p>Here we pass in the beginning and end of the array. By default, the data will be sorted in ascending order. We can sort the data in descending order by doing the following instead.</p>
+        <p><code>std::sort(array, array + n, std::greater<int>()); </code></p>
+    </section>
+
+    <!-- Output -->
+    <section>
+        <h2>Output</h2>
+        <p>The above example creates two files, 'random.txt' contains 100 random numbers in a random order and 'ordered.txt' contains the same random numbers in ascending order. Since the random number generator is seeded using the time, these numbers will be different everytime. Sample outputs are shown below.</p>
+        <p><i>random.txt</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;height:200px;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%"><span style="color: #666666">24</span>
+<span style="color: #666666">17</span>
+<span style="color: #666666">30</span>
+<span style="color: #666666">17</span>
+<span style="color: #666666">36</span>
+<span style="color: #666666">68</span>
+<span style="color: #666666">26</span>
+<span style="color: #666666">94</span>
+<span style="color: #666666">6</span>
+<span style="color: #666666">14</span>
+<span style="color: #666666">47</span>
+<span style="color: #666666">2</span>
+<span style="color: #666666">50</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">38</span>
+<span style="color: #666666">92</span>
+<span style="color: #666666">65</span>
+<span style="color: #666666">99</span>
+<span style="color: #666666">66</span>
+<span style="color: #666666">100</span>
+<span style="color: #666666">30</span>
+<span style="color: #666666">69</span>
+<span style="color: #666666">71</span>
+<span style="color: #666666">47</span>
+<span style="color: #666666">47</span>
+<span style="color: #666666">63</span>
+<span style="color: #666666">50</span>
+<span style="color: #666666">26</span>
+<span style="color: #666666">43</span>
+<span style="color: #666666">57</span>
+<span style="color: #666666">37</span>
+<span style="color: #666666">17</span>
+<span style="color: #666666">66</span>
+<span style="color: #666666">14</span>
+<span style="color: #666666">13</span>
+<span style="color: #666666">88</span>
+<span style="color: #666666">7</span>
+<span style="color: #666666">74</span>
+<span style="color: #666666">99</span>
+<span style="color: #666666">42</span>
+<span style="color: #666666">64</span>
+<span style="color: #666666">35</span>
+<span style="color: #666666">11</span>
+<span style="color: #666666">6</span>
+<span style="color: #666666">71</span>
+<span style="color: #666666">90</span>
+<span style="color: #666666">18</span>
+<span style="color: #666666">32</span>
+<span style="color: #666666">0</span>
+<span style="color: #666666">4</span>
+<span style="color: #666666">84</span>
+<span style="color: #666666">86</span>
+<span style="color: #666666">44</span>
+<span style="color: #666666">79</span>
+<span style="color: #666666">89</span>
+<span style="color: #666666">16</span>
+<span style="color: #666666">69</span>
+<span style="color: #666666">27</span>
+<span style="color: #666666">18</span>
+<span style="color: #666666">63</span>
+<span style="color: #666666">10</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">65</span>
+<span style="color: #666666">59</span>
+<span style="color: #666666">60</span>
+<span style="color: #666666">64</span>
+<span style="color: #666666">26</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">56</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">83</span>
+<span style="color: #666666">27</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">32</span>
+<span style="color: #666666">89</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">92</span>
+<span style="color: #666666">18</span>
+<span style="color: #666666">70</span>
+<span style="color: #666666">74</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">94</span>
+<span style="color: #666666">16</span>
+<span style="color: #666666">41</span>
+<span style="color: #666666">42</span>
+<span style="color: #666666">21</span>
+<span style="color: #666666">77</span>
+<span style="color: #666666">52</span>
+<span style="color: #666666">56</span>
+<span style="color: #666666">62</span>
+<span style="color: #666666">77</span>
+<span style="color: #666666">43</span>
+<span style="color: #666666">16</span>
+<span style="color: #666666">74</span>
+<span style="color: #666666">73</span>
+<span style="color: #666666">12</span>
+<span style="color: #666666">6</span>
+<span style="color: #666666">61</span>
+</pre>
+        </div>
+
+        <p><i>ordered.txt</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;height:200px;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%"><span style="color: #666666">0</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">2</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">4</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">6</span>
+<span style="color: #666666">6</span>
+<span style="color: #666666">6</span>
+<span style="color: #666666">7</span>
+<span style="color: #666666">10</span>
+<span style="color: #666666">11</span>
+<span style="color: #666666">12</span>
+<span style="color: #666666">13</span>
+<span style="color: #666666">14</span>
+<span style="color: #666666">14</span>
+<span style="color: #666666">16</span>
+<span style="color: #666666">16</span>
+<span style="color: #666666">16</span>
+<span style="color: #666666">17</span>
+<span style="color: #666666">17</span>
+<span style="color: #666666">17</span>
+<span style="color: #666666">18</span>
+<span style="color: #666666">18</span>
+<span style="color: #666666">18</span>
+<span style="color: #666666">21</span>
+<span style="color: #666666">24</span>
+<span style="color: #666666">26</span>
+<span style="color: #666666">26</span>
+<span style="color: #666666">26</span>
+<span style="color: #666666">27</span>
+<span style="color: #666666">27</span>
+<span style="color: #666666">30</span>
+<span style="color: #666666">30</span>
+<span style="color: #666666">32</span>
+<span style="color: #666666">32</span>
+<span style="color: #666666">35</span>
+<span style="color: #666666">36</span>
+<span style="color: #666666">37</span>
+<span style="color: #666666">38</span>
+<span style="color: #666666">41</span>
+<span style="color: #666666">42</span>
+<span style="color: #666666">42</span>
+<span style="color: #666666">43</span>
+<span style="color: #666666">43</span>
+<span style="color: #666666">44</span>
+<span style="color: #666666">47</span>
+<span style="color: #666666">47</span>
+<span style="color: #666666">47</span>
+<span style="color: #666666">50</span>
+<span style="color: #666666">50</span>
+<span style="color: #666666">52</span>
+<span style="color: #666666">56</span>
+<span style="color: #666666">56</span>
+<span style="color: #666666">57</span>
+<span style="color: #666666">59</span>
+<span style="color: #666666">60</span>
+<span style="color: #666666">61</span>
+<span style="color: #666666">62</span>
+<span style="color: #666666">63</span>
+<span style="color: #666666">63</span>
+<span style="color: #666666">64</span>
+<span style="color: #666666">64</span>
+<span style="color: #666666">65</span>
+<span style="color: #666666">65</span>
+<span style="color: #666666">66</span>
+<span style="color: #666666">66</span>
+<span style="color: #666666">68</span>
+<span style="color: #666666">69</span>
+<span style="color: #666666">69</span>
+<span style="color: #666666">70</span>
+<span style="color: #666666">71</span>
+<span style="color: #666666">71</span>
+<span style="color: #666666">73</span>
+<span style="color: #666666">74</span>
+<span style="color: #666666">74</span>
+<span style="color: #666666">74</span>
+<span style="color: #666666">77</span>
+<span style="color: #666666">77</span>
+<span style="color: #666666">79</span>
+<span style="color: #666666">83</span>
+<span style="color: #666666">84</span>
+<span style="color: #666666">86</span>
+<span style="color: #666666">88</span>
+<span style="color: #666666">89</span>
+<span style="color: #666666">89</span>
+<span style="color: #666666">90</span>
+<span style="color: #666666">92</span>
+<span style="color: #666666">92</span>
+<span style="color: #666666">94</span>
+<span style="color: #666666">94</span>
+<span style="color: #666666">99</span>
+<span style="color: #666666">99</span>
+<span style="color: #666666">100</span>
+</pre>
+        </div>
+
+
+    </section>
+
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

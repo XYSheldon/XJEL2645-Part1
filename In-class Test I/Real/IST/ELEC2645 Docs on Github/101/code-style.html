@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html>
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Code Style</h1>
+
+    <!-- Introduction-->
+    <section>
+        <h2>Introduction</h2>
+        <p>Code style is a hugely important aspect of coding which is often neglected by novices. Indeed, a cursory glance at how code is written will often tell you if it has been written by a professional or a novice.</p>
+        <p>Professional programmers stick to very strict code style guidelines and indeed, are often forced to by their employers. Ensuring that all employees use the same coding style means that they can all easily read each others code.</p>
+        <p>The <a href="https://google.github.io/styleguide/cppguide.html">Google C++ Style Guide</a> is popular and will form the basis of the style used in this module, which you are encouraged to adopt and follow. This will make you into a better and more professional programmer.</p>
+    </section>
+
+    <!-- End of lines and files-->
+    <section>
+        <h2>End of lines and files</h2>
+        <p>When writing code in the IDE, you should not put any trailing white-spaces at the end of a line of code. After you have typed the last character, which in many cases will be a semi-colon ; you should directly press return to start a new line without adding in any random spaces.</p>
+        <p>This also applies at the end of the file. The last character in the file is usually a } to mark the end of a function. There should be no spaces or blank lines at the end of the file. Code is often profiled to see how many lines long it is and random blank lines at the end of files can alter the count.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;">int</span> <span style="color: #0000ff;">main</span>() {
+
+  <span style="color: #408080; font-style: italic;">// Code here</span>
+
+  <span style="color: #008000; font-weight: bold;">return</span> <span style="color: #666666;">0</span>;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Tabs and idents -->
+    <section>
+        <h2>Tabs and indentation</h2>
+        <p>When indenting your code (e.g. in if statements or for loops), you should use spaces instead of a tab character. The <a href="https://google.github.io/styleguide/cppguide.html#Spaces_vs._Tabs">Google Style Guide</a> recommends using 2 spaces. Most IDE's can be configured to emit spaces instead of tab characters when the tab key is pressed.</p>
+    </section>
+
+    <!-- Horizontal whitespace -->
+    <section>
+        <h2>Horizontal whitespace</h2>
+        <p>It is usual to leave a space around an operator.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;"><span><span>int</span></span></span> sum <span style="color: #666666;">=</span> <span style="color: #666666;">0</span>;
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>When creating expressions, it is usual to leave spaces between operators and literals/variables.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;"><span><span>int</span></span></span> c <span style="color: #666666;">=</span> sum <span style="color: #666666;">*</span> <span style="color: #666666;">4</span> <span style="color: #666666;">+</span> <span style="color: #666666;">5</span>;
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Opening braces should always have a space before them as shown in the examples below. However, note that this isn't the case when declaring the size of an array using square brackets.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #008000; font-weight: bold;">for</span> (<span style="color: #b00040;"><span><span>int</span></span></span> <span><span>i</span></span> <span style="color: #666666;">=</span> <span style="color: #666666;">0</span>; <span><span>i</span></span> <span style="color: #666666;">&lt;</span> <span style="color: #666666;">10</span>; <span><span>i</span></span><span style="color: #666666;">++</span>) {
+
+<span style="color: #b00040;"><span><span>int</span></span></span> main() {
+
+<span style="color: #b00040;"><span><span>int</span></span></span> array[<span style="color: #666666;">5</span>] <span style="color: #666666;">=</span> {<span style="color: #666666;">1</span>, <span style="color: #666666;">2</span>, <span style="color: #666666;">3</span>, <span style="color: #666666;">4</span>, <span style="color: #666666;">5</span>};
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>As we can see in the examples above, there is usually no space before semi-colons ; and no space inside empty brackets e.g. main(). When it comes to conditionals, there is a space after the key word and spaces around else e.g.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #008000; font-weight: bold;">if</span> (n <span style="color: #666666;">&lt;</span> <span style="color: #666666;">0</span>) {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Negative</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+} <span style="color: #008000; font-weight: bold;">else</span> {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Positive</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>When using for loops, there is always a space after the semi-colons.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #008000; font-weight: bold;">for</span> (<span style="color: #b00040;">int</span> i <span style="color: #666666;">=</span> <span style="color: #666666;">0</span>; i <span style="color: #666666;">&lt;</span> <span style="color: #666666;">10</span>; i<span style="color: #666666;">++</span>) {
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>When commenting, there is a space between the forward slashes and the start of the comment.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #408080; font-style: italic;">// this is a useless comment</span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Leave two spaces after the semi-colon and before the start of the comment.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;">int</span> z <span style="color: #666666;">=</span> <span style="color: #666666;">0</span>;  <span style="color: #408080; font-style: italic;">// variable to store top score</span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Vertical whitespace -->
+    <section>
+        <h2>Vertical whitespace</h2>
+        <p>You should minimise the amount of vertical whitespace (e.g. blank lines). Use only one blank line between functions and do not start or end a function with a blank line. Blank lines inside functions to split up code into different sections can make code more readable, but do this sparingly as having too many means less lines of code are visible on the screen at once, making de-bugging and reading code more difficult. At the end of the day, it is a balance and you should keep these points in mind.</p>
+        <p>The example below shows too much vertical whitespace.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;">int</span> <span style="color: #0000ff;">calc_sum</span>(<span style="color: #b00040;">int</span> a, <span style="color: #b00040;">int</span> b) {
+
+    <span style="color: #b00040;">int</span> sum <span style="color: #666666;">=</span> a<span style="color: #666666;">+</span>b;
+    <span style="color: #008000; font-weight: bold;">return</span> sum;
+
+}
+
+
+<span style="color: #b00040;">int</span> <span style="color: #0000ff;">calc_product</span>(<span style="color: #b00040;">int</span> a, <span style="color: #b00040;">int</span> b) {
+
+    <span style="color: #b00040;">int</span> product <span style="color: #666666;">=</span> a<span style="color: #666666;">*</span>b;
+    <span style="color: #008000; font-weight: bold;">return</span> product;
+
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>The code should instead be formatted like so:</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6
+7
+8
+9</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;">int</span> <span style="color: #0000ff;">calc_sum</span>(<span style="color: #b00040;">int</span> a, <span style="color: #b00040;">int</span> b) {
+    <span style="color: #b00040;">int</span> sum <span style="color: #666666;">=</span> a<span style="color: #666666;">+</span>b;
+    <span style="color: #008000; font-weight: bold;">return</span> sum;
+}
+
+<span style="color: #b00040;">int</span> <span style="color: #0000ff;">calc_product</span>(<span style="color: #b00040;">int</span> a, <span style="color: #b00040;">int</span> b) {
+    <span style="color: #b00040;">int</span> product <span style="color: #666666;">=</span> a<span style="color: #666666;">*</span>b;
+    <span style="color: #008000; font-weight: bold;">return</span> product;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Examples -->
+    <section>
+        <h2>Examples</h2>
+        <p>Taking into account the white space rules introduced previously, some examples of how to properly structure and style loops and conditionals are below.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #008000; font-weight: bold;">for</span> (<span style="color: #b00040;">int</span> i <span style="color: #666666;">=</span> <span style="color: #666666;">0</span>; i <span style="color: #666666;">&lt;</span> <span style="color: #666666;">10</span>; i<span style="color: #666666;">++</span>) {
+    sum <span style="color: #666666;">+=</span> i;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #008000; font-weight: bold;">while</span> (i <span style="color: #666666;">&lt;</span> <span style="color: #666666;">10</span>) {
+    std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> i <span style="color: #666666;">&lt;&lt;</span> std<span style="color: #666666;">::</span>endl;
+    i<span style="color: #666666;">++</span>;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #008000; font-weight: bold;">if</span> (grade <span style="color: #666666;">&gt;</span> <span style="color: #666666;">70</span>) {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Class I</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+} <span style="color: #008000; font-weight: bold;">else</span> <span style="color: #008000; font-weight: bold;">if</span> (grade <span style="color: #666666;">&gt;</span> <span style="color: #666666;">60</span>) {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Class II.i</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+} <span style="color: #008000; font-weight: bold;">else</span> <span style="color: #008000; font-weight: bold;">if</span> (grade <span style="color: #666666;">&gt;</span> <span style="color: #666666;">50</span>) {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Class II.ii</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+} <span style="color: #008000; font-weight: bold;">else</span> <span style="color: #008000; font-weight: bold;">if</span> (grade <span style="color: #666666;">&gt;</span> <span style="color: #666666;">40</span>) {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Class III</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+} <span style="color: #008000; font-weight: bold;">else</span> {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Fail</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>However, judicious use of blank lines inside a long chain of if..else statements may help readability.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #008000; font-weight: bold;">if</span> (grade <span style="color: #666666;">&gt;</span> <span style="color: #666666;">70</span>) {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Class I</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+
+} <span style="color: #008000; font-weight: bold;">else</span> <span style="color: #008000; font-weight: bold;">if</span> (grade <span style="color: #666666;">&gt;</span> <span style="color: #666666;">60</span>) {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Class II.i</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+
+} <span style="color: #008000; font-weight: bold;">else</span> <span style="color: #008000; font-weight: bold;">if</span> (grade <span style="color: #666666;">&gt;</span> <span style="color: #666666;">50</span>) {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Class II.ii</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+
+} <span style="color: #008000; font-weight: bold;">else</span> <span style="color: #008000; font-weight: bold;">if</span> (grade <span style="color: #666666;">&gt;</span> <span style="color: #666666;">40</span>) {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Class III</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+
+} <span style="color: #008000; font-weight: bold;">else</span> {
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Fail</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!--Naming-->
+    <section>
+        <h2 id="101_naming">Naming</h2>
+        <p>It is very important to have a consistent naming style for variables, classes and functions. Variable names should be descriptive, in lower-case with underscores connecting multiple words e.g.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;">double</span> price_of_item <span style="color: #666666;">=</span> <span style="color: #666666;">0.99</span>;
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Functions should also be in lower-case with underscores connecting multiple words. The name should be descriptive.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">calc_average_score();
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Classes should also start with a capital letter with a capital letter for each word, whereas objects are named in the same manner as variables.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">MyClass my_object;
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Class private member variables are named in the same manner as standard variables with a preceding underscore.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;">int</span> _member_variable;
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Pre-processor defines should be in upper case.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#define PI 3.14159265359</span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Filenames should be in lowercase with underscores between words. The .cpp extension is used for C++ programs and .h for header files</p>
+        <p><span style="font-family: 'courier new', courier;">my_source_file.cpp</span></p>
+    </section>
+
+    <!-- Comments -->
+    <section>
+        <h2>Comments</h2>
+        <p>C++ style comments // are much more common and are preferred over C-style block comments /* */.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #408080; font-style: italic;">// This is a useless comment</span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Note the space between the forward slashes and the start of the comment.</p>
+        <p>There should be comments at the top of each file with useful information about the contents of the file.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #408080; font-style: italic;">// Program to calculate the sum of the first n prime numbers</span>
+<span style="color: #408080; font-style: italic;">// Author: Craig A. Evans</span>
+<span style="color: #408080; font-style: italic;">// Company: University of Leeds</span>
+<span style="color: #408080; font-style: italic;">// Date: 1st June 2018</span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Using descriptive variable names makes code self-documenting and removes the need for pointless comments.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;">int</span> z <span style="color: #666666;">=</span> <span style="color: #666666;">0</span>;  <span style="color: #408080; font-style: italic;">// Variable to store top score</span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>A better approach would simply be</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;">int</span> top_score <span style="color: #666666;">=</span> <span style="color: #666666;">0</span>;
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>All function declarations should have comments immediately preceding it, explaining what the function does and what are its inputs and outputs. This is not required for completely trivial and simple functions.</p>
+        <p>Code that is non-trivial should always be commented to let the reader know what is does. It is common to have lines of comments before a block of complex code, and additional end of line comments for any non-obvious lines of code that require extra explanation. Again, having well-written code can help to make it self-documenting and removes the need for (pointless) comments.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #408080; font-style: italic;">// check if all lives lost and if so, call game over function</span>
+<span style="color: #008000; font-weight: bold;">if</span> (x <span style="color: #666666;">==</span> <span style="color: #666666;">0</span>) {
+  func();
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #008000; font-weight: bold;">if</span> (lives_left <span style="color: #666666;">==</span> <span style="color: #666666;">0</span>) {
+  game_over();
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+    <!-- Function -->
+    <section>
+        <h2>Functions</h2>
+        <p>Functions should be used to break up code into smaller, more manageable chunks. This allows code to be more easily de-bugged, tested and maintained. There is no formal limit to the length of a function, but once it gets to between 20 and 40 lines, you should consider splitting it up into further, smaller sub-functions.</p>
+        <p>Function names should be descriptive, as already mentioned. There should be no blank lines at the start and end of a function. For a simple one-line function like the one below, it can be defined on a single line.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;">int</span> <span style="color: #0000ff;">product</span>(<span style="color: #b00040;">int</span> a, <span style="color: #b00040;">int</span> b) {
+  <span style="color: #008000; font-weight: bold;">return</span> a<span style="color: #666666;">*</span>b;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #b00040;">int</span> <span style="color: #0000ff;">roduct</span>(<span style="color: #b00040;">int</span> a, <span style="color: #b00040;">int</span> b) { <span style="color: #008000; font-weight: bold;">return</span> a <span style="color: #666666;">*</span> b; }
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </section>
+
+    <!-- ClangFormat -->
+    <section>
+        <h2>ClangFormat</h2>
+        <p>There are many tools available that help developers format their code according to particular coding styles. One such tool is <a href="https://clang.llvm.org/docs/ClangFormat.html" target="_blank">ClangFormat</a>.</p>
+        <p>When ClangFormat is installed on a machine, it can automatically reformat code in accordance with several common styles, including Google's. Several <a href="http://format.krzaq.cc" target="_blank">websites</a> also exist that host ClangFormat and allow you to paste in unformatted code. These online tools then automatically re-format your code to a style of your choosing, from which it can be pasted back into your editor.</p>
+        <p>Packages also exist for Atom and Visual Code editors that enables ClangFormat to automatically format code from within the editors themselves.</p>
+    </section>
+
+    <!-- Summary -->
+    <section>
+        <h2>Summary</h2>
+        <p>You should take care when writing code and get into the habit of applying clear and consistent styling to your code. It really is important and puts you on track to becoming a professional software engineer.</p>
+        <p>Writing poorly structured and inconsistently-styled code is a very distinctive signature of a novice programmer. It demonstrates that the developer is lazy, cuts corners and does not take pride in their work.</p>
+        <p>If you worked for a company and were in charge of hiring a graduate software engineer, which one of these would you employ?</p>
+    </section>
+
+</body>
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

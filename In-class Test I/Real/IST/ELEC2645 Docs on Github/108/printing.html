@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>De-bugging using print statements</h1>
+
+      <!-- new section -->
+    <section>
+        <h2>Introduction</h2>
+        <p>The simplest way to track down run-time bugs is by printing values of variables to the terminal. We can then watch as the code runs and spot any strange or unexpected values. A similar method is to 'dump' the contents of variables and arrays into a text file (or log file) which can then be analysed.
+        </p>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>Example</h2>
+        <p>It is actually rather hard to come up with examples of how to de-bug. The examples often feel contrived and do not reflect that many bugs are often very subtle and hard to spot when made 'genuinely'. Therefore, this will actually be a 'real' example in the sense that I will write and run it and document whats happens without first polishing it (most of the sample code I present didn't work the first time I wrote it. I actually spend a lot of time de-bugging to make sure the examples work properly and then present a polished version).</p>
+        <p>I will write some code to print the <a href="https://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci</a> sequence (0, 1, 1, 2, 3, 5, 8, 13...).</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #B00040">int</span> n <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Enter the number of terms in the Fibonacci sequence to print: &quot;</span>;
+  std<span style="color: #666666">::</span>cin <span style="color: #666666">&gt;&gt;</span> n;
+
+  <span style="color: #408080; font-style: italic">// seed values</span>
+  <span style="color: #B00040">int</span> fn_minus1 <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  <span style="color: #B00040">int</span> fn_minus2 <span style="color: #666666">=</span> <span style="color: #666666">1</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn_minus1 <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus2 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// loop through the number of terms</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> n; i<span style="color: #666666">++</span>) {
+    <span style="color: #408080; font-style: italic">// work out the next term in the sequence</span>
+    <span style="color: #B00040">int</span> fn <span style="color: #666666">=</span> fn_minus1 <span style="color: #666666">+</span> fn_minus2;
+    <span style="color: #408080; font-style: italic">// print to the terminal</span>
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+    <span style="color: #408080; font-style: italic">// shift the values in the sequence</span>
+    fn_minus1 <span style="color: #666666">=</span> fn;
+    fn_minus2 <span style="color: #666666">=</span> fn_minus1;
+  }
+}
+</pre></td></tr></table></div>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>Testing</h2>
+        <p>The code actually compiled first time without warnings or errors! This is no real surprise, the code is fairly simple and I always structure code properly and am careful to check semi-colons and brackets as I write. Now I'll run it and print the first 10 terms.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Enter the number of terms in the Fibonacci sequence to print<span style="color: #666666">:</span> <span style="color: #666666">10</span>
+<span style="color: #666666">0</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">2</span>
+<span style="color: #666666">4</span>
+<span style="color: #666666">8</span>
+<span style="color: #666666">16</span>
+<span style="color: #666666">32</span>
+<span style="color: #666666">64</span>
+<span style="color: #666666">128</span>
+<span style="color: #666666">256</span>
+<span style="color: #666666">512</span>
+</pre></div>
+        <p>It doesn't work. The sequence is wrong. I actually thought it would work first-time and I would have to go back and put a deliberate mistake in it so I could then go back and pretend to look for a mistake! I can see that the numbers are going up by a factor of 2 each time (I have taught digital electronics for a long time and so recognise those numbers!) so my first thought is that I'm multiplying something by 2 inside the loop, but looking back at the code there are no multiplications. Mmmmm.</p>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>Adding print statements</h2>
+        <p>The code currently just outputs the Fibonacci number, but I'll print out the intermediate variable values to see if that can help to track down the bug.</p>
+     <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #B00040">int</span> n <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Enter the number of terms in the Fibonacci sequence to print: &quot;</span>;
+  std<span style="color: #666666">::</span>cin <span style="color: #666666">&gt;&gt;</span> n;
+
+  <span style="color: #408080; font-style: italic">// seed values</span>
+  <span style="color: #B00040">int</span> fn_minus1 <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  <span style="color: #B00040">int</span> fn_minus2 <span style="color: #666666">=</span> <span style="color: #666666">1</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn_minus1 <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus2 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// loop through the number of terms</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> n; i<span style="color: #666666">++</span>) {
+    <span style="color: #408080; font-style: italic">// work out the next term in the sequence</span>
+    <span style="color: #B00040">int</span> fn <span style="color: #666666">=</span> fn_minus1 <span style="color: #666666">+</span> fn_minus2;
+    <span style="color: #408080; font-style: italic">// print to the terminal</span>
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+    <span style="color: #408080; font-style: italic">// shift the values in the sequence</span>
+    fn_minus1 <span style="color: #666666">=</span> fn;
+    fn_minus2 <span style="color: #666666">=</span> fn_minus1;
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;fn = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; fn-1 = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus1
+              <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; fn-2 = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus2 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+}
+</pre></td></tr></table></div>
+
+
+
+
+        <p>I can now compile and run again, and then inspect the values.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Enter the number of terms in the Fibonacci sequence to print<span style="color: #666666">:</span> <span style="color: #666666">10</span>
+<span style="color: #666666">0</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">1</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">1</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">1</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">1</span>
+<span style="color: #666666">2</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">2</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">2</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">2</span>
+<span style="color: #666666">4</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">4</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">4</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">4</span>
+<span style="color: #666666">8</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">8</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">8</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">8</span>
+<span style="color: #666666">16</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">16</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">16</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">16</span>
+<span style="color: #666666">32</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">32</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">32</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">32</span>
+<span style="color: #666666">64</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">64</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">64</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">64</span>
+<span style="color: #666666">128</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">128</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">128</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">128</span>
+<span style="color: #666666">256</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">256</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">256</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">256</span>
+<span style="color: #666666">512</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">512</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">512</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">512</span>
+</pre></div>
+        <p>That's strange, <code>fn</code>, <code>fn_minus1</code> and <code>fn_minus2</code> all have the same value. Actually, looking back at the code it's not strange at all. What an idiot! I calculate the new value of <code>fn</code> on line 16. On line 20, I then assign this new value to <code>fn_minus1</code> and then on line 21, I then also assign it (via <code>fn_minus1</code>) to <code>fn_minus2</code>. That's why the same value is stored in all the variables. Thinking about it, I need to update the values of <code>fn_minus1</code> and <code>fn_minus2</code> before calculating the <em>new</em> value of <code>fn</code>. Try again.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #B00040">int</span> n <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Enter the number of terms in the Fibonacci sequence to print: &quot;</span>;
+  std<span style="color: #666666">::</span>cin <span style="color: #666666">&gt;&gt;</span> n;
+
+  <span style="color: #408080; font-style: italic">// seed values</span>
+  <span style="color: #B00040">int</span> fn_minus1 <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  <span style="color: #B00040">int</span> fn_minus2 <span style="color: #666666">=</span> <span style="color: #666666">1</span>;
+  <span style="color: #B00040">int</span> fn;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn_minus1 <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus2 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// loop through the number of terms</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> n; i<span style="color: #666666">++</span>) {
+    <span style="color: #408080; font-style: italic">// shift the values in the sequence</span>
+    fn_minus1 <span style="color: #666666">=</span> fn;
+    fn_minus2 <span style="color: #666666">=</span> fn_minus1;
+    <span style="color: #408080; font-style: italic">// work out the next term in the sequence</span>
+    fn <span style="color: #666666">=</span> fn_minus1 <span style="color: #666666">+</span> fn_minus2;
+    <span style="color: #408080; font-style: italic">// print to the terminal</span>
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;fn = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; fn-1 = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus1
+              <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; fn-2 = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus2 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+}
+</pre></td></tr></table></div>
+        <p>Note that I moved the declaration of <code>fn</code> outside of the for loop as it needs to be delcared before it is used on line 17. I was actually prompted to do this by a red sqiggly line appearing under the variable in the editors (Visual Studio Code). This highlights the usefulness of using a good IDE which can warn you about potential errors. I wouldn't have spotted this otherwise until I compiled and got an error. Run the new version.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Enter the number of terms in the Fibonacci sequence to print<span style="color: #666666">:</span> <span style="color: #666666">10</span>
+<span style="color: #666666">0</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">2</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">2</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">1</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">1</span>
+<span style="color: #666666">4</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">4</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">2</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">2</span>
+<span style="color: #666666">8</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">8</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">4</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">4</span>
+<span style="color: #666666">16</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">16</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">8</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">8</span>
+<span style="color: #666666">32</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">32</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">16</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">16</span>
+<span style="color: #666666">64</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">64</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">32</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">32</span>
+<span style="color: #666666">128</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">128</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">64</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">64</span>
+<span style="color: #666666">256</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">256</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">128</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">128</span>
+<span style="color: #666666">512</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">512</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">256</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">256</span>
+<span style="color: #666666">1024</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">1024</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">512</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">512</span>
+</pre></div>
+
+        <p>Still not working. Annoying. I thought that would have fixed it. Looking at the values printed I can now see that <code>fn</code> has a different value to <code>fn_minus1</code> and <code>fn_minus2</code> (which are still the same). Need to go and look back at the good.</p>
+        <p>Ah. Should have realised this earlier. On line 17, <code>fn_minus1</code> is updated, and then <code>fn_minus2</code> is updated to the same value on line 18. These lines need to be swapped i.e. <code>fn_minus2</code> should store the 'old' version of <code>fn_minus1</code> before it is updated (with the 'old' version of <code>fn</code>). Try again.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #B00040">int</span> n <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Enter the number of terms in the Fibonacci sequence to print: &quot;</span>;
+  std<span style="color: #666666">::</span>cin <span style="color: #666666">&gt;&gt;</span> n;
+
+  <span style="color: #408080; font-style: italic">// seed values</span>
+  <span style="color: #B00040">int</span> fn_minus1 <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  <span style="color: #B00040">int</span> fn_minus2 <span style="color: #666666">=</span> <span style="color: #666666">1</span>;
+  <span style="color: #B00040">int</span> fn;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn_minus1 <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus2 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// loop through the number of terms</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> n; i<span style="color: #666666">++</span>) {
+    <span style="color: #408080; font-style: italic">// shift the values in the sequence</span>
+    fn_minus2 <span style="color: #666666">=</span> fn_minus1;
+    fn_minus1 <span style="color: #666666">=</span> fn;
+
+    <span style="color: #408080; font-style: italic">// work out the next term in the sequence</span>
+    fn <span style="color: #666666">=</span> fn_minus1 <span style="color: #666666">+</span> fn_minus2;
+    <span style="color: #408080; font-style: italic">// print to the terminal</span>
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;fn = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; fn-1 = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus1
+              <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; fn-2 = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus2 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+}
+</pre></td></tr></table></div>
+        <p>Compile and run the new version.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Enter the number of terms in the Fibonacci sequence to print<span style="color: #666666">:</span> <span style="color: #666666">10</span>
+<span style="color: #666666">0</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">474362322</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">474362322</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">474362322</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+<span style="color: #666666">948724644</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">948724644</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">474362322</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">474362322</span>
+<span style="color: #666666">1423086966</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">1423086966</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">948724644</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">474362322</span>
+<span style="color: #666666">-1923155686</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">-1923155686</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">1423086966</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">948724644</span>
+<span style="color: #666666">-500068720</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">-500068720</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">-1923155686</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">1423086966</span>
+<span style="color: #666666">1871742890</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">1871742890</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">-500068720</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">-1923155686</span>
+<span style="color: #666666">1371674170</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">1371674170</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">1871742890</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">-500068720</span>
+<span style="color: #666666">-1051550236</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">-1051550236</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">1371674170</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">1871742890</span>
+<span style="color: #666666">320123934</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">320123934</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">-1051550236</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">1371674170</span>
+<span style="color: #666666">-731426302</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">-731426302</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">320123934</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">-1051550236</span>
+</pre></div>
+
+        <p>What! This is actually getting worse. My office is suddenly starting to feel very warm. I should have actually spent some time de-bugging it before documenting this! This could turn out to be embarrassing. Need to focus.</p>
+        <p>Right, <code>fn</code> is completely wrong. I know this is usually caused by using an incorrect data type (e.g. trying to store a float in an int) or not initialising properly. Bingo! What a moron. I use <code>fn</code> on line 18, but I didn't actually initialise it on line 11. That is exactly why in an earlier lab I told you to always ensure you initialise your variables! Not following my own advice and it has come back to bite me. I should just need to initialse <code>fn</code> with 1 (0 + 1 = 1) and hopefully it will work!</p>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #B00040">int</span> n <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Enter the number of terms in the Fibonacci sequence to print: &quot;</span>;
+  std<span style="color: #666666">::</span>cin <span style="color: #666666">&gt;&gt;</span> n;
+
+  <span style="color: #408080; font-style: italic">// seed values</span>
+  <span style="color: #B00040">int</span> fn_minus1 <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  <span style="color: #B00040">int</span> fn_minus2 <span style="color: #666666">=</span> <span style="color: #666666">1</span>;
+  <span style="color: #B00040">int</span> fn <span style="color: #666666">=</span> <span style="color: #666666">1</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn_minus1 <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus2 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// loop through the number of terms</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> n; i<span style="color: #666666">++</span>) {
+    <span style="color: #408080; font-style: italic">// shift the values in the sequence</span>
+    fn_minus2 <span style="color: #666666">=</span> fn_minus1;
+    fn_minus1 <span style="color: #666666">=</span> fn;
+
+    <span style="color: #408080; font-style: italic">// work out the next term in the sequence</span>
+    fn <span style="color: #666666">=</span> fn_minus1 <span style="color: #666666">+</span> fn_minus2;
+    <span style="color: #408080; font-style: italic">// print to the terminal</span>
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;fn = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; fn-1 = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus1
+              <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; fn-2 = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus2 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+}
+</pre></div>
+
+        <p>Try and run it again.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Enter the number of terms in the Fibonacci sequence to print<span style="color: #666666">:</span> <span style="color: #666666">10</span>
+<span style="color: #666666">0</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">1</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">1</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">1</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+<span style="color: #666666">2</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">2</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">1</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">1</span>
+<span style="color: #666666">3</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">3</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">2</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">1</span>
+<span style="color: #666666">5</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">5</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">3</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">2</span>
+<span style="color: #666666">8</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">8</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">5</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">3</span>
+<span style="color: #666666">13</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">13</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">8</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">5</span>
+<span style="color: #666666">21</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">21</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">13</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">8</span>
+<span style="color: #666666">34</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">34</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">21</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">13</span>
+<span style="color: #666666">55</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">55</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">34</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">21</span>
+<span style="color: #666666">89</span>
+fn <span style="color: #666666">=</span> <span style="color: #666666">89</span> fn<span style="color: #666666">-1</span> <span style="color: #666666">=</span> <span style="color: #666666">55</span> fn<span style="color: #666666">-2</span> <span style="color: #666666">=</span> <span style="color: #666666">34</span>
+</pre></div>
+        <p>Woo hoo! Finally. That shouldn't have taken so long. Now I can see why it takes you a two-hour lab session to do a few simple tasks...</p>
+        <p>I'll just go and comment out the de-bug print lines to tidy the output.</p>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Enter the number of terms in the Fibonacci sequence to print<span style="color: #666666">:</span> <span style="color: #666666">10</span>
+<span style="color: #666666">0</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">2</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">8</span>
+<span style="color: #666666">13</span>
+<span style="color: #666666">21</span>
+<span style="color: #666666">34</span>
+<span style="color: #666666">55</span>
+<span style="color: #666666">89</span>
+</pre></div>
+        <p>I don't believe this. I just looked at the output and thought 'that looks like more than 10 numbers'. Yes, counted them and there are 12. I told it to print 10 values. Ah. My loop iterates <code>n</code> times, but I actually print the first 2 values outside of the loop. I just need to modify the loop so it starts at 2 instead of 0.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Enter the number of terms in the Fibonacci sequence to print<span style="color: #666666">:</span> <span style="color: #666666">10</span>
+<span style="color: #666666">0</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">2</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">8</span>
+<span style="color: #666666">13</span>
+<span style="color: #666666">21</span>
+<span style="color: #666666">34</span>
+</pre></div>
+        <p>Done. Time for a brew. I'm actually sweating.</p>
+
+    </section>
+        <!-- new section -->
+    <section>
+        <h2>Debug mode</h2>
+        <p>In the previous example, I added in the de-bug print statement during development, and then commented it out for the final 'release' version. This is similar to what was covered in the <a href="../106/debug.html">testing lab</a>. We can use the pre-processor to turn on the debug messages using a compile flag e.g.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #B00040">int</span> n <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Enter the number of terms in the Fibonacci sequence to print: &quot;</span>;
+  std<span style="color: #666666">::</span>cin <span style="color: #666666">&gt;&gt;</span> n;
+
+  <span style="color: #408080; font-style: italic">// seed values</span>
+  <span style="color: #B00040">int</span> fn_minus1 <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  <span style="color: #B00040">int</span> fn_minus2 <span style="color: #666666">=</span> <span style="color: #666666">1</span>;
+  <span style="color: #B00040">int</span> fn <span style="color: #666666">=</span> <span style="color: #666666">1</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn_minus1 <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus2 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// loop through the number of terms</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">2</span>; i <span style="color: #666666">&lt;</span> n; i<span style="color: #666666">++</span>) {
+    <span style="color: #408080; font-style: italic">// shift the values in the sequence</span>
+    fn_minus2 <span style="color: #666666">=</span> fn_minus1;
+    fn_minus1 <span style="color: #666666">=</span> fn;
+
+    <span style="color: #408080; font-style: italic">// work out the next term in the sequence</span>
+    fn <span style="color: #666666">=</span> fn_minus1 <span style="color: #666666">+</span> fn_minus2;
+    <span style="color: #408080; font-style: italic">// print to the terminal</span>
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> fn <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+<span style="color: #BC7A00">#ifdef DEBUG</span>
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;fn = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; fn-1 = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus1
+              <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; fn-2 = &quot;</span> <span style="color: #666666">&lt;&lt;</span> fn_minus2 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+<span style="color: #BC7A00">#endif</span>
+  }
+}
+</pre></td></tr></table></div>
+        <p>Here the de-bug print is contained within an <code>ifdef</code> directive. We can therefore turn on the debug messages by compiling as follows.</p>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">g<span style="color: #666666">++</span> <span style="color: #666666">-</span>Wall <span style="color: #666666">-</span>std<span style="color: #666666">=</span>c<span style="color: #666666">++11</span> <span style="color: #666666">-</span>o main.exe main.cpp <span style="color: #666666">-</span>D DEBUG
+</pre></div>
+        </section>
+
+     <!-- new section -->
+    <section>
+        <h2>Summary</h2>
+        <p>That was stressful. I didn't expect that many bugs, but I'm actually glad as it goes some way to showing a typical development cycle. If even an experienced programmer can make silly mistakes when writing a simple program, why should a novice be any different? Making mistakes isn't a problem, but being unable to find and fix them is. I didn't have any one here to help me. I just had to print the values out, inspect them and then think about what could have caused them by looking back at the code. I can teach you syntax and techniques, but I can't teach you how to think. You need to develop that by practising fixing your own code. Please bear this in mind the next time you are about to put your hand up and get help!</p>
+    </section>
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

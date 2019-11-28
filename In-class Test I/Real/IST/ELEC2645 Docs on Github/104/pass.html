@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Pass-by-value and Pass-by-reference</h1>
+
+      <!-- Intro -->
+    <section>
+        <h2>Introduction</h2>
+        <p>At this point, you should be comfortable with creating functions (and methods) in which we <em>pass</em> arguments to the function and receive a return value. For example, we pass the function radius of a circle and we receive the area of the circle back. This is known as <em>pass-by-value</em>. A simple example is shown below.</p>
+        <p><em>main.cpp</em></p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">increment</span>(<span style="color: #B00040">int</span> variable);
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #B00040">int</span> variable <span style="color: #666666">=</span> <span style="color: #666666">99</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Variable has a value of: &quot;</span> <span style="color: #666666">&lt;&lt;</span> variable <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  increment(variable);
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Variable now has a value of: &quot;</span> <span style="color: #666666">&lt;&lt;</span> variable <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">increment</span>(<span style="color: #B00040">int</span> variable) {
+  variable<span style="color: #666666">++</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;This variable has a value of: &quot;</span> <span style="color: #666666">&lt;&lt;</span> variable <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+}
+</pre></td></tr></table></div>
+        <p>The output of the code is shown below.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Variable has a value of<span style="color: #666666">:</span> <span style="color: #666666">99</span>
+This variable has a value of<span style="color: #666666">:</span> <span style="color: #666666">100</span>
+Variable now has a value of<span style="color: #666666">:</span> <span style="color: #666666">99</span>
+</pre></div>
+        <p>We can see we create a integer variable in the main function and give it the value 99. Since the variable is declared in main(), its <em>scope</em> is limited to within main i.e. it is a local variable. When we <em>pass</em> it to the increment function, we are actually passing a copy of the variable, and not the variable itself. Therefore, the integer variable in the increment function is a completely seperate variable in a different memory location, so even though we modify its value in the function, it does not affect the value stored in the variable in main.</p>
+    </section>
+
+    <!-- Pass-by-reference -->
+    <section>
+        <h2>Pass-by-reference</h2>
+        <p>It is actually very simple to convert this <em>pass-by-value</em> scheme to <em>pass-by-reference</em>. We do it using C++ <em>references</em> as shown below.</p>
+        <p><em>main.cpp</em></p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">increment</span>(<span style="color: #B00040">int</span> <span style="color: #666666">&amp;</span>variable);
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+    <span style="color: #B00040">int</span> variable <span style="color: #666666">=</span> <span style="color: #666666">99</span>;
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Variable has a value of: &quot;</span> <span style="color: #666666">&lt;&lt;</span> variable <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+    increment(variable);
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Variable now has a value of: &quot;</span> <span style="color: #666666">&lt;&lt;</span> variable <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">increment</span>(<span style="color: #B00040">int</span> <span style="color: #666666">&amp;</span>variable) {
+    variable<span style="color: #666666">++</span>;
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;This variable has a value of: &quot;</span> <span style="color: #666666">&lt;&lt;</span> variable <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+}
+</pre></td></tr></table></div>
+        <p>Note the only difference is the addition of the reference operator &amp; in the argument of the function (and prototype). All the same character &amp; is used as in the address-of operator (valid in both C and C++), when used in this way it is not the same oepration and is only valid in C++. When the code is run, we obtain the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Variable has a value of<span style="color: #666666">:</span> <span style="color: #666666">99</span>
+This variable has a value of<span style="color: #666666">:</span> <span style="color: #666666">100</span>
+Variable now has a value of<span style="color: #666666">:</span> <span style="color: #666666">100</span>
+</pre></div>
+        <p>Here we can see that the function has modified the value of the variable local to main(). This is because we passed in an actual reference (or <em>alias</em>) of the variable to the function and not just a copy of it.</p>
+        <p>Pass-by-reference can also be used to pass in objects to functions and methods. This is where is becomes useful. Consider a C++ class used to represent an LCD object in an embedded systems project. You may have a function to draw a spaceship on the LCD. If you pass in a copy of the LCD object (pass-by-value), when you return back to your calling function, that (original) copy of the LCD object will not have the spaceship on it! You should therefore just have a single LCD object in your project, and pass a reference to it around the different functions. Additionally, the object may be quite large in terms of memory. Therefore, when a copy is created, it will take up extra memory and can slow down operation. By passing around a reference instead, you only need to pass in a memory address to the function, which is much less memory intensive and quicker.</p>
+    </section>
+
+     <!-- Multiple arguments  -->
+    <section>
+        <h2>Multiple 'return' values</h2>
+        <p>Another way in which pass-by-reference is useful is when creating functions that need to calculate or modify more than one value. With standard return statements, we can only return a single datatype. If we wish to return more than one, we can actually pass in more than one reference to variables to the function and modify the variables in the function. Since we passed in references, the values in main() will have also changed. This is demonstrated in the example below.</p>
+        <p><em>main.cpp</em></p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;cmath&gt;</span>
+<span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #008000; font-weight: bold">const</span> <span style="color: #B00040">double</span> PI <span style="color: #666666">=</span> <span style="color: #666666">3.14159265359</span>;
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">circular</span>(<span style="color: #B00040">double</span> radius, <span style="color: #B00040">double</span> <span style="color: #666666">&amp;</span>area, <span style="color: #B00040">double</span> <span style="color: #666666">&amp;</span>volume);
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #B00040">double</span> area, volume;
+  circular(<span style="color: #666666">1.0</span>, area, volume);
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Area = &quot;</span> <span style="color: #666666">&lt;&lt;</span> area <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;, Volume = &quot;</span> <span style="color: #666666">&lt;&lt;</span> volume <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">circular</span>(<span style="color: #B00040">double</span> radius, <span style="color: #B00040">double</span> <span style="color: #666666">&amp;</span>area, <span style="color: #B00040">double</span> <span style="color: #666666">&amp;</span>volume) {
+  area <span style="color: #666666">=</span> PI <span style="color: #666666">*</span> pow(radius, <span style="color: #666666">2.0</span>);
+  volume <span style="color: #666666">=</span> (<span style="color: #666666">4.0</span> <span style="color: #666666">/</span> <span style="color: #666666">3.0</span>) <span style="color: #666666">*</span> PI <span style="color: #666666">*</span> pow(radius, <span style="color: #666666">3.0</span>);
+}
+</pre></td></tr></table></div>
+        <p>By passing in variables for the area and volume by reference, the <em>circular</em> function can do the relevant calculations and the results of the calculations will be 'returned' to the main function. The output is below.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Area <span style="color: #666666">=</span> <span style="color: #666666">3.14159</span>, Volume <span style="color: #666666">=</span> <span style="color: #666666">4.18879</span>
+</pre></div>
+
+
+
+    </section>
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

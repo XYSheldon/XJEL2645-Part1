@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Example</h1>
+
+      <!-- new section -->
+    <section>
+        <h2>Doxygen Commands</h2>
+        <p>For the report to be generated, we need to include specially formatted comments in our source code. A Doxygen comment block is start by <code>/**</code>. We usually just document the class header file as this contains the methods contained in the class. The example below is for the Circle class developed earlier in the module.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#ifndef CIRCLE_H</span>
+<span style="color: #BC7A00">#define CIRCLE_H</span>
+
+<span style="color: #BC7A00">#define PI 3.14159265</span>
+
+<span style="color: #408080; font-style: italic">/** Circle class</span>
+
+<span style="color: #408080; font-style: italic">@brief Class for calculating the area of a circle</span>
+
+<span style="color: #408080; font-style: italic">@version 1.0</span>
+
+<span style="color: #408080; font-style: italic">@author Dr Craig A. Evans</span>
+
+<span style="color: #408080; font-style: italic">@date November 2018</span>
+
+<span style="color: #408080; font-style: italic">@code</span>
+
+<span style="color: #408080; font-style: italic">#include &lt;iostream&gt;</span>
+<span style="color: #408080; font-style: italic">// include the class header file in main</span>
+<span style="color: #408080; font-style: italic">#include &quot;Circle.h&quot;</span>
+
+<span style="color: #408080; font-style: italic">int main() {</span>
+<span style="color: #408080; font-style: italic">  std::cout &lt;&lt; &quot;Enter circle radius (in metres): &quot;;</span>
+<span style="color: #408080; font-style: italic">  float radius;</span>
+<span style="color: #408080; font-style: italic">  std::cin &gt;&gt; radius;</span>
+<span style="color: #408080; font-style: italic">  // create a circle object and use the public methods</span>
+<span style="color: #408080; font-style: italic">  Circle circle;</span>
+<span style="color: #408080; font-style: italic">  circle.set_radius(radius);</span>
+<span style="color: #408080; font-style: italic">  float area = circle.get_area();</span>
+<span style="color: #408080; font-style: italic">  std::cout &lt;&lt; &quot;The circle has an area of &quot; &lt;&lt; area &lt;&lt; &quot; m^2.\n&quot;;</span>
+<span style="color: #408080; font-style: italic">  return 0;</span>
+<span style="color: #408080; font-style: italic">}</span>
+
+<span style="color: #408080; font-style: italic">@endcode</span>
+<span style="color: #408080; font-style: italic">*/</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Circle</span> {
+ <span style="color: #A0A000">public:</span>
+  <span style="color: #408080; font-style: italic">/** </span>
+<span style="color: #408080; font-style: italic">  * @brief Sets the radius</span>
+<span style="color: #408080; font-style: italic">  * @param radius @details Radius of the circle in metres</span>
+<span style="color: #408080; font-style: italic">  */</span>
+  <span style="color: #B00040">void</span> set_radius(<span style="color: #B00040">float</span> radius);
+  <span style="color: #408080; font-style: italic">/** </span>
+<span style="color: #408080; font-style: italic">  * @brief Gets the area</span>
+<span style="color: #408080; font-style: italic">  * @returns the area of the circle (in metres squared)</span>
+<span style="color: #408080; font-style: italic">  */</span>
+  <span style="color: #B00040">float</span> <span style="color: #0000FF">get_area</span>();
+ <span style="color: #A0A000">private:</span>
+  <span style="color: #B00040">float</span> _radius;
+  <span style="color: #B00040">float</span> _area;
+};
+
+<span style="color: #BC7A00">#endif</span>
+</pre></td></tr></table></div>
+        <p>Note the Doxygen commands start with an @ sign. Directly above the class definition, we include a Doxygen comment block and use it to specify the brief, version, author and date. We can also include some example code between the <code>@code</code> and <code>@endcode</code> tags.</p>
+        <p>Then for each method in the class, we create a Doxygen comment block and use it to specify a brief, list the parameters (arguments) and any return values. The brief is meant to be brief i.e. a few words. More details can be included using the <code>@details</code> tags.</p>
+    </section>
+
+    <section>
+        <h2>Output</h2>
+        <p>Once the code is commented using the Doxygen commands, the output can be generated. The output of the example above is <a href="files/example.pdf">here.</a></p>
+    </section>
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

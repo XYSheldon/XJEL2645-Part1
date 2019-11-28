@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Complex</h1>
+
+      <!-- new section -->
+    <section>
+        <h2>Introduction</h2>
+        <p>You should be very familiar with the primitive numeric datatypes such as <code>int</code> and <code>double</code>. These are obviously very useful for doing calculations. Unfortunately as electronic engineers, we often have to use complex numbers. Fortunately, the C++ standard library contains a <a href="http://www.cplusplus.com/reference/complex/complex/">complex number class</a>.</p>
+        <p>It can be used by including the following header.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;complex&gt;</span>
+</pre></div>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>Example</h2>
+        <p>This simple example below demonstrates how to create a complex number object and use some of the class methods to get the real, imaginary, absolute and phase of the number.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;complex&gt;</span>
+<span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  std<span style="color: #666666">::</span>complex<span style="color: #666666">&lt;</span><span style="color: #B00040">double</span><span style="color: #666666">&gt;</span> v(<span style="color: #666666">2.0</span>, <span style="color: #666666">-1.0</span>);
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Real part = &quot;</span> <span style="color: #666666">&lt;&lt;</span> v.real() <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Imaginary part = &quot;</span> <span style="color: #666666">&lt;&lt;</span> v.imag() <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Absolute value = &quot;</span> <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>abs(v) <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Phase angle = &quot;</span> <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>arg(v) <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+}
+</pre></div>
+        <p>This would produce the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Real part <span style="color: #666666">=</span> <span style="color: #666666">2</span>
+Imaginary part <span style="color: #666666">=</span> <span style="color: #666666">-1</span>
+Absolute value <span style="color: #666666">=</span> <span style="color: #666666">2.23607</span>
+Phase angle <span style="color: #666666">=</span> <span style="color: #666666">-0.463648</span>
+</pre></div>
+
+
+
+    </section>
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

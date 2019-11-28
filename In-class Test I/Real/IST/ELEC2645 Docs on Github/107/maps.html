@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Maps</h1>
+
+      <!-- new section -->
+    <section>
+        <h2>Introduction</h2>
+        <p>With the containers we seen so far (strings, arrays and vectors) we can select a specific element in the container by passing in an index e.g. <code>a[6]</code>. In a lot of common use cases, this is fine. However, consider an array containing student grades. How do we remember which index correpsonds to which student? In this case, it would be better to use a <em>map</em>. A map is similar to an array, but instead the elements in the map are accessed using a <em>key</em>. This is often a string (e.g. the student surname). It should be noted that keys must be unique. We often talk about <em>key-value</em> pairs. In this case, the value would be student grade. The C++ standard library contains the <a href="http://www.cplusplus.com/reference/map/map/">map</a> class.
+        </p>
+        <p>It can be used by including the following header.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;map&gt;</span>
+</pre></div>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>Creating a map</h2>
+        <p>The first step is to specify the map structure. In many cases, the key will be a string and the value will be the appropriate datatype for the data being stored in the map.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">// create a map of integers</span>
+  std<span style="color: #666666">::</span>map<span style="color: #666666">&lt;</span>std<span style="color: #666666">::</span>string, <span style="color: #B00040">int</span><span style="color: #666666">&gt;</span> int_map;
+  <span style="color: #408080; font-style: italic">// add some value/key pairs</span>
+  int_map[<span style="color: #BA2121">&quot;Evans&quot;</span>] <span style="color: #666666">=</span> <span style="color: #666666">39</span>;
+  int_map[<span style="color: #BA2121">&quot;Smith&quot;</span>] <span style="color: #666666">=</span> <span style="color: #666666">65</span>;
+  int_map[<span style="color: #BA2121">&quot;Peters&quot;</span>] <span style="color: #666666">=</span> <span style="color: #666666">80</span>;
+</pre></div>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>Inserting and erasing</h2>
+        <p>We can easily insert new key/value pairs using the <code>insert</code> method and erase pairs by supplying the key to the pair to be erased.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">  <span style="color: #408080; font-style: italic">// can also add elements using insert()</span>
+  int_map.insert(std<span style="color: #666666">::</span>pair<span style="color: #666666">&lt;</span>std<span style="color: #666666">::</span>string, <span style="color: #B00040">int</span><span style="color: #666666">&gt;</span>(<span style="color: #BA2121">&quot;Davies&quot;</span>, <span style="color: #666666">45</span>));
+  <span style="color: #408080; font-style: italic">// and erase specific elements by supplying a key</span>
+  int_map.erase(<span style="color: #BA2121">&quot;Evans&quot;</span>);
+</pre></div>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>Iterating</h2>
+        <p>As with other containers, we can use an iterator from the C++ STL to iterate over elements in a map. We use the <code>->first</code> and <code>->second</code> variables to access the key and value respectively.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">  <span style="color: #408080; font-style: italic">// create an iterator to go through the map</span>
+  std<span style="color: #666666">::</span>map<span style="color: #666666">&lt;</span>std<span style="color: #666666">::</span>string, <span style="color: #B00040">int</span><span style="color: #666666">&gt;::</span>iterator i;
+  <span style="color: #408080; font-style: italic">// iterate through and print</span>
+  <span style="color: #008000; font-weight: bold">for</span> (i <span style="color: #666666">=</span> int_map.begin(); i <span style="color: #666666">!=</span> int_map.end(); i<span style="color: #666666">++</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Key = &#39;&quot;</span> <span style="color: #666666">&lt;&lt;</span> i<span style="color: #666666">-&gt;</span>first <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;&#39; Value = &quot;</span> <span style="color: #666666">&lt;&lt;</span> i<span style="color: #666666">-&gt;</span>second
+              <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+</pre></div>
+        <p>This would print the followig output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Key <span style="color: #666666">=</span> <span style="border: 1px solid #FF0000">&#39;</span>Davies<span style="border: 1px solid #FF0000">&#39;</span> Value <span style="color: #666666">=</span> <span style="color: #666666">45</span>
+Key <span style="color: #666666">=</span> <span style="border: 1px solid #FF0000">&#39;</span>Peters<span style="border: 1px solid #FF0000">&#39;</span> Value <span style="color: #666666">=</span> <span style="color: #666666">80</span>
+Key <span style="color: #666666">=</span> <span style="border: 1px solid #FF0000">&#39;</span>Smith<span style="border: 1px solid #FF0000">&#39;</span> Value <span style="color: #666666">=</span> <span style="color: #666666">65</span>
+</pre></div>
+    </section>
+
+
+    <!-- new section -->
+    <section>
+        <h2>Accessing values</h2>
+        <p>We can extract values simply by providing the key to the value we wish to access.
+        </p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">// can access a specific value by providing a key</span>
+  <span style="color: #B00040">int</span> score <span style="color: #666666">=</span> int_map[<span style="color: #BA2121">&quot;Peters&quot;</span>];
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Score = &quot;</span> <span style="color: #666666">&lt;&lt;</span> score <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+</pre></div>
+    </section>
+
+        <!-- new section -->
+    <section>
+        <h2>Checking if keys exist</h2>
+        <p>Before trying to access a value, it is good practice to check whether the key actually exists. We can do this using the <code>count()</code> method.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">// we can check whether a certain key exists</span>
+  std<span style="color: #666666">::</span>string key <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;Clarke&quot;</span>;
+  <span style="color: #408080; font-style: italic">// the count() methods returns 0 if none are found</span>
+  <span style="color: #008000; font-weight: bold">if</span> (int_map.count(key) <span style="color: #666666">==</span> <span style="color: #666666">0</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> key <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; does not exist in the map</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  } <span style="color: #008000; font-weight: bold">else</span> {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> key <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; does exist and has a value of &quot;</span> <span style="color: #666666">&lt;&lt;</span> int_map[key]
+              <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+</pre></div>
+        <p>In this case, the output would be</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Clarke does not exist in the map
+</pre></div>
+        <p>If we changed the key to one that we knew existed in the map</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">// try another key</span>
+  key <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;Smith&quot;</span>;
+</pre></div>
+        <p>We would obtain the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Smith does exist in the map and has a value of <span style="color: #666666">65</span>
+</pre></div>
+    </section>
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

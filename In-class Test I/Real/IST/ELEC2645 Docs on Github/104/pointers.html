@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Pointers</h1>
+
+      <!-- Intro -->
+    <section>
+        <h2>Introduction</h2>
+        <p>Before starting on pointers, it is worth re-capping about simple variables. A variable simply represents a location in memory (RAM). Memory is typically organised into bytes (8 bits), which each location or 'slot' given a unique <em>address</em>. Due to the large number of addresses (e.g. a 32-bit machine will have 2<sup>32</sup> = 4,294,967,296 possible memory addresses!) the addresses are usually shown in hexadecimal (i.e. 0x00000000 to 0xFFFFFFFF). Each location can then store a single byte value (in binary).</p>
+        <p><img alt="" src="images/byte.png" width="300" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+        <p>When we talk about an 8-bit or 32-bit machine, we are referring to the <em>word size</em>. You can actually think of the memory as being organised in two-dimensions, with the width (i.e. number of columns) equal to the word size. The image below shows an example for a 32-bit (4 byte) machine.</p>
+        <p><img alt="" src="images/32bit.png" width="400" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+        <p>Suppose we had an integer variable. These are typically 32-bits or 4 bytes (platform dependent). Each integer variable would therfore be stored in a row in this particular memory space. Note that the variables are <em>aligned</em> to the rows as shown in green and not as shown in red. Therefore the addresses of integers (and other 32-bit datatypes such as floats) often have addresses that are multiples of 4 to ensure that they are natually aligned in the memory.</p>
+    </section>
+
+     <!-- Pointers in C++ -->
+    <section>
+        <h2>Pointers in C/C++</h2>
+        <p>We will look at the basics of pointers in C/C++ by looking at a simple example.</p>
+        <p><em>main.cpp</em></p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #408080; font-style: italic">// initialise a variable with a value</span>
+  <span style="color: #B00040">int</span> variable <span style="color: #666666">=</span> <span style="color: #666666">255</span>;
+  <span style="color: #408080; font-style: italic">// create a pointer to point to the variable address using the</span>
+  <span style="color: #408080; font-style: italic">// address-of operator &amp;</span>
+  <span style="color: #B00040">int</span> <span style="color: #666666">*</span>pointer <span style="color: #666666">=</span> <span style="color: #666666">&amp;</span>variable;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Variable = &quot;</span> <span style="color: #666666">&lt;&lt;</span> variable <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #408080; font-style: italic">// print the address of the variable</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Variable address = &quot;</span> <span style="color: #666666">&lt;&lt;</span> pointer <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #408080; font-style: italic">// print the value store in the variable the pointer is pointing to</span>
+  <span style="color: #408080; font-style: italic">// using the dereference operator *</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Variable value = &quot;</span> <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">*</span>pointer <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+}
+</pre></td></tr></table></div>
+        <p>We have simply created an integer and initialised it with a value. We then create a pointer using the * character. Since we are going to be pointing this pointer at a integer variable, we must create a pointer of the correct type (i.e. an int). We initialse the pointer with the address of the integer variable. This essentially points the pointer to the same address in memory that the integer variable is stored.</p>
+        <p>We access the address of the variable using the <em>address-of</em> operator &amp;. Note that it is very bad practice to create a pointer and not initialise it (a <em>dangling</em> pointer). It could end up pointing at a undefined memory location and then allow your program to access important parts of the system memory becoming a security risk!</p>
+        <p>The code then just prints out the value stored in the variable and the address of the variable (by printing out the value of the pointer pointing at the variable's location in memory).</p>
+        <p>Although the pointer stores a memory address, we can also use it to access the value stored at that address by using the <em>de-reference</em> operator *.</p>
+        <p>When the code is run, the output is as follows:</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Variable <span style="color: #666666">=</span> <span style="color: #666666">255</span>
+Variable address <span style="color: #666666">=</span> <span style="color: #666666">0x7ffeee148b5c</span>
+Variable value <span style="color: #666666">=</span> <span style="color: #666666">255</span>
+</pre></div>
+        <p>Note that the address is automatically printed in hexadecimal format and will be different every time the code is executed.</p>
+    </section>
+
+    <!-- Another example -->
+    <section>
+        <h2>Another example</h2>
+        <p>Below is another example of using pointers.</p>
+        <p><em>main.cpp</em></p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #408080; font-style: italic">// initialise variables with values</span>
+  <span style="color: #B00040">double</span> a <span style="color: #666666">=</span> <span style="color: #666666">0.0</span>, b <span style="color: #666666">=</span> <span style="color: #666666">0.0</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;a = &quot;</span> <span style="color: #666666">&lt;&lt;</span> a <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;, b = &quot;</span> <span style="color: #666666">&lt;&lt;</span> b <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;&amp;a = &quot;</span> <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">&amp;</span>a <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;, &amp;b = &quot;</span> <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">&amp;</span>b <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// create a &#39;null&#39; pointer - nullptr is C++11</span>
+  <span style="color: #408080; font-style: italic">// note the type must match the datatype of the variable</span>
+  <span style="color: #408080; font-style: italic">// the pointer is going to point to</span>
+  <span style="color: #B00040">double</span> <span style="color: #666666">*</span>pointer <span style="color: #666666">=</span> nullptr;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Pointer initialised to: &quot;</span> <span style="color: #666666">&lt;&lt;</span> pointer <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// now point it to &#39;a&#39; and use it to give &#39;a&#39; a value</span>
+  pointer <span style="color: #666666">=</span> <span style="color: #666666">&amp;</span>a;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Pointer now pointing to &#39;a&#39;: &quot;</span> <span style="color: #666666">&lt;&lt;</span> pointer <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #666666">*</span>pointer <span style="color: #666666">=</span> <span style="color: #666666">99.9</span>;
+  <span style="color: #408080; font-style: italic">// now point it to &#39;b&#39; and do the same</span>
+  pointer <span style="color: #666666">=</span> <span style="color: #666666">&amp;</span>b;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Pointer now pointing to &#39;b&#39;:&quot;</span> <span style="color: #666666">&lt;&lt;</span> pointer <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #666666">*</span>pointer <span style="color: #666666">=</span> <span style="color: #666666">77.7</span>;
+  <span style="color: #408080; font-style: italic">// print &#39;a&#39; and &#39;b&#39; to check values have indeed changed</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;a = &quot;</span> <span style="color: #666666">&lt;&lt;</span> a <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;, b = &quot;</span> <span style="color: #666666">&lt;&lt;</span> b <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+}
+</pre></td></tr></table></div>
+
+    <p>In the code, we create two double variables 'a' and 'b', initialse them to zero and print out their values and address (using the &amp; operator). We then create a pointer to a double and safely initialise it with <em>nullptr</em>. This is the C++11 way of creating a <em>null pointer</em> and avoids us creating a dangling pointer.</p>
+
+    <p>We then point it to 'a', and use it to give 'a' a value using the de-reference operator *. We then do the same with 'b'. In this way, we have given the two variables 'a' and 'b' values without accessing them directly, but indirectly thorugh the pointer. The output is below:</p>
+    <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5
+6</pre></td><td><pre style="margin: 0; line-height: 125%">a <span style="color: #666666">=</span> <span style="color: #666666">0</span>, b <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+<span style="color: #666666">&amp;</span>a <span style="color: #666666">=</span> <span style="color: #666666">0x7ffeeaf25b28</span>, <span style="color: #666666">&amp;</span>b <span style="color: #666666">=</span> <span style="color: #666666">0x7ffeeaf25b20</span>
+Pointer initialised to<span style="color: #666666">:</span> <span style="color: #666666">0x0</span>
+Pointer now pointing to <span style="color: #BA2121">&#39;a&#39;</span><span style="color: #666666">:</span> <span style="color: #666666">0x7ffeeaf25b28</span>
+Pointer now pointing to <span style="color: #BA2121">&#39;b&#39;</span><span style="color: #666666">:0x7ffeeaf25b20</span>
+a <span style="color: #666666">=</span> <span style="color: #666666">99.9</span>, b <span style="color: #666666">=</span> <span style="color: #666666">77.7</span>
+</pre></td></tr></table></div>
+
+
+
+
+    </section>
+
+    <!-- Endianness -->
+    <section>
+        <h2>Endianness</h2>
+        <p>We have seen how an integer is stored across multiple bytes in memory. But which order is the integer stored? This is determined by the <em>endianness</em> of the machine. The code below demonstrates this using <em>pointers</em>.</p>
+        <p><em>main.cpp</em></p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #408080; font-style: italic">// create a 32-bit (4 byte) variable</span>
+  <span style="color: #B00040">unsigned</span> <span style="color: #B00040">int</span> variable <span style="color: #666666">=</span> <span style="color: #666666">0xABCDEF89</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>uppercase;  <span style="color: #408080; font-style: italic">// print hex values in uppercase</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Variable value is 0x&quot;</span> <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>hex <span style="color: #666666">&lt;&lt;</span> variable <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Size of variable is &quot;</span> <span style="color: #666666">&lt;&lt;</span> <span style="color: #008000; font-weight: bold">sizeof</span>(variable) <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; bytes</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Address of variable is &quot;</span> <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">&amp;</span>variable <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// create a char (byte) pointer and point it at the variable address</span>
+  <span style="color: #408080; font-style: italic">// we need to cast the variable to a char to match the pointer type</span>
+  <span style="color: #B00040">unsigned</span> <span style="color: #B00040">char</span> <span style="color: #666666">*</span>pointer <span style="color: #666666">=</span> (<span style="color: #B00040">unsigned</span> <span style="color: #B00040">char</span> <span style="color: #666666">*</span>)<span style="color: #666666">&amp;</span>variable;
+
+  <span style="color: #408080; font-style: italic">// iterate through each byte in the 4-byte integer variable</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;-----------------------</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> <span style="color: #666666">4</span>; i<span style="color: #666666">++</span>) {
+    <span style="color: #408080; font-style: italic">// now print out the byte at that address address</span>
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;| &quot;</span> <span style="color: #666666">&lt;&lt;</span> (<span style="color: #B00040">unsigned</span> <span style="color: #B00040">int</span> <span style="color: #666666">*</span>)pointer <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; | &quot;</span>;
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> (<span style="color: #B00040">unsigned</span> <span style="color: #B00040">int</span>)<span style="color: #666666">*</span>pointer <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; |</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    <span style="color: #408080; font-style: italic">// increment the pointer to point at the next address</span>
+    pointer<span style="color: #666666">++</span>;
+  }
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;-----------------------</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+}
+</pre></td></tr></table></div>
+        <p>The code first creates an unsigned 32-bit integer, stores the value 0xABCDEF89 in it and prints out some information such as this value, the address and the size of the variable. Note that we use the <em>std::uppercase</em> and <em>std::hex</em> statements to format the ouput. We then create a pointer to an <em>unsigned char</em> and set it to the same address as the variable. Note that we need to <em>type-cast</em> the integer varialbe to an unsigned char. At this point we know have two different variables in the code (an int and a char) that point to the same address in memory.</p>
+        <p>We then loop through each of the 4 bytes in the integer by incrementing the pointer address by 1 each time and printing out the address and value stored in that byte.</p>
+        <p>The output of the code is shown below.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5
+6
+7
+8
+9</pre></td><td><pre style="margin: 0; line-height: 125%">Variable value is <span style="color: #666666">0xABCDEF89</span>
+Size of variable is <span style="color: #666666">4</span> bytes
+Address of variable is <span style="color: #666666">0x7ffee1ab6b58</span>
+<span style="color: #666666">-----------------------</span>
+<span style="color: #666666">|</span> <span style="color: #666666">0x7ffee1ab6b58</span> <span style="color: #666666">|</span> <span style="color: #666666">89</span> <span style="color: #666666">|</span>
+<span style="color: #666666">|</span> <span style="color: #666666">0x7ffee1ab6b59</span> <span style="color: #666666">|</span> EF <span style="color: #666666">|</span>
+<span style="color: #666666">|</span> <span style="color: #666666">0x7ffee1ab6b5a</span> <span style="color: #666666">|</span> CD <span style="color: #666666">|</span>
+<span style="color: #666666">|</span> <span style="color: #666666">0x7ffee1ab6b5b</span> <span style="color: #666666">|</span> AB <span style="color: #666666">|</span>
+<span style="color: #666666">-----------------------</span>
+</pre></td></tr></table></div>
+
+        <p>From this, we can determine that the least-significant byte (0x89) is actually stored at the lowest memory address. This is known as <em>little-endian</em> format. With <em>big-endian</em> format, the most-significant byte (0xAB) would be stored first. The image below demonstrates how it would be stored in a little-endian system. </p>
+        <p><img alt="" src="images/endian.png" width="400" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+        <p>Note that the memory address in the image is a fictious one and does not match the actual one in the output, which will change each time the code is executed.</p>
+    </section>
+
+    <!-- Pointers to objects -->
+    <section>
+        <h2>Pointers to objects</h2>
+        <p>We can also create pointers to objects. When you have a pointer to an object, you just need to access member variables and methods in a slightly different manner as demonstrated in the example below.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #408080; font-style: italic">// Simple dummy class for example purposes</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Foo</span> {
+ <span style="color: #A0A000">public:</span>
+  <span style="color: #B00040">int</span> bar;
+};
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #408080; font-style: italic">// create an object of class &#39;Foo&#39; and use the dot operator (.)</span>
+  <span style="color: #408080; font-style: italic">// to access a member variable</span>
+  Foo foo;
+  foo.bar <span style="color: #666666">=</span> <span style="color: #666666">99</span>;
+
+  <span style="color: #408080; font-style: italic">// create a *pointer* to an object of class &#39;Foo&#39;</span>
+  <span style="color: #408080; font-style: italic">// note we use the &#39;new&#39; operator to allocate memory and</span>
+  <span style="color: #408080; font-style: italic">// construct a &#39;Foo&#39; object there</span>
+  Foo <span style="color: #666666">*</span>pointer <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">new</span> Foo();
+  <span style="color: #408080; font-style: italic">// since it is a pointer, we use the arrow operator (-&gt;)</span>
+  <span style="color: #408080; font-style: italic">// to access a member variable</span>
+  pointer<span style="color: #666666">-&gt;</span>bar <span style="color: #666666">=</span> <span style="color: #666666">77</span>;
+}
+</pre></td></tr></table></div>
+
+        <p>Note that when we create an object directly we use the dot operator . to access the member variable. However, when we create a pointer to an object, we must use the arrow operator <code>-></code> to access the member variable.</p>
+    </section>
+
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

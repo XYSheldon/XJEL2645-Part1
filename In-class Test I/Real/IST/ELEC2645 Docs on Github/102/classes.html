@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Classes</h1>
+
+    <!-- Intro -->
+    <section>
+        <h2>Introduction</h2>
+        <p>The example below shows a simple C++ class used to represent a circle. Note how the class has both <a href="../101/projects.html#101_classes">header and .cpp</a> files. The header file also includes <a href="../101/header-guards.html">header guards</a>.</p>
+        <p><i>Circle.h</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#ifndef CIRCLE_H</span>
+<span style="color: #BC7A00">#define CIRCLE_H</span>
+
+<span style="color: #BC7A00">#define PI 3.14159265</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Circle</span> {
+ <span style="color: #A0A000">public:</span>
+  <span style="color: #408080; font-style: italic">// only accessors and mutators are public in this example</span>
+  <span style="color: #B00040">void</span> set_radius(<span style="color: #B00040">float</span> radius);
+  <span style="color: #B00040">float</span> <span style="color: #0000FF">get_area</span>();
+ <span style="color: #A0A000">private:</span>
+  <span style="color: #408080; font-style: italic">// member variables are private and set/get via accessor/mutator</span>
+  <span style="color: #B00040">float</span> _radius;
+  <span style="color: #B00040">float</span> _area;
+};
+
+<span style="color: #BC7A00">#endif</span>
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p><i>Circle.cpp</i></p>
+
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5
+6
+7
+8
+9</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &quot;Circle.h&quot;</span>
+
+<span style="color: #408080; font-style: italic">// mutator method to set radius</span>
+<span style="color: #B00040">void</span> Circle<span style="color: #666666">::</span>set_radius(<span style="color: #B00040">float</span> radius) { _radius <span style="color: #666666">=</span> radius; }
+<span style="color: #408080; font-style: italic">// accessor method to get area</span>
+<span style="color: #B00040">float</span> Circle<span style="color: #666666">::</span>get_area() {
+  _area <span style="color: #666666">=</span> PI <span style="color: #666666">*</span> _radius <span style="color: #666666">*</span> _radius;
+  <span style="color: #008000; font-weight: bold">return</span> _area;
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- Member Variables -->
+    <section>
+        <h2>Member variables</h2>
+
+        <p>The properties of the class (area and radius) are represented by <i>private member variables</i> of appropriate type. Note that we use an <a href="../101/code-style.html#101_naming">underscore</a> preceding the member variable name to make it clear that they are class member variables. We usually make member variables private to prevent users of the class modifying them directly and possibly affecting behaviour of the class. This is a demonstration of the principle of <i>encapsulation</i>.</p>
+    </section>
+
+    <!-- Accessor and mutators -->
+    <section>
+        <h2>Accessor and mutator methods</h2>
+
+        <p>To control how users interact with our classes, we use public <i>accessor</i> and <i>mutator</i> methods. An accessor method allows a user to read the value of a member variable. Their names are usually prefixed with <i>get_</i> to make this clearer to the user. On the other hand, mutator methods allow users of the class to change the value of a member variable in a controlled manner. Their names are usually pre-fixed with <i>set_</i> to make this behaviour clear. In this example, we can use the <span style="font-family: 'courier new', courier, monospace">get_area()</span> accessor method to get the area of the circle and the <span style="font-family: 'courier new', courier, monospace">set_radius()</span> mutator method to set the radius.</p>
+    </section>
+
+    <!-- Example -->
+    <section>
+        <h2 id="example">Example</h2>
+        <p>The example below demonstrates how this class could be used.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+<span style="color: #BC7A00">#include &quot;Circle.h&quot;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  Circle circle;
+  circle.set_radius(<span style="color: #666666">0.5</span>);
+  <span style="color: #B00040">float</span> area <span style="color: #666666">=</span> circle.get_area();
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;The circle has an area of &quot;</span> <span style="color: #666666">&lt;&lt;</span> area <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; m^2.</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">0</span>;
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>We create a Circle <i>object</i> named 'circle'. Note how the class name begins with an uppercase letter, while the object name begins with a lowercase letter. This <a href="../101/code-style.html#101_naming">naming convention</a> makes it easier to distinguish between classes and objects in our code.</p>
+        <p>We can then use the mutator method to set the radius and the accessor method to calculate the area. Running the example would cause the following output to appear in the terminal.</p>
+
+        <p><span style="font-family: 'courier new', courier, monospace">The circle has an area of 0.785398 m^2</span></p>
+    </section>
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

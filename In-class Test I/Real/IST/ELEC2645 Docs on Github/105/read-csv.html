@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Reading CSV files</h1>
+
+      <!-- Intro -->
+    <section>
+        <h2>Introduction</h2>
+        <p>As well as writing programs that perform calculations and write the output data to a .csv file, it is often required to read the data contained in a .csv file. Often this is when the data has been created by a separate program or has been downloaded from the Internet. You may then have to write a program to process that data.</p>
+    </section>
+
+      <!-- Data -->
+    <section>
+        <h2>Data</h2>
+        <p>In this example, we will write a program to process some ficticious data. This ficticous data is student grades. The data (in a .csv file) consists of many rows, each representing a student. In each row, there is a column for the surname, student ID number and then four columns representing the grades (on a 0 to 100 scale) for 4 separate tests. The data has been created using <a href="https://www.mockaroo.com">Mockaroo</a>.</p>
+        <p><i>MOCK_DATA.csv</i></p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;height:200px;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Cohalan,<span style="color: #666666">771298484</span>,<span style="color: #666666">67</span>,<span style="color: #666666">51</span>,<span style="color: #666666">74</span>,<span style="color: #666666">51</span>
+Vallack,<span style="color: #666666">615278957</span>,<span style="color: #666666">45</span>,<span style="color: #666666">57</span>,<span style="color: #666666">79</span>,<span style="color: #666666">49</span>
+Bungey,<span style="color: #666666">319585891</span>,<span style="color: #666666">42</span>,<span style="color: #666666">37</span>,<span style="color: #666666">57</span>,<span style="color: #666666">86</span>
+Balden,<span style="color: #666666">019478797</span>,<span style="color: #666666">80</span>,<span style="color: #666666">90</span>,<span style="color: #666666">79</span>,<span style="color: #666666">26</span>
+Probet,<span style="color: #666666">701116170</span>,<span style="color: #666666">58</span>,<span style="color: #666666">35</span>,<span style="color: #666666">76</span>,<span style="color: #666666">98</span>
+Baigent,<span style="color: #666666">998970542</span>,<span style="color: #666666">86</span>,<span style="color: #666666">61</span>,<span style="color: #666666">63</span>,<span style="color: #666666">65</span>
+Quarton,<span style="color: #666666">971939596</span>,<span style="color: #666666">58</span>,<span style="color: #666666">40</span>,<span style="color: #666666">100</span>,<span style="color: #666666">91</span>
+Witt,<span style="color: #666666">054978458</span>,<span style="color: #666666">59</span>,<span style="color: #666666">99</span>,<span style="color: #666666">72</span>,<span style="color: #666666">46</span>
+Burnand,<span style="color: #666666">283808017</span>,<span style="color: #666666">59</span>,<span style="color: #666666">92</span>,<span style="color: #666666">51</span>,<span style="color: #666666">11</span>
+Rawsthorn,<span style="color: #666666">814535776</span>,<span style="color: #666666">63</span>,<span style="color: #666666">50</span>,<span style="color: #666666">62</span>,<span style="color: #666666">100</span>
+Vasyatkin,<span style="color: #666666">925395193</span>,<span style="color: #666666">84</span>,<span style="color: #666666">73</span>,<span style="color: #666666">85</span>,<span style="color: #666666">57</span>
+Crossby,<span style="color: #666666">427723213</span>,<span style="color: #666666">33</span>,<span style="color: #666666">56</span>,<span style="color: #666666">100</span>,<span style="color: #666666">100</span>
+Hanham,<span style="color: #666666">597141409</span>,<span style="color: #666666">74</span>,<span style="color: #666666">30</span>,<span style="color: #666666">68</span>,<span style="color: #666666">60</span>
+Scorthorne,<span style="color: #666666">720102259</span>,<span style="color: #666666">58</span>,<span style="color: #666666">33</span>,<span style="color: #666666">100</span>,<span style="color: #666666">67</span>
+Evans,<span style="color: #666666">473955894</span>,<span style="color: #666666">93</span>,<span style="color: #666666">96</span>,<span style="color: #666666">92</span>,<span style="color: #666666">89</span>
+O<span style="border: 1px solid #FF0000">&#39;</span>Bee,<span style="color: #666666">058336708</span>,<span style="color: #666666">44</span>,<span style="color: #666666">11</span>,<span style="color: #666666">66</span>,<span style="color: #666666">44</span>
+Lewsam,<span style="color: #666666">623498290</span>,<span style="color: #666666">60</span>,<span style="color: #666666">58</span>,<span style="color: #666666">72</span>,<span style="color: #666666">74</span>
+Skim,<span style="color: #666666">412729216</span>,<span style="color: #666666">70</span>,<span style="color: #666666">51</span>,<span style="color: #666666">88</span>,<span style="color: #666666">84</span>
+Feehely,<span style="color: #666666">073095508</span>,<span style="color: #666666">49</span>,<span style="color: #666666">50</span>,<span style="color: #666666">82</span>,<span style="color: #666666">100</span>
+Brandassi,<span style="color: #666666">027384415</span>,<span style="color: #666666">77</span>,<span style="color: #666666">59</span>,<span style="color: #666666">93</span>,<span style="color: #666666">51</span>
+Umbert,<span style="color: #666666">058510748</span>,<span style="color: #666666">73</span>,<span style="color: #666666">100</span>,<span style="color: #666666">78</span>,<span style="color: #666666">58</span>
+Lygo,<span style="color: #666666">140824408</span>,<span style="color: #666666">55</span>,<span style="color: #666666">75</span>,<span style="color: #666666">78</span>,<span style="color: #666666">85</span>
+Schulkins,<span style="color: #666666">200434642</span>,<span style="color: #666666">54</span>,<span style="color: #666666">52</span>,<span style="color: #666666">65</span>,<span style="color: #666666">37</span>
+Scanlon,<span style="color: #666666">962865222</span>,<span style="color: #666666">39</span>,<span style="color: #666666">49</span>,<span style="color: #666666">55</span>,<span style="color: #666666">85</span>
+Allridge,<span style="color: #666666">115735549</span>,<span style="color: #666666">75</span>,<span style="color: #666666">52</span>,<span style="color: #666666">70</span>,<span style="color: #666666">27</span>
+Batchan,<span style="color: #666666">333316640</span>,<span style="color: #666666">71</span>,<span style="color: #666666">39</span>,<span style="color: #666666">94</span>,<span style="color: #666666">54</span>
+Purveys,<span style="color: #666666">583193483</span>,<span style="color: #666666">46</span>,<span style="color: #666666">74</span>,<span style="color: #666666">59</span>,<span style="color: #666666">66</span>
+Shemilt,<span style="color: #666666">374260199</span>,<span style="color: #666666">58</span>,<span style="color: #666666">88</span>,<span style="color: #666666">85</span>,<span style="color: #666666">32</span>
+Conant,<span style="color: #666666">640666260</span>,<span style="color: #666666">39</span>,<span style="color: #666666">51</span>,<span style="color: #666666">89</span>,<span style="color: #666666">64</span>
+Botright,<span style="color: #666666">292406035</span>,<span style="color: #666666">77</span>,<span style="color: #666666">27</span>,<span style="color: #666666">82</span>,<span style="color: #666666">95</span>
+Schulkins,<span style="color: #666666">152835084</span>,<span style="color: #666666">60</span>,<span style="color: #666666">22</span>,<span style="color: #666666">70</span>,<span style="color: #666666">45</span>
+Domke,<span style="color: #666666">624409539</span>,<span style="color: #666666">61</span>,<span style="color: #666666">71</span>,<span style="color: #666666">48</span>,<span style="color: #666666">51</span>
+Elies,<span style="color: #666666">634033768</span>,<span style="color: #666666">77</span>,<span style="color: #666666">100</span>,<span style="color: #666666">56</span>,<span style="color: #666666">100</span>
+Larham,<span style="color: #666666">145602942</span>,<span style="color: #666666">63</span>,<span style="color: #666666">32</span>,<span style="color: #666666">81</span>,<span style="color: #666666">29</span>
+Vacher,<span style="color: #666666">498955516</span>,<span style="color: #666666">72</span>,<span style="color: #666666">14</span>,<span style="color: #666666">73</span>,<span style="color: #666666">21</span>
+Di Filippo,<span style="color: #666666">711731193</span>,<span style="color: #666666">65</span>,<span style="color: #666666">65</span>,<span style="color: #666666">89</span>,<span style="color: #666666">64</span>
+Blench,<span style="color: #666666">496815213</span>,<span style="color: #666666">40</span>,<span style="color: #666666">24</span>,<span style="color: #666666">73</span>,<span style="color: #666666">79</span>
+Goodread,<span style="color: #666666">010007942</span>,<span style="color: #666666">50</span>,<span style="color: #666666">42</span>,<span style="color: #666666">66</span>,<span style="color: #666666">56</span>
+Minchin,<span style="color: #666666">988677183</span>,<span style="color: #666666">94</span>,<span style="color: #666666">14</span>,<span style="color: #666666">69</span>,<span style="color: #666666">8</span>
+Orrock,<span style="color: #666666">509070758</span>,<span style="color: #666666">69</span>,<span style="color: #666666">54</span>,<span style="color: #666666">85</span>,<span style="color: #666666">69</span>
+Wyles,<span style="color: #666666">154625310</span>,<span style="color: #666666">49</span>,<span style="color: #666666">25</span>,<span style="color: #666666">86</span>,<span style="color: #666666">48</span>
+Tookill,<span style="color: #666666">193475472</span>,<span style="color: #666666">23</span>,<span style="color: #666666">62</span>,<span style="color: #666666">53</span>,<span style="color: #666666">28</span>
+Wimmer,<span style="color: #666666">853474046</span>,<span style="color: #666666">45</span>,<span style="color: #666666">37</span>,<span style="color: #666666">83</span>,<span style="color: #666666">97</span>
+Spira,<span style="color: #666666">979696276</span>,<span style="color: #666666">14</span>,<span style="color: #666666">54</span>,<span style="color: #666666">93</span>,<span style="color: #666666">61</span>
+Felix,<span style="color: #666666">875835071</span>,<span style="color: #666666">63</span>,<span style="color: #666666">2</span>,<span style="color: #666666">71</span>,<span style="color: #666666">81</span>
+Reckhouse,<span style="color: #666666">148144410</span>,<span style="color: #666666">71</span>,<span style="color: #666666">88</span>,<span style="color: #666666">77</span>,<span style="color: #666666">59</span>
+Le Breton De La Vieuville,<span style="color: #666666">558486912</span>,<span style="color: #666666">47</span>,<span style="color: #666666">41</span>,<span style="color: #666666">81</span>,<span style="color: #666666">57</span>
+Horrigan,<span style="color: #666666">812230116</span>,<span style="color: #666666">45</span>,<span style="color: #666666">52</span>,<span style="color: #666666">80</span>,<span style="color: #666666">64</span>
+Le Port,<span style="color: #666666">014113685</span>,<span style="color: #666666">67</span>,<span style="color: #666666">34</span>,<span style="color: #666666">91</span>,<span style="color: #666666">83</span>
+Spitell,<span style="color: #666666">043792447</span>,<span style="color: #666666">40</span>,<span style="color: #666666">88</span>,<span style="color: #666666">83</span>,<span style="color: #666666">79</span>
+Dils,<span style="color: #666666">538529529</span>,<span style="color: #666666">84</span>,<span style="color: #666666">88</span>,<span style="color: #666666">55</span>,<span style="color: #666666">48</span>
+Goodge,<span style="color: #666666">602790717</span>,<span style="color: #666666">100</span>,<span style="color: #666666">50</span>,<span style="color: #666666">67</span>,<span style="color: #666666">39</span>
+Vern,<span style="color: #666666">235405979</span>,<span style="color: #666666">95</span>,<span style="color: #666666">51</span>,<span style="color: #666666">62</span>,<span style="color: #666666">40</span>
+Death,<span style="color: #666666">436211337</span>,<span style="color: #666666">62</span>,<span style="color: #666666">2</span>,<span style="color: #666666">93</span>,<span style="color: #666666">20</span>
+Giacomello,<span style="color: #666666">790772359</span>,<span style="color: #666666">57</span>,<span style="color: #666666">18</span>,<span style="color: #666666">80</span>,<span style="color: #666666">68</span>
+McAvey,<span style="color: #666666">843110330</span>,<span style="color: #666666">61</span>,<span style="color: #666666">17</span>,<span style="color: #666666">53</span>,<span style="color: #666666">74</span>
+Sevitt,<span style="color: #666666">711438118</span>,<span style="color: #666666">61</span>,<span style="color: #666666">40</span>,<span style="color: #666666">69</span>,<span style="color: #666666">76</span>
+Utridge,<span style="color: #666666">013821354</span>,<span style="color: #666666">69</span>,<span style="color: #666666">51</span>,<span style="color: #666666">74</span>,<span style="color: #666666">56</span>
+Calleja,<span style="color: #666666">304154084</span>,<span style="color: #666666">82</span>,<span style="color: #666666">69</span>,<span style="color: #666666">72</span>,<span style="color: #666666">74</span>
+Barenskie,<span style="color: #666666">545937322</span>,<span style="color: #666666">57</span>,<span style="color: #666666">72</span>,<span style="color: #666666">70</span>,<span style="color: #666666">75</span>
+Beckingham,<span style="color: #666666">380600744</span>,<span style="color: #666666">61</span>,<span style="color: #666666">82</span>,<span style="color: #666666">61</span>,<span style="color: #666666">33</span>
+Coggen,<span style="color: #666666">520808387</span>,<span style="color: #666666">63</span>,<span style="color: #666666">0</span>,<span style="color: #666666">100</span>,<span style="color: #666666">61</span>
+Christene,<span style="color: #666666">005768811</span>,<span style="color: #666666">74</span>,<span style="color: #666666">38</span>,<span style="color: #666666">100</span>,<span style="color: #666666">53</span>
+Hodgen,<span style="color: #666666">248294860</span>,<span style="color: #666666">81</span>,<span style="color: #666666">18</span>,<span style="color: #666666">73</span>,<span style="color: #666666">87</span>
+Bisco,<span style="color: #666666">203249260</span>,<span style="color: #666666">43</span>,<span style="color: #666666">45</span>,<span style="color: #666666">54</span>,<span style="color: #666666">68</span>
+Woodruff,<span style="color: #666666">721092637</span>,<span style="color: #666666">65</span>,<span style="color: #666666">68</span>,<span style="color: #666666">76</span>,<span style="color: #666666">90</span>
+Binham,<span style="color: #666666">298643920</span>,<span style="color: #666666">73</span>,<span style="color: #666666">60</span>,<span style="color: #666666">76</span>,<span style="color: #666666">49</span>
+Ivasechko,<span style="color: #666666">199652751</span>,<span style="color: #666666">31</span>,<span style="color: #666666">16</span>,<span style="color: #666666">78</span>,<span style="color: #666666">92</span>
+Gecke,<span style="color: #666666">019609957</span>,<span style="color: #666666">57</span>,<span style="color: #666666">29</span>,<span style="color: #666666">53</span>,<span style="color: #666666">34</span>
+Izakof,<span style="color: #666666">347786735</span>,<span style="color: #666666">57</span>,<span style="color: #666666">14</span>,<span style="color: #666666">48</span>,<span style="color: #666666">9</span>
+Pringour,<span style="color: #666666">210495355</span>,<span style="color: #666666">71</span>,<span style="color: #666666">11</span>,<span style="color: #666666">100</span>,<span style="color: #666666">74</span>
+Burgum,<span style="color: #666666">066120460</span>,<span style="color: #666666">32</span>,<span style="color: #666666">67</span>,<span style="color: #666666">93</span>,<span style="color: #666666">76</span>
+Thomel,<span style="color: #666666">827027608</span>,<span style="color: #666666">73</span>,<span style="color: #666666">54</span>,<span style="color: #666666">52</span>,<span style="color: #666666">42</span>
+Doldon,<span style="color: #666666">700489818</span>,<span style="color: #666666">69</span>,<span style="color: #666666">73</span>,<span style="color: #666666">71</span>,<span style="color: #666666">58</span>
+Benyon,<span style="color: #666666">026302393</span>,<span style="color: #666666">76</span>,<span style="color: #666666">86</span>,<span style="color: #666666">89</span>,<span style="color: #666666">80</span>
+Norvel,<span style="color: #666666">010489034</span>,<span style="color: #666666">45</span>,<span style="color: #666666">52</span>,<span style="color: #666666">68</span>,<span style="color: #666666">65</span>
+Mullard,<span style="color: #666666">111450702</span>,<span style="color: #666666">85</span>,<span style="color: #666666">56</span>,<span style="color: #666666">92</span>,<span style="color: #666666">63</span>
+Phelp,<span style="color: #666666">395748563</span>,<span style="color: #666666">62</span>,<span style="color: #666666">60</span>,<span style="color: #666666">57</span>,<span style="color: #666666">84</span>
+Androli,<span style="color: #666666">746030914</span>,<span style="color: #666666">55</span>,<span style="color: #666666">64</span>,<span style="color: #666666">100</span>,<span style="color: #666666">71</span>
+Vinall,<span style="color: #666666">758604004</span>,<span style="color: #666666">86</span>,<span style="color: #666666">60</span>,<span style="color: #666666">60</span>,<span style="color: #666666">27</span>
+</pre></div>
+    </section>
+
+      <!-- Example -->
+    <section>
+        <h2>Example</h2>
+        <p>The code to read in the .csv file is shown below.</p>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;height:400px;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;fstream&gt;</span>
+<span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+<span style="color: #BC7A00">#include &lt;string&gt;</span>
+
+<span style="color: #408080; font-style: italic">// struct to hold student data</span>
+<span style="color: #008000; font-weight: bold">struct</span> Student {
+  std<span style="color: #666666">::</span>string surname;
+  <span style="color: #B00040">int</span> sid;         <span style="color: #408080; font-style: italic">// student ID number</span>
+  <span style="color: #B00040">int</span> test1;       <span style="color: #408080; font-style: italic">// test 1 grade (0 to 100)</span>
+  <span style="color: #B00040">int</span> test2;       <span style="color: #408080; font-style: italic">// test 2 grade (0 to 100)</span>
+  <span style="color: #B00040">int</span> test3;       <span style="color: #408080; font-style: italic">// test 3 grade (0 to 100)</span>
+  <span style="color: #B00040">int</span> test4;       <span style="color: #408080; font-style: italic">// test 4 grade (0 to 100)</span>
+  <span style="color: #B00040">double</span> average;  <span style="color: #408080; font-style: italic">// average of all tests (equal weight)</span>
+};
+
+<span style="color: #408080; font-style: italic">// function prototypes</span>
+<span style="color: #B00040">int</span> <span style="color: #0000FF">count_lines</span>();
+<span style="color: #B00040">void</span> <span style="color: #0000FF">read_into_array</span>(Student array[], <span style="color: #B00040">int</span> n);
+<span style="color: #B00040">void</span> <span style="color: #0000FF">print_array</span>(<span style="color: #008000; font-weight: bold">const</span> Student array[], <span style="color: #B00040">int</span> n);
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #408080; font-style: italic">// count the number of lines in the CSV</span>
+  <span style="color: #B00040">int</span> n <span style="color: #666666">=</span> count_lines();
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> n <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; lines read.&quot;</span> <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #408080; font-style: italic">// then create dynamic array of correct size</span>
+  Student <span style="color: #666666">*</span>students <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">new</span> Student[n];
+  <span style="color: #408080; font-style: italic">// read the CSV file into the array</span>
+  read_into_array(students, n);
+  <span style="color: #408080; font-style: italic">// and then print for debug purposes</span>
+  print_array(students, n);
+}
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">count_lines</span>() {
+  <span style="color: #408080; font-style: italic">// create an input file stream</span>
+  std<span style="color: #666666">::</span>ifstream input;
+  <span style="color: #408080; font-style: italic">// use it to open a file named &#39;MOCK_DATA.csv&#39;</span>
+  input.open(<span style="color: #BA2121">&quot;MOCK_DATA.csv&quot;</span>);
+  <span style="color: #408080; font-style: italic">// check if the file is not open</span>
+  <span style="color: #008000; font-weight: bold">if</span> (<span style="color: #666666">!</span>input.is_open()) {
+    <span style="color: #408080; font-style: italic">// print error message and quit if a problem occurred</span>
+    std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Error! No input file found!</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    exit(<span style="color: #666666">1</span>);
+  }
+  <span style="color: #B00040">int</span> n <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  std<span style="color: #666666">::</span>string dummy;
+  <span style="color: #408080; font-style: italic">// keep reading lines in file until no lines left to read</span>
+  <span style="color: #408080; font-style: italic">// read into dummy string and increment count</span>
+  <span style="color: #008000; font-weight: bold">while</span> (getline(input, dummy)) {
+    n<span style="color: #666666">++</span>;
+  }
+  <span style="color: #008000; font-weight: bold">return</span> n;
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">read_into_array</span>(Student array[], <span style="color: #B00040">int</span> n) {
+  <span style="color: #408080; font-style: italic">// create an input file stream</span>
+  std<span style="color: #666666">::</span>ifstream input;
+  <span style="color: #408080; font-style: italic">// use it to open a file named &#39;MOCK_DATA.csv&#39;</span>
+  input.open(<span style="color: #BA2121">&quot;MOCK_DATA.csv&quot;</span>);
+  <span style="color: #408080; font-style: italic">// check if the file is not open</span>
+  <span style="color: #008000; font-weight: bold">if</span> (<span style="color: #666666">!</span>input.is_open()) {
+    <span style="color: #408080; font-style: italic">// print error message and quit if a problem occurred</span>
+    std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Error! No input file found!</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    exit(<span style="color: #666666">1</span>);
+  }
+  std<span style="color: #666666">::</span>string dummy;
+  <span style="color: #408080; font-style: italic">// loop through each line in file</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> n; i<span style="color: #666666">++</span>) {
+    getline(input, dummy, <span style="color: #BA2121">&#39;,&#39;</span>);  <span style="color: #408080; font-style: italic">// read until first comma</span>
+    array[i].surname <span style="color: #666666">=</span> dummy;    <span style="color: #408080; font-style: italic">// write to array</span>
+    getline(input, dummy, <span style="color: #BA2121">&#39;,&#39;</span>);  <span style="color: #408080; font-style: italic">// read until next comma</span>
+    array[i].sid <span style="color: #666666">=</span> std<span style="color: #666666">::</span>stoi(dummy);
+    getline(input, dummy, <span style="color: #BA2121">&#39;,&#39;</span>);  <span style="color: #408080; font-style: italic">// read until next comma</span>
+    array[i].test1 <span style="color: #666666">=</span> std<span style="color: #666666">::</span>stoi(dummy);
+    getline(input, dummy, <span style="color: #BA2121">&#39;,&#39;</span>);  <span style="color: #408080; font-style: italic">// read until next comma</span>
+    array[i].test2 <span style="color: #666666">=</span> std<span style="color: #666666">::</span>stoi(dummy);
+    getline(input, dummy, <span style="color: #BA2121">&#39;,&#39;</span>);  <span style="color: #408080; font-style: italic">// read until next comma</span>
+    array[i].test3 <span style="color: #666666">=</span> std<span style="color: #666666">::</span>stoi(dummy);
+    getline(input, dummy);  <span style="color: #408080; font-style: italic">// for the last element, read until</span>
+    <span style="color: #408080; font-style: italic">// end of line (default)</span>
+    array[i].test4 <span style="color: #666666">=</span> std<span style="color: #666666">::</span>stoi(dummy);
+  }
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">print_array</span>(<span style="color: #008000; font-weight: bold">const</span> Student array[], <span style="color: #B00040">int</span> n) {
+  <span style="color: #408080; font-style: italic">// just loop through array and print to terminal</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> n; i<span style="color: #666666">++</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> array[i].surname <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; | &quot;</span> <span style="color: #666666">&lt;&lt;</span> array[i].sid <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; | &quot;</span>
+              <span style="color: #666666">&lt;&lt;</span> array[i].test1 <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; | &quot;</span> <span style="color: #666666">&lt;&lt;</span> array[i].test2 <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; | &quot;</span>
+              <span style="color: #666666">&lt;&lt;</span> array[i].test3 <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; | &quot;</span> <span style="color: #666666">&lt;&lt;</span> array[i].test4 <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+}
+</pre></td></tr></table></div>
+        <p>A <code>struct</code> has been defined that can be used to store the data for each student. A more object-oriented approach could have been to create a relevant class. The <code>main()</code> function is relatively simple, the number of lines in the data file are counted and a dynamic array of the struct-type is created to hold the data. This array is then passed into a function and the data from the .csv file read into the array. Finally, the array is passed into a print function so that it can be printed to the command line.</p>
+        <p>To count the number of lines, an input file stream is created and the .csv file opened. The <code>getline()</code> function is then used inside a while loop. <code>getline()</code> reads a line from the input stream into a string. By default it reads until it finds a newline (<code>\n</code>) character. At this point, we are not interested in the content of the line, so it is just read into a dummy string and a value incremented on each loop. At the end of the file, this value will be equal to the number of lines in the file.</p>
+        <p>Once the dynamic array of the required file has been created, the data in the .csv file is read into the array. The code loops through each line in the file. By default, <code>getline()</code> reads until a newline character is found. However, for CSV data, we wish to read until we find a comma.</p>
+        <p><code>getline(input, dummy, ',');</code></p>
+        <p>The variables are read into a dummy string and converted to integers when requierd using <code>std::stoi()</code>. Note that for the last element, we want to read to the end of the line i.e. a newline character and not a comma.</p>
+        <p>Now the data is in an array, it can be iterated over to analyse and process. It can also be trivially printed to the terminal.</p>
+    </section>
+
+    <!-- Output -->
+    <section>
+        <h2>Output</h2>
+        <p>If the above example is run, the following will appear in the terminal.</p>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;height:400px;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #666666">80</span> lines read.
+Cohalan <span style="color: #666666">|</span> <span style="color: #666666">771298484</span> <span style="color: #666666">|</span> <span style="color: #666666">67</span> <span style="color: #666666">|</span> <span style="color: #666666">51</span> <span style="color: #666666">|</span> <span style="color: #666666">74</span> <span style="color: #666666">|</span> <span style="color: #666666">51</span>
+Vallack <span style="color: #666666">|</span> <span style="color: #666666">615278957</span> <span style="color: #666666">|</span> <span style="color: #666666">45</span> <span style="color: #666666">|</span> <span style="color: #666666">57</span> <span style="color: #666666">|</span> <span style="color: #666666">79</span> <span style="color: #666666">|</span> <span style="color: #666666">49</span>
+Bungey <span style="color: #666666">|</span> <span style="color: #666666">319585891</span> <span style="color: #666666">|</span> <span style="color: #666666">42</span> <span style="color: #666666">|</span> <span style="color: #666666">37</span> <span style="color: #666666">|</span> <span style="color: #666666">57</span> <span style="color: #666666">|</span> <span style="color: #666666">86</span>
+Balden <span style="color: #666666">|</span> <span style="color: #666666">19478797</span> <span style="color: #666666">|</span> <span style="color: #666666">80</span> <span style="color: #666666">|</span> <span style="color: #666666">90</span> <span style="color: #666666">|</span> <span style="color: #666666">79</span> <span style="color: #666666">|</span> <span style="color: #666666">26</span>
+Probet <span style="color: #666666">|</span> <span style="color: #666666">701116170</span> <span style="color: #666666">|</span> <span style="color: #666666">58</span> <span style="color: #666666">|</span> <span style="color: #666666">35</span> <span style="color: #666666">|</span> <span style="color: #666666">76</span> <span style="color: #666666">|</span> <span style="color: #666666">98</span>
+Baigent <span style="color: #666666">|</span> <span style="color: #666666">998970542</span> <span style="color: #666666">|</span> <span style="color: #666666">86</span> <span style="color: #666666">|</span> <span style="color: #666666">61</span> <span style="color: #666666">|</span> <span style="color: #666666">63</span> <span style="color: #666666">|</span> <span style="color: #666666">65</span>
+Quarton <span style="color: #666666">|</span> <span style="color: #666666">971939596</span> <span style="color: #666666">|</span> <span style="color: #666666">58</span> <span style="color: #666666">|</span> <span style="color: #666666">40</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span> <span style="color: #666666">|</span> <span style="color: #666666">91</span>
+Witt <span style="color: #666666">|</span> <span style="color: #666666">54978458</span> <span style="color: #666666">|</span> <span style="color: #666666">59</span> <span style="color: #666666">|</span> <span style="color: #666666">99</span> <span style="color: #666666">|</span> <span style="color: #666666">72</span> <span style="color: #666666">|</span> <span style="color: #666666">46</span>
+Burnand <span style="color: #666666">|</span> <span style="color: #666666">283808017</span> <span style="color: #666666">|</span> <span style="color: #666666">59</span> <span style="color: #666666">|</span> <span style="color: #666666">92</span> <span style="color: #666666">|</span> <span style="color: #666666">51</span> <span style="color: #666666">|</span> <span style="color: #666666">11</span>
+Rawsthorn <span style="color: #666666">|</span> <span style="color: #666666">814535776</span> <span style="color: #666666">|</span> <span style="color: #666666">63</span> <span style="color: #666666">|</span> <span style="color: #666666">50</span> <span style="color: #666666">|</span> <span style="color: #666666">62</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span>
+Vasyatkin <span style="color: #666666">|</span> <span style="color: #666666">925395193</span> <span style="color: #666666">|</span> <span style="color: #666666">84</span> <span style="color: #666666">|</span> <span style="color: #666666">73</span> <span style="color: #666666">|</span> <span style="color: #666666">85</span> <span style="color: #666666">|</span> <span style="color: #666666">57</span>
+Crossby <span style="color: #666666">|</span> <span style="color: #666666">427723213</span> <span style="color: #666666">|</span> <span style="color: #666666">33</span> <span style="color: #666666">|</span> <span style="color: #666666">56</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span>
+Hanham <span style="color: #666666">|</span> <span style="color: #666666">597141409</span> <span style="color: #666666">|</span> <span style="color: #666666">74</span> <span style="color: #666666">|</span> <span style="color: #666666">30</span> <span style="color: #666666">|</span> <span style="color: #666666">68</span> <span style="color: #666666">|</span> <span style="color: #666666">60</span>
+Scorthorne <span style="color: #666666">|</span> <span style="color: #666666">720102259</span> <span style="color: #666666">|</span> <span style="color: #666666">58</span> <span style="color: #666666">|</span> <span style="color: #666666">33</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span> <span style="color: #666666">|</span> <span style="color: #666666">67</span>
+Evans <span style="color: #666666">|</span> <span style="color: #666666">473955894</span> <span style="color: #666666">|</span> <span style="color: #666666">93</span> <span style="color: #666666">|</span> <span style="color: #666666">96</span> <span style="color: #666666">|</span> <span style="color: #666666">92</span> <span style="color: #666666">|</span> <span style="color: #666666">89</span>
+O<span style="border: 1px solid #FF0000">&#39;</span>Bee <span style="color: #666666">|</span> <span style="color: #666666">58336708</span> <span style="color: #666666">|</span> <span style="color: #666666">44</span> <span style="color: #666666">|</span> <span style="color: #666666">11</span> <span style="color: #666666">|</span> <span style="color: #666666">66</span> <span style="color: #666666">|</span> <span style="color: #666666">44</span>
+Lewsam <span style="color: #666666">|</span> <span style="color: #666666">623498290</span> <span style="color: #666666">|</span> <span style="color: #666666">60</span> <span style="color: #666666">|</span> <span style="color: #666666">58</span> <span style="color: #666666">|</span> <span style="color: #666666">72</span> <span style="color: #666666">|</span> <span style="color: #666666">74</span>
+Skim <span style="color: #666666">|</span> <span style="color: #666666">412729216</span> <span style="color: #666666">|</span> <span style="color: #666666">70</span> <span style="color: #666666">|</span> <span style="color: #666666">51</span> <span style="color: #666666">|</span> <span style="color: #666666">88</span> <span style="color: #666666">|</span> <span style="color: #666666">84</span>
+Feehely <span style="color: #666666">|</span> <span style="color: #666666">73095508</span> <span style="color: #666666">|</span> <span style="color: #666666">49</span> <span style="color: #666666">|</span> <span style="color: #666666">50</span> <span style="color: #666666">|</span> <span style="color: #666666">82</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span>
+Brandassi <span style="color: #666666">|</span> <span style="color: #666666">27384415</span> <span style="color: #666666">|</span> <span style="color: #666666">77</span> <span style="color: #666666">|</span> <span style="color: #666666">59</span> <span style="color: #666666">|</span> <span style="color: #666666">93</span> <span style="color: #666666">|</span> <span style="color: #666666">51</span>
+Umbert <span style="color: #666666">|</span> <span style="color: #666666">58510748</span> <span style="color: #666666">|</span> <span style="color: #666666">73</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span> <span style="color: #666666">|</span> <span style="color: #666666">78</span> <span style="color: #666666">|</span> <span style="color: #666666">58</span>
+Lygo <span style="color: #666666">|</span> <span style="color: #666666">140824408</span> <span style="color: #666666">|</span> <span style="color: #666666">55</span> <span style="color: #666666">|</span> <span style="color: #666666">75</span> <span style="color: #666666">|</span> <span style="color: #666666">78</span> <span style="color: #666666">|</span> <span style="color: #666666">85</span>
+Schulkins <span style="color: #666666">|</span> <span style="color: #666666">200434642</span> <span style="color: #666666">|</span> <span style="color: #666666">54</span> <span style="color: #666666">|</span> <span style="color: #666666">52</span> <span style="color: #666666">|</span> <span style="color: #666666">65</span> <span style="color: #666666">|</span> <span style="color: #666666">37</span>
+Scanlon <span style="color: #666666">|</span> <span style="color: #666666">962865222</span> <span style="color: #666666">|</span> <span style="color: #666666">39</span> <span style="color: #666666">|</span> <span style="color: #666666">49</span> <span style="color: #666666">|</span> <span style="color: #666666">55</span> <span style="color: #666666">|</span> <span style="color: #666666">85</span>
+Allridge <span style="color: #666666">|</span> <span style="color: #666666">115735549</span> <span style="color: #666666">|</span> <span style="color: #666666">75</span> <span style="color: #666666">|</span> <span style="color: #666666">52</span> <span style="color: #666666">|</span> <span style="color: #666666">70</span> <span style="color: #666666">|</span> <span style="color: #666666">27</span>
+Batchan <span style="color: #666666">|</span> <span style="color: #666666">333316640</span> <span style="color: #666666">|</span> <span style="color: #666666">71</span> <span style="color: #666666">|</span> <span style="color: #666666">39</span> <span style="color: #666666">|</span> <span style="color: #666666">94</span> <span style="color: #666666">|</span> <span style="color: #666666">54</span>
+Purveys <span style="color: #666666">|</span> <span style="color: #666666">583193483</span> <span style="color: #666666">|</span> <span style="color: #666666">46</span> <span style="color: #666666">|</span> <span style="color: #666666">74</span> <span style="color: #666666">|</span> <span style="color: #666666">59</span> <span style="color: #666666">|</span> <span style="color: #666666">66</span>
+Shemilt <span style="color: #666666">|</span> <span style="color: #666666">374260199</span> <span style="color: #666666">|</span> <span style="color: #666666">58</span> <span style="color: #666666">|</span> <span style="color: #666666">88</span> <span style="color: #666666">|</span> <span style="color: #666666">85</span> <span style="color: #666666">|</span> <span style="color: #666666">32</span>
+Conant <span style="color: #666666">|</span> <span style="color: #666666">640666260</span> <span style="color: #666666">|</span> <span style="color: #666666">39</span> <span style="color: #666666">|</span> <span style="color: #666666">51</span> <span style="color: #666666">|</span> <span style="color: #666666">89</span> <span style="color: #666666">|</span> <span style="color: #666666">64</span>
+Botright <span style="color: #666666">|</span> <span style="color: #666666">292406035</span> <span style="color: #666666">|</span> <span style="color: #666666">77</span> <span style="color: #666666">|</span> <span style="color: #666666">27</span> <span style="color: #666666">|</span> <span style="color: #666666">82</span> <span style="color: #666666">|</span> <span style="color: #666666">95</span>
+Schulkins <span style="color: #666666">|</span> <span style="color: #666666">152835084</span> <span style="color: #666666">|</span> <span style="color: #666666">60</span> <span style="color: #666666">|</span> <span style="color: #666666">22</span> <span style="color: #666666">|</span> <span style="color: #666666">70</span> <span style="color: #666666">|</span> <span style="color: #666666">45</span>
+Domke <span style="color: #666666">|</span> <span style="color: #666666">624409539</span> <span style="color: #666666">|</span> <span style="color: #666666">61</span> <span style="color: #666666">|</span> <span style="color: #666666">71</span> <span style="color: #666666">|</span> <span style="color: #666666">48</span> <span style="color: #666666">|</span> <span style="color: #666666">51</span>
+Elies <span style="color: #666666">|</span> <span style="color: #666666">634033768</span> <span style="color: #666666">|</span> <span style="color: #666666">77</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span> <span style="color: #666666">|</span> <span style="color: #666666">56</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span>
+Larham <span style="color: #666666">|</span> <span style="color: #666666">145602942</span> <span style="color: #666666">|</span> <span style="color: #666666">63</span> <span style="color: #666666">|</span> <span style="color: #666666">32</span> <span style="color: #666666">|</span> <span style="color: #666666">81</span> <span style="color: #666666">|</span> <span style="color: #666666">29</span>
+Vacher <span style="color: #666666">|</span> <span style="color: #666666">498955516</span> <span style="color: #666666">|</span> <span style="color: #666666">72</span> <span style="color: #666666">|</span> <span style="color: #666666">14</span> <span style="color: #666666">|</span> <span style="color: #666666">73</span> <span style="color: #666666">|</span> <span style="color: #666666">21</span>
+Di Filippo <span style="color: #666666">|</span> <span style="color: #666666">711731193</span> <span style="color: #666666">|</span> <span style="color: #666666">65</span> <span style="color: #666666">|</span> <span style="color: #666666">65</span> <span style="color: #666666">|</span> <span style="color: #666666">89</span> <span style="color: #666666">|</span> <span style="color: #666666">64</span>
+Blench <span style="color: #666666">|</span> <span style="color: #666666">496815213</span> <span style="color: #666666">|</span> <span style="color: #666666">40</span> <span style="color: #666666">|</span> <span style="color: #666666">24</span> <span style="color: #666666">|</span> <span style="color: #666666">73</span> <span style="color: #666666">|</span> <span style="color: #666666">79</span>
+Goodread <span style="color: #666666">|</span> <span style="color: #666666">10007942</span> <span style="color: #666666">|</span> <span style="color: #666666">50</span> <span style="color: #666666">|</span> <span style="color: #666666">42</span> <span style="color: #666666">|</span> <span style="color: #666666">66</span> <span style="color: #666666">|</span> <span style="color: #666666">56</span>
+Minchin <span style="color: #666666">|</span> <span style="color: #666666">988677183</span> <span style="color: #666666">|</span> <span style="color: #666666">94</span> <span style="color: #666666">|</span> <span style="color: #666666">14</span> <span style="color: #666666">|</span> <span style="color: #666666">69</span> <span style="color: #666666">|</span> <span style="color: #666666">8</span>
+Orrock <span style="color: #666666">|</span> <span style="color: #666666">509070758</span> <span style="color: #666666">|</span> <span style="color: #666666">69</span> <span style="color: #666666">|</span> <span style="color: #666666">54</span> <span style="color: #666666">|</span> <span style="color: #666666">85</span> <span style="color: #666666">|</span> <span style="color: #666666">69</span>
+Wyles <span style="color: #666666">|</span> <span style="color: #666666">154625310</span> <span style="color: #666666">|</span> <span style="color: #666666">49</span> <span style="color: #666666">|</span> <span style="color: #666666">25</span> <span style="color: #666666">|</span> <span style="color: #666666">86</span> <span style="color: #666666">|</span> <span style="color: #666666">48</span>
+Tookill <span style="color: #666666">|</span> <span style="color: #666666">193475472</span> <span style="color: #666666">|</span> <span style="color: #666666">23</span> <span style="color: #666666">|</span> <span style="color: #666666">62</span> <span style="color: #666666">|</span> <span style="color: #666666">53</span> <span style="color: #666666">|</span> <span style="color: #666666">28</span>
+Wimmer <span style="color: #666666">|</span> <span style="color: #666666">853474046</span> <span style="color: #666666">|</span> <span style="color: #666666">45</span> <span style="color: #666666">|</span> <span style="color: #666666">37</span> <span style="color: #666666">|</span> <span style="color: #666666">83</span> <span style="color: #666666">|</span> <span style="color: #666666">97</span>
+Spira <span style="color: #666666">|</span> <span style="color: #666666">979696276</span> <span style="color: #666666">|</span> <span style="color: #666666">14</span> <span style="color: #666666">|</span> <span style="color: #666666">54</span> <span style="color: #666666">|</span> <span style="color: #666666">93</span> <span style="color: #666666">|</span> <span style="color: #666666">61</span>
+Felix <span style="color: #666666">|</span> <span style="color: #666666">875835071</span> <span style="color: #666666">|</span> <span style="color: #666666">63</span> <span style="color: #666666">|</span> <span style="color: #666666">2</span> <span style="color: #666666">|</span> <span style="color: #666666">71</span> <span style="color: #666666">|</span> <span style="color: #666666">81</span>
+Reckhouse <span style="color: #666666">|</span> <span style="color: #666666">148144410</span> <span style="color: #666666">|</span> <span style="color: #666666">71</span> <span style="color: #666666">|</span> <span style="color: #666666">88</span> <span style="color: #666666">|</span> <span style="color: #666666">77</span> <span style="color: #666666">|</span> <span style="color: #666666">59</span>
+Le Breton De La Vieuville <span style="color: #666666">|</span> <span style="color: #666666">558486912</span> <span style="color: #666666">|</span> <span style="color: #666666">47</span> <span style="color: #666666">|</span> <span style="color: #666666">41</span> <span style="color: #666666">|</span> <span style="color: #666666">81</span> <span style="color: #666666">|</span> <span style="color: #666666">57</span>
+Horrigan <span style="color: #666666">|</span> <span style="color: #666666">812230116</span> <span style="color: #666666">|</span> <span style="color: #666666">45</span> <span style="color: #666666">|</span> <span style="color: #666666">52</span> <span style="color: #666666">|</span> <span style="color: #666666">80</span> <span style="color: #666666">|</span> <span style="color: #666666">64</span>
+Le Port <span style="color: #666666">|</span> <span style="color: #666666">14113685</span> <span style="color: #666666">|</span> <span style="color: #666666">67</span> <span style="color: #666666">|</span> <span style="color: #666666">34</span> <span style="color: #666666">|</span> <span style="color: #666666">91</span> <span style="color: #666666">|</span> <span style="color: #666666">83</span>
+Spitell <span style="color: #666666">|</span> <span style="color: #666666">43792447</span> <span style="color: #666666">|</span> <span style="color: #666666">40</span> <span style="color: #666666">|</span> <span style="color: #666666">88</span> <span style="color: #666666">|</span> <span style="color: #666666">83</span> <span style="color: #666666">|</span> <span style="color: #666666">79</span>
+Dils <span style="color: #666666">|</span> <span style="color: #666666">538529529</span> <span style="color: #666666">|</span> <span style="color: #666666">84</span> <span style="color: #666666">|</span> <span style="color: #666666">88</span> <span style="color: #666666">|</span> <span style="color: #666666">55</span> <span style="color: #666666">|</span> <span style="color: #666666">48</span>
+Goodge <span style="color: #666666">|</span> <span style="color: #666666">602790717</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span> <span style="color: #666666">|</span> <span style="color: #666666">50</span> <span style="color: #666666">|</span> <span style="color: #666666">67</span> <span style="color: #666666">|</span> <span style="color: #666666">39</span>
+Vern <span style="color: #666666">|</span> <span style="color: #666666">235405979</span> <span style="color: #666666">|</span> <span style="color: #666666">95</span> <span style="color: #666666">|</span> <span style="color: #666666">51</span> <span style="color: #666666">|</span> <span style="color: #666666">62</span> <span style="color: #666666">|</span> <span style="color: #666666">40</span>
+Death <span style="color: #666666">|</span> <span style="color: #666666">436211337</span> <span style="color: #666666">|</span> <span style="color: #666666">62</span> <span style="color: #666666">|</span> <span style="color: #666666">2</span> <span style="color: #666666">|</span> <span style="color: #666666">93</span> <span style="color: #666666">|</span> <span style="color: #666666">20</span>
+Giacomello <span style="color: #666666">|</span> <span style="color: #666666">790772359</span> <span style="color: #666666">|</span> <span style="color: #666666">57</span> <span style="color: #666666">|</span> <span style="color: #666666">18</span> <span style="color: #666666">|</span> <span style="color: #666666">80</span> <span style="color: #666666">|</span> <span style="color: #666666">68</span>
+McAvey <span style="color: #666666">|</span> <span style="color: #666666">843110330</span> <span style="color: #666666">|</span> <span style="color: #666666">61</span> <span style="color: #666666">|</span> <span style="color: #666666">17</span> <span style="color: #666666">|</span> <span style="color: #666666">53</span> <span style="color: #666666">|</span> <span style="color: #666666">74</span>
+Sevitt <span style="color: #666666">|</span> <span style="color: #666666">711438118</span> <span style="color: #666666">|</span> <span style="color: #666666">61</span> <span style="color: #666666">|</span> <span style="color: #666666">40</span> <span style="color: #666666">|</span> <span style="color: #666666">69</span> <span style="color: #666666">|</span> <span style="color: #666666">76</span>
+Utridge <span style="color: #666666">|</span> <span style="color: #666666">13821354</span> <span style="color: #666666">|</span> <span style="color: #666666">69</span> <span style="color: #666666">|</span> <span style="color: #666666">51</span> <span style="color: #666666">|</span> <span style="color: #666666">74</span> <span style="color: #666666">|</span> <span style="color: #666666">56</span>
+Calleja <span style="color: #666666">|</span> <span style="color: #666666">304154084</span> <span style="color: #666666">|</span> <span style="color: #666666">82</span> <span style="color: #666666">|</span> <span style="color: #666666">69</span> <span style="color: #666666">|</span> <span style="color: #666666">72</span> <span style="color: #666666">|</span> <span style="color: #666666">74</span>
+Barenskie <span style="color: #666666">|</span> <span style="color: #666666">545937322</span> <span style="color: #666666">|</span> <span style="color: #666666">57</span> <span style="color: #666666">|</span> <span style="color: #666666">72</span> <span style="color: #666666">|</span> <span style="color: #666666">70</span> <span style="color: #666666">|</span> <span style="color: #666666">75</span>
+Beckingham <span style="color: #666666">|</span> <span style="color: #666666">380600744</span> <span style="color: #666666">|</span> <span style="color: #666666">61</span> <span style="color: #666666">|</span> <span style="color: #666666">82</span> <span style="color: #666666">|</span> <span style="color: #666666">61</span> <span style="color: #666666">|</span> <span style="color: #666666">33</span>
+Coggen <span style="color: #666666">|</span> <span style="color: #666666">520808387</span> <span style="color: #666666">|</span> <span style="color: #666666">63</span> <span style="color: #666666">|</span> <span style="color: #666666">0</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span> <span style="color: #666666">|</span> <span style="color: #666666">61</span>
+Christene <span style="color: #666666">|</span> <span style="color: #666666">5768811</span> <span style="color: #666666">|</span> <span style="color: #666666">74</span> <span style="color: #666666">|</span> <span style="color: #666666">38</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span> <span style="color: #666666">|</span> <span style="color: #666666">53</span>
+Hodgen <span style="color: #666666">|</span> <span style="color: #666666">248294860</span> <span style="color: #666666">|</span> <span style="color: #666666">81</span> <span style="color: #666666">|</span> <span style="color: #666666">18</span> <span style="color: #666666">|</span> <span style="color: #666666">73</span> <span style="color: #666666">|</span> <span style="color: #666666">87</span>
+Bisco <span style="color: #666666">|</span> <span style="color: #666666">203249260</span> <span style="color: #666666">|</span> <span style="color: #666666">43</span> <span style="color: #666666">|</span> <span style="color: #666666">45</span> <span style="color: #666666">|</span> <span style="color: #666666">54</span> <span style="color: #666666">|</span> <span style="color: #666666">68</span>
+Woodruff <span style="color: #666666">|</span> <span style="color: #666666">721092637</span> <span style="color: #666666">|</span> <span style="color: #666666">65</span> <span style="color: #666666">|</span> <span style="color: #666666">68</span> <span style="color: #666666">|</span> <span style="color: #666666">76</span> <span style="color: #666666">|</span> <span style="color: #666666">90</span>
+Binham <span style="color: #666666">|</span> <span style="color: #666666">298643920</span> <span style="color: #666666">|</span> <span style="color: #666666">73</span> <span style="color: #666666">|</span> <span style="color: #666666">60</span> <span style="color: #666666">|</span> <span style="color: #666666">76</span> <span style="color: #666666">|</span> <span style="color: #666666">49</span>
+Ivasechko <span style="color: #666666">|</span> <span style="color: #666666">199652751</span> <span style="color: #666666">|</span> <span style="color: #666666">31</span> <span style="color: #666666">|</span> <span style="color: #666666">16</span> <span style="color: #666666">|</span> <span style="color: #666666">78</span> <span style="color: #666666">|</span> <span style="color: #666666">92</span>
+Gecke <span style="color: #666666">|</span> <span style="color: #666666">19609957</span> <span style="color: #666666">|</span> <span style="color: #666666">57</span> <span style="color: #666666">|</span> <span style="color: #666666">29</span> <span style="color: #666666">|</span> <span style="color: #666666">53</span> <span style="color: #666666">|</span> <span style="color: #666666">34</span>
+Izakof <span style="color: #666666">|</span> <span style="color: #666666">347786735</span> <span style="color: #666666">|</span> <span style="color: #666666">57</span> <span style="color: #666666">|</span> <span style="color: #666666">14</span> <span style="color: #666666">|</span> <span style="color: #666666">48</span> <span style="color: #666666">|</span> <span style="color: #666666">9</span>
+Pringour <span style="color: #666666">|</span> <span style="color: #666666">210495355</span> <span style="color: #666666">|</span> <span style="color: #666666">71</span> <span style="color: #666666">|</span> <span style="color: #666666">11</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span> <span style="color: #666666">|</span> <span style="color: #666666">74</span>
+Burgum <span style="color: #666666">|</span> <span style="color: #666666">66120460</span> <span style="color: #666666">|</span> <span style="color: #666666">32</span> <span style="color: #666666">|</span> <span style="color: #666666">67</span> <span style="color: #666666">|</span> <span style="color: #666666">93</span> <span style="color: #666666">|</span> <span style="color: #666666">76</span>
+Thomel <span style="color: #666666">|</span> <span style="color: #666666">827027608</span> <span style="color: #666666">|</span> <span style="color: #666666">73</span> <span style="color: #666666">|</span> <span style="color: #666666">54</span> <span style="color: #666666">|</span> <span style="color: #666666">52</span> <span style="color: #666666">|</span> <span style="color: #666666">42</span>
+Doldon <span style="color: #666666">|</span> <span style="color: #666666">700489818</span> <span style="color: #666666">|</span> <span style="color: #666666">69</span> <span style="color: #666666">|</span> <span style="color: #666666">73</span> <span style="color: #666666">|</span> <span style="color: #666666">71</span> <span style="color: #666666">|</span> <span style="color: #666666">58</span>
+Benyon <span style="color: #666666">|</span> <span style="color: #666666">26302393</span> <span style="color: #666666">|</span> <span style="color: #666666">76</span> <span style="color: #666666">|</span> <span style="color: #666666">86</span> <span style="color: #666666">|</span> <span style="color: #666666">89</span> <span style="color: #666666">|</span> <span style="color: #666666">80</span>
+Norvel <span style="color: #666666">|</span> <span style="color: #666666">10489034</span> <span style="color: #666666">|</span> <span style="color: #666666">45</span> <span style="color: #666666">|</span> <span style="color: #666666">52</span> <span style="color: #666666">|</span> <span style="color: #666666">68</span> <span style="color: #666666">|</span> <span style="color: #666666">65</span>
+Mullard <span style="color: #666666">|</span> <span style="color: #666666">111450702</span> <span style="color: #666666">|</span> <span style="color: #666666">85</span> <span style="color: #666666">|</span> <span style="color: #666666">56</span> <span style="color: #666666">|</span> <span style="color: #666666">92</span> <span style="color: #666666">|</span> <span style="color: #666666">63</span>
+Phelp <span style="color: #666666">|</span> <span style="color: #666666">395748563</span> <span style="color: #666666">|</span> <span style="color: #666666">62</span> <span style="color: #666666">|</span> <span style="color: #666666">60</span> <span style="color: #666666">|</span> <span style="color: #666666">57</span> <span style="color: #666666">|</span> <span style="color: #666666">84</span>
+Androli <span style="color: #666666">|</span> <span style="color: #666666">746030914</span> <span style="color: #666666">|</span> <span style="color: #666666">55</span> <span style="color: #666666">|</span> <span style="color: #666666">64</span> <span style="color: #666666">|</span> <span style="color: #666666">100</span> <span style="color: #666666">|</span> <span style="color: #666666">71</span>
+Vinall <span style="color: #666666">|</span> <span style="color: #666666">758604004</span> <span style="color: #666666">|</span> <span style="color: #666666">86</span> <span style="color: #666666">|</span> <span style="color: #666666">60</span> <span style="color: #666666">|</span> <span style="color: #666666">60</span> <span style="color: #666666">|</span> <span style="color: #666666">27</span>
+</pre></div>
+
+
+    </section>
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

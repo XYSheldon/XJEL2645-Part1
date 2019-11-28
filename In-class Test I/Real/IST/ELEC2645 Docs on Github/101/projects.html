@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Software Projects</h1>
+
+    <!-- Intro -->
+    <section>
+        <h2>Introduction</h2>
+
+        <p>When writing small programs, it can make sense to keep all the code in one source file. This will contain the main() function along with any extra functions created by the developer. When projects start to get larger, this approach is no longer feasible and it makes sense to split the source code across multiple files.</p>
+
+        <p>The overall project is split logically into separate blocks, each of which represents a different functionality of the program. Each of these blocks would be stored in a different source file (often with an associated header). For example, a project may have some kind of menu system to select different modes. The code for each of the modes (and even the menu) could be stored in separate source files. The main file that contains the main() function, is used to 'glue' all of the different source files together.</p>
+
+        <p>Object-orientation is an extension of this idea in the sense that different functionality blocks can be represented by classes. C++ classes are also usually in their own source files. A .h header file contains the class definition and an accompanying .cpp file that contains the actual code implementation.</p>
+    </section>
+
+    <!--Headers and Libraries -->
+    <section>
+        <h2>Headers and libraries</h2>
+        <p>When splitting code across multiple files, it is usual for each of the source files (.cpp) to have an associated header file (.h). The header files contains definitions that are required across the multiple files such as function prototypes and global variables. The different source files can use the #include pre-processor directive to include the header files, meaning that the code stored in other files (such as functions) is visible.</p>
+        <p><img alt="" src="images/multi_file_include.png" width="500" height="220" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+        <p>In the diagram above, each of the source files includes its respective header and the main header file includes all the other headers. Function prototypes appear in the header and the function implementation appears in the .cpp file. This essentially means that the headers define the <i>interface</i> to the source file. In this regard, the main file knows the interface for each different source file and hence the functions implemented in those files are visible and are able to be called from the main function.</p>
+
+        <p>This way of structuring and splitting up code paves the way towards the creation of software <i>libraries</i>. For example, we may create a source file that contains a lot of different mathematical functions. We could then refer to that as a maths <i>library</i>. In future, any time we needed to do a particular mathematical operation, we could simply include that library rather than writing it all over again. The interface (or <i>application programming interface - API</i>) of the library is defined in the .h header file of the library.</p>
+    </section>
+
+    <!-- Example -->
+    <section>
+        <h2>Example</h2>
+        <p>This is a basic example of how a library (a maths library in this case) could be implemented across multiple source files. We have our main source file and header along with a maths library in separate .cpp and .h files. The maths library contain a function for computing the sum of two integers. The function prototype appears in maths.h and the implementation in maths.cpp. Since main.cpp includes maths.h (though the main header file), we are able to use the sum function in our main file, even if it is declared and defined elsewhere.</p>
+        <p><i>main.h</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6
+7</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#ifndef MAIN_H</span>
+<span style="color: #bc7a00;">#define MAIN_H</span>
+
+<span style="color: #408080; font-style: italic;">// include the maths library header file</span>
+<span style="color: #bc7a00;">#include "maths.h"</span>
+
+<span style="color: #bc7a00;">#endif</span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#include &lt;iostream&gt;</span>
+
+<span style="color: #408080; font-style: italic;">// including the main header will ensure all required files are pulled in</span>
+<span style="color: #bc7a00;">#include "main.h"</span>
+
+<span style="color: #b00040;">int</span> <span style="color: #0000ff;">main</span>() {
+  <span style="color: #b00040;">int</span> total <span style="color: #666666;">=</span> sum(<span style="color: #666666;">5</span>, <span style="color: #666666;">6</span>);  <span style="color: #408080; font-style: italic;">// sum function defined in maths.h</span>
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Sum = "</span> <span style="color: #666666;">&lt;&lt;</span> total <span style="color: #666666;">&lt;&lt;</span> std<span style="color: #666666;">::</span>endl;
+  <span style="color: #008000; font-weight: bold;">return</span> <span style="color: #666666;">0</span>;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><i>maths.h</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6
+7</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#ifndef MATHS_H</span>
+<span style="color: #bc7a00;">#define MATHS_H</span>
+
+<span style="color: #408080; font-style: italic;">// function takes in two integers and returns the sum</span>
+<span style="color: #b00040;">int</span> <span style="color: #0000ff;">sum</span>(<span style="color: #b00040;">int</span> a, <span style="color: #b00040;">int</span> b);
+
+<span style="color: #bc7a00;">#endif</span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><i>maths.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#include "maths.h"</span>
+
+<span style="color: #b00040;">int</span> <span style="color: #0000ff;">sum</span>(<span style="color: #b00040;">int</span> a, <span style="color: #b00040;">int</span> b) { <span style="color: #008000; font-weight: bold;">return</span> a  <span style="color: #666666;">+</span> b; }
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Note that for standard template libraries (STL) such as iostream and string, the include directive uses angle brackets &lt; and &gt;. This informs the compiler that the library files are located in the standard system directories (installation directories if you will). Programmer-created headers use quotation marks instead. This tells the compiler to first look in the current working directory for the header. If it can't be found, it will then look in the standard system directories.</p>
+    </section>
+
+    <!-- Makesfiles -->
+    <section>
+        <h2>Makefiles</h2>
+
+        <p>Compiling a software project that contains multiple source files is slightly more involved than compiling a single source file.</p>
+        <p>To compile the previous example, you would specify both of the source files in the compile command.</p>
+        <p><span style="font-family: 'courier new', courier;">g++ -Wall -o main.exe main.cpp maths.cpp
+        </span> </p>
+        <p>Note that we do not need to specify the header files as they are included through the source (.cpp) files.</p>
+        <p>Sometimes you may get an error regarding the header files not being able to be found, in this case you need to include the additional -I. compile option to tell the compiler that the header can be found in the current directory.</p>
+        <p><span style="font-family: 'courier new', courier;">g++ -Wall -I. -o main.exe main.cpp maths.cpp
+        </span>
+        </p>
+        <p>This approach is fine for small projects split over a handful of source files as it is not too hard to manually type in the compile command, however imagine having to compile a project with millions of lines of code spread over hundreds of source files!</p>
+        <p>In this case, it is better to use a <i>makefile</i>.</p>
+
+        <h3>Make</h3>
+
+        <p>Using a makefile, we can place our compile commands in a file and then essentially run that file using the <i>make</i> command.</p>
+        <p>The default name for a makefile is 'Makefile' (with no extension) so if your makefile has this name, you can compile by simply typing</p>
+        <p><span style="font-family: 'courier new', courier;">make</span></p>
+        <p>on the command line (assuming you are in the correct directory). If you makefile has a different name, you would need to use the -f flag to specify it.</p>
+        <p><span style="font-family: 'courier new', courier;">make -f MyMakefile</span></p>
+
+        <h3>Basic Makefile</h3>
+        <p>The most basic makefile would look contain something like below.</p>
+        <p><i>Makefile</i></p>
+        <p>
+            <!-- HTML generated using hilite.me -->
+        </p>
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #0000ff;">main.<span><span><span><span>exe</span></span></span></span></span><span style="color: #666666;">:</span> <span style="color: #666666;">main.<span><span><span><span>cpp</span></span></span></span> maths.<span><span><span><span>cpp</span></span></span></span></span>
+	g++ -<span><span><span><span>o</span></span></span></span> main.<span><span><span><span>exe</span></span></span></span> -Wall main.<span><span><span><span>cpp</span></span></span></span> maths.<span><span><span><span>cpp</span></span></span></span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>The first line simply specifies the target (main.exe) and its dependencies (main.cpp and maths.cpp). The second line (important to note that this is tabbed in using a tab character and not several spaces) contains the compile command.</p>
+        <p>At any point you run the 'make' command and one of the dependencies has changed, then the compile command will be executed. If none of the dependencies has changed and you tried to run 'make' again, you would get the following message and compilation would not occur</p>
+        <p><span style="font-family: 'courier new', courier;"> make: `main.<span><span>exe'</span></span> is up to date. </span>
+        </p>
+        <p>However, imagine a scenario in which you have 100 different source files and only one of them had changed very slightly. This would mean that every source file would have to be re-compiled, even though in 99 cases, it would be a waste of time as the source had not changed. In the cases when we only have a couple of source files, compilation seems to happen almost instantly, however, when you have lots of source files, it can take a very long time time (many minutes or even hours for huge projects). Imagine having to wait that long, just because you had missed a ; in one source file!</p>
+
+        <h3>Using Object Targets</h3>
+
+        <p>A better approach is to compile each source file to its object code (.o) using the -c compile flag. In this approach, each source is compiled to object code and the final creation of the .exe executable file is done in the <i>linking</i> step of compilation i.e. the different .o object files are linked together to create the .exe.</p>
+        <p>This means that the first time the project is compiled, each of the source will be compiled into object code, and then linked to create the .exe. This can still take a long time. However, if we need to subsequnetly change just one of the source files, when we re-compile using 'make', only that one updated source file will be re-compiled into the updated object code. The other, unchanged .o files will not be re-compiled. This means we only need to do one compile and the final linking stage, dramatically reducing time.</p>
+        <p>Further to this, we can also use variables in Makefiles to make them easier to edit. For example, we can store the name of the compiler (g++ for C++) in a variable, along with any compile flags (-c -Wall). This means if we wish to change them in future, we can just change them in one place in the Makefile.</p>
+        <p>A better Makefile is shown below.</p>
+        <p>
+            <!-- HTML generated using hilite.me -->
+        </p>
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #408080; font-style: italic;"># Set compiler</span>
+<span style="color: #19177c;">CC</span><span style="color: #666666;">=</span>g++
+
+<span style="color: #408080; font-style: italic;">#Compile flags (-c to output object file .o)</span>
+<span style="color: #19177c;">CFLAGS</span><span style="color: #666666;">=</span>-c -Wall
+
+<span style="color: #0000ff;">all</span><span style="color: #666666;">:</span> <span style="color: #666666;">main.exe</span>
+
+<span style="color: #0000ff;">main.exe</span><span style="color: #666666;">:</span> <span style="color: #666666;">main.o maths.o</span>
+	<span style="color: #008000; font-weight: bold;">$(</span>CC<span style="color: #008000; font-weight: bold;">)</span> main.o maths.o -o main.exe
+
+<span style="color: #0000ff;">main.o</span><span style="color: #666666;">:</span> <span style="color: #666666;">main.cpp</span>
+	<span style="color: #008000; font-weight: bold;">$(</span>CC<span style="color: #008000; font-weight: bold;">)</span> <span style="color: #008000; font-weight: bold;">$(</span>CFLAGS<span style="color: #008000; font-weight: bold;">)</span> main.cpp
+
+<span style="color: #0000ff;">maths.o</span><span style="color: #666666;">:</span> <span style="color: #666666;">maths.cpp</span>
+	<span style="color: #008000; font-weight: bold;">$(</span>CC<span style="color: #008000; font-weight: bold;">)</span> <span style="color: #008000; font-weight: bold;">$(</span>CFLAGS<span style="color: #008000; font-weight: bold;">)</span> maths.cpp
+
+<span style="color: #0000ff;">clean</span><span style="color: #666666;">:</span>
+	rm *.o main.exe
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>It would be run in exactly the same way i.e.</p>
+        <p><span style="font-family: 'courier new', courier;">make</span></p>
+        <p>Here we can see that the dependencies of the .exe file are the .o files. We also include rules for building the .o files i.e. they depend on the relevant .cpp files. Note that we can also include comments using the # character.</p>
+        <p>Finally, note the final 'clean' command. This enables us to clean the directory by deleting the .o files and the .exe files. These are typically much larger in filesize than the raw source files. If you wanted to email someone your project, you only need to email them the source files and Makefile and they can build the project themselves. You run the clean command like so:</p>
+        <p><span style="font-family: 'courier new', courier;"> make clean </span></p>
+
+        <h3>Summary</h3>
+        <p>It can save you a lot of time in the long run by spending some time at the start of your project creating a makefile!</p>
+
+    </section>
+
+
+    <!--C++ Classes-->
+    <section>
+        <h2 id="101_classes">C++ classes</h2>
+        <p>This is a basic example of how a class is typically implemented across multiple source files. It is a simple class used to represent a circle and includes functions for setting (mutating) the radius and getting (accessing) the area. In this example, the class is declared in the header file. This contains the private and public member variables and functions. The actual functions themselves are defined in the class .cpp file. We use the scope resolution operator :: in the .cpp file to specify that the functions belong to the Circle class.</p>
+        <p>To use the class in our main function, we simply need to include the class header file.</p>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#include &lt;<span><span><span><span><span><span>iostream</span></span></span></span></span></span>&gt;</span>
+<span style="color: #408080; font-style: italic;">// include the class header file in main</span>
+<span style="color: #bc7a00;">#include "Circle.h"</span>
+
+<span style="color: #b00040;"><span><span><span><span><span><span>int</span></span></span></span></span></span></span> <span style="color: #0000ff;">main</span>() {
+  <span><span><span><span><span><span>std</span></span></span></span></span></span><span style="color: #666666;">::</span><span><span><span><span><span><span>cout</span></span></span></span></span></span> <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Enter circle radius (in metres): "</span>;
+  <span style="color: #b00040;">float</span> radius;
+  <span><span><span><span><span><span>std</span></span></span></span></span></span><span style="color: #666666;">::</span><span><span><span><span><span><span>cin</span></span></span></span></span></span> <span style="color: #666666;">&gt;&gt;</span> radius;
+
+  Circle circle;
+  circle.set_radius(radius);
+  <span style="color: #b00040;">float</span> area <span style="color: #666666;">=</span> circle.get_area();
+
+  <span><span><span><span><span><span>std</span></span></span></span></span></span><span style="color: #666666;">::</span><span><span><span><span><span><span>cout</span></span></span></span></span></span> <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"The circle has an area of "</span> <span style="color: #666666;">&lt;&lt;</span> area <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">" <span><span><span><span><span><span>m</span></span></span></span></span></span>^2.</span><span style="color: #bb6622; font-weight: bold;">\n</span><span style="color: #ba2121;">"</span>;
+  <span style="color: #008000; font-weight: bold;">return</span> <span style="color: #666666;">0</span>;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><i>Circle.h</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#<span><span><span><span><span><span>ifndef</span></span></span></span></span></span> CIRCLE_H</span>
+<span style="color: #bc7a00;">#define CIRCLE_H</span>
+
+<span style="color: #bc7a00;">#define PI 3.14159265</span>
+
+class Circle {
+ <span style="color: #a0a000;">public:</span>
+  <span style="color: #408080; font-style: italic;">// only accessors and mutators are public in this example</span>
+  <span style="color: #b00040;">void</span> set_radius(<span style="color: #b00040;">float</span> radius);
+  <span style="color: #b00040;">float</span> <span style="color: #0000ff;">get_area</span>();
+ <span style="color: #a0a000;">private:</span>
+  <span style="color: #408080; font-style: italic;">// member variables are private and set/get via <span><span><span><span><span><span>accessor</span></span></span></span></span></span>/mutator</span>
+  <span style="color: #b00040;">float</span> _radius;
+  <span style="color: #b00040;">float</span> _area;
+};
+
+<span style="color: #bc7a00;">#<span><span><span><span><span><span>endif</span></span></span></span></span></span></span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><i>Circle.<span><span><span><span><span><span>cpp</span></span></span></span></span></span></i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#include "Circle.h"</span>
+
+<span style="color: #b00040;">void</span> Circle<span style="color: #666666;">::</span>set_radius(<span style="color: #b00040;">float</span> radius) { _radius <span style="color: #666666;">=</span> radius; }
+
+<span style="color: #b00040;">float</span> Circle<span style="color: #666666;">::</span>get_area() { <span style="color: #008000; font-weight: bold;">return</span> PI <span style="color: #666666;">*</span> _radius <span style="color: #666666;">*</span> _radius; }
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Compiling</h3>
+        <p>To compile the example, we would need to specify both source (.<span><span>cpp</span></span>) files in the compile command (or makefile). Note we don't need to specify the Circle header file since this is included through the header.</p>
+        <p><span style="font-family: 'courier new', courier;">g++ -Wall -o main.exe main.cpp Circle.cpp</span></p>
+        <p>Of course, a makefile could also be used that specified the dependencies of the executable.</p>
+    </section>
+
+    <!-- Extern -->
+    <section>
+        <h2>Extern</h2>
+        <p>Sometimes you may come across the extern keyword when working with source code spread across multiple files. This is generally in the case of using global variables, which can be seen across multiple files. Although the use of global variables is frowned upon, they are common in embedded systems programming. For example, when using the Mbed platform, you might have a <i>DigitalOut</i> object for controlling an LED defined globally so it can be accessed across different functions and files.</p>
+        <p>Consider the simplifed example below.</p>
+        <p><i>main.h</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#<span><span><span><span>ifndef</span></span></span></span> MAIN_H</span>
+<span style="color: #bc7a00;">#define MAIN_H</span>
+
+<span style="color: #b00040;"><span><span><span><span>int</span></span></span></span></span> global_variable <span style="color: #666666;">=</span> <span style="color: #666666;">99</span>;
+
+<span style="color: #bc7a00;">#<span><span><span><span>endif</span></span></span></span></span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><i>main.<span><span>cpp</span></span></i></p>
+        <!-- HTML generated using hilite.me -->
+        <div --="" html="" generated="" using="" hilite="" me="">
+            <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6
+7
+8
+9</pre>
+                            </td>
+                            <td>
+                                <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#include &lt;<span><span><span><span>iostream</span></span></span></span>&gt;</span>
+<span style="color: #bc7a00;">#include "main.h"</span>
+<span style="color: #bc7a00;">#include "<span><span><span><span>extern</span></span></span></span>.h"</span>
+
+<span style="color: #b00040;"><span><span><span><span>int</span></span></span></span></span> <span style="color: #0000ff;">main</span>() {
+  change_global_variable();
+  <span><span><span><span>std</span></span></span></span><span style="color: #666666;">::</span><span><span><span><span>cout</span></span></span></span> <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Global variable = "</span> <span style="color: #666666;">&lt;&lt;</span> global_variable <span style="color: #666666;">&lt;&lt;</span> <span><span><span><span>std</span></span></span></span><span style="color: #666666;">::</span><span><span><span><span>endl</span></span></span></span>;
+  <span style="color: #008000; font-weight: bold;">return</span> <span style="color: #666666;">0</span>;
+}
+</pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p><i><span><span>extern</span></span>.h</i></p>
+            <!-- HTML generated using hilite.me -->
+            <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6</pre>
+                            </td>
+                            <td>
+                                <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#<span><span><span><span>ifndef</span></span></span></span> EXTERN_H</span>
+<span style="color: #bc7a00;">#define EXTERN_H</span>
+
+<span style="color: #b00040;">void</span> <span style="color: #0000ff;">change_global_variable</span>();
+
+<span style="color: #bc7a00;">#<span><span><span><span>endif</span></span></span></span></span>
+</pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p><i>extern.cpp</i></p>
+            <!-- HTML generated using hilite.me -->
+            <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5</pre>
+                            </td>
+                            <td>
+                                <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#include "<span><span><span><span>extern</span></span></span></span>.h"</span>
+
+<span style="color: #b00040;">void</span> <span style="color: #0000ff;">change_global_variable</span>() {
+  global_variable <span style="color: #666666;">=</span> <span style="color: #666666;">0</span>;
+}
+</pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Here we have simply created a global variable in the main.h file and have a function declared in our external source file that tries to change its value. We call this function from main() and then print out the new value of the global variable.</p>
+        </div>
+
+        <h3>Compile error</h3>
+        <p>When we try and compile this example, we will obtain an error.</p>
+        <p style="margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #000000; background-color: #ffffff;"><span style="font-variant-ligatures: no-common-ligatures;"><b><span><span>extern</span></span>.<span><span>cpp</span></span>:4:3: </b>
+            </span><span style="font-variant-ligatures: no-common-ligatures; color: #c33720;"><b>error: </b></span><span style="font-variant-ligatures: no-common-ligatures;"><b>use of undeclared identifier 'global_variable'</b></span></p>
+        <p style="margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #000000; background-color: #ffffff;"></p>
+        <p style="margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #000000; background-color: #ffffff;"><span style="font-variant-ligatures: no-common-ligatures;"><span class="Apple-converted-space">  </span>global_variable = 0;</span>
+        </p>
+        <p style="margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #34bc26; background-color: #ffffff;"><span style="font-variant-ligatures: no-common-ligatures;"><b><span class="Apple-converted-space">  </span>^</b>
+            </span>
+        </p>
+        <p style="margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #000000; background-color: #ffffff;"><span style="font-variant-ligatures: no-common-ligatures;">1 error generated.</span></p>
+
+        <p>The error tells us the the identifier 'global_variable' in extern.cpp has not been declared.</p>
+
+        <h3>Duplicate symbol error</h3>
+        <p>Since the global variable has been declared in main.h, you may think that you can solve this problem by including main.h in <span><span>extern</span></span>.<span><span>cpp</span></span>.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#include "<span><span>extern</span></span>.h"</span>
+<span style="color: #bc7a00;">#include "main.h"</span>
+
+<span style="color: #b00040;">void</span> <span style="color: #0000ff;">change_global_variable</span>() {
+  global_variable <span style="color: #666666;">=</span> <span style="color: #666666;">0</span>;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>This is a perfectly understandable thought, as the variable is declared in main.h, so if we include it, we will be able to use the variable in extern.cpp. Right? Wrong. We now get the compile error below.</p>
+        <p style="margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #000000; background-color: #ffffff;"><span style="font-variant-ligatures: no-common-ligatures;">duplicate symbol _global_variable in:</span></p>
+        <p style="margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #000000; background-color: #ffffff;"><span style="font-variant-ligatures: no-common-ligatures;"><span class="Apple-converted-space">    </span>/var/folders/65/7bfdvpx16vbc362vf_lmjlf40000gn/T//cciGyJUq.o</span>
+        </p>
+        <p style="margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #000000; background-color: #ffffff;"><span style="font-variant-ligatures: no-common-ligatures;"><span class="Apple-converted-space">    </span>/var/folders/65/7bfdvpx16vbc362vf_lmjlf40000gn/T//ccGgQZiA.o</span>
+        </p>
+        <p style="margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #000000; background-color: #ffffff;"><span style="font-variant-ligatures: no-common-ligatures;">ld: 1 duplicate symbol for architecture x86_64</span></p>
+        <p style="margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #000000; background-color: #ffffff;"><span style="font-variant-ligatures: no-common-ligatures;">collect2: error: ld returned 1 exit status</span></p>
+
+        <p>This error suggests something about an duplicate symbol for our global variable. If you think about it, now both extern.cpp and main.cpp include main.h. When the pre-processor copies the contents of main.h into each of those files, we will actually end up with two declarations of the variable, hence the error.</p>
+
+        <h3>Extern keyword</h3>
+        <p>We fix the problem by making use of the extern keyword.</p>
+        <p><i>main.h</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#ifndef MAIN_H</span>
+<span style="color: #bc7a00;">#define MAIN_H</span>
+
+<span style="color: #008000; font-weight: bold;">extern</span> <span style="color: #b00040;">int</span> global_variable;
+
+<span style="color: #bc7a00;">#endif</span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#include &lt;iostream&gt;</span>
+<span style="color: #bc7a00;">#include "main.h"</span>
+<span style="color: #bc7a00;">#include "extern.h"</span>
+
+<span style="color: #b00040;">int</span> global_variable <span style="color: #666666;">=</span> <span style="color: #666666;">99</span>;
+
+<span style="color: #b00040;">int</span> <span style="color: #0000ff;">main</span>() {
+  change_global_variable();
+  std<span style="color: #666666;">::</span>cout <span style="color: #666666;">&lt;&lt;</span> <span style="color: #ba2121;">"Global variable = "</span> <span style="color: #666666;">&lt;&lt;</span> global_variable <span style="color: #666666;">&lt;&lt;</span> std<span style="color: #666666;">::</span>endl;
+  <span style="color: #008000; font-weight: bold;">return</span> <span style="color: #666666;">0</span>;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><i>extern.h</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#ifndef EXTERN_H</span>
+<span style="color: #bc7a00;">#define EXTERN_H</span>
+
+<span style="color: #b00040;">void</span> <span style="color: #0000ff;">change_global_variable</span>();
+
+<span style="color: #bc7a00;">#endif</span>
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><i>extern.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow: auto; width: auto; font-family: 'courier new', courier, monospace; border: solid gray; border-width: .1em .1em .1em .8em; padding: .2em .6em;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;">1
+2
+3
+4
+5
+6</pre>
+                        </td>
+                        <td>
+                            <pre style="margin: 0; line-height: 125%;"><span style="color: #bc7a00;">#include "extern.h"</span>
+<span style="color: #bc7a00;">#include "main.h"</span>
+
+<span style="color: #b00040;">void</span> <span style="color: #0000ff;">change_global_variable</span>() {
+  global_variable <span style="color: #666666;">=</span> <span style="color: #666666;">0</span>;
+}
+</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>The code will now compile and run correctly. The extern keyword (in main.h) tells the compiler that this variable exists somewhere in the project. Note that it isn't initialised with a value here. This is because it isn't actually declared here. The global variable is actually declared (and initialised) in main.cpp. Note that is must be declared outside of any function.</p>
+        <p>Every file that includes main.h, will now know that an integer variable named global_variable exists somewhere and the linker will ensure that they link to the correct variable at compile time.</p>
+    </section>
+
+    <!-- Summary -->
+    <section>
+        <h2>Summary</h2>
+    </section>
+    <p>When working with larger projects, it is very common to split them across multiple files. This improves the organisation of projects and can aid re-usability. When compiling files spread across mulitple files, it is common to use makefiles. Note that you may have to make use of the extern keyword when using global variables accessed from multiple files.</p>
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

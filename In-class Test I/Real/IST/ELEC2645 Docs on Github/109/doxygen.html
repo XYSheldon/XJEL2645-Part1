@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Using Doxygen</h1>
+
+      <!-- new section -->
+    <section>
+        <h2>Introduction</h2>
+        <p>Creating documentation is an important and often neglected aspect of software engineering. One part of documentation is putting comments in the code source files themselves, explaining what the code is doing and how it is doing it. This is important so others looking at your code can better understand what it does and how it does it. Another aspect of documentation is the creation of separate reports. These reports often contain the API or Application Programming Interface of the code they document.</p>
+        <p><a href="http://www.doxygen.org">Doxygen</a> is a tool that can simplify the creation of software reports. It does this by using special C++ comments that are added directly in the source code. The source code is run through the Doxygen tool and it can automatically create documentation in HTML and Rich-text format (Word) amongst others.</p>
+    </section>
+
+     <!-- new section -->
+    <section>
+        <h2>Obtaining Doxygen</h2>
+        <p>Doxygen can be downloaded from <a href="http://www.doxygen.org/download.html">here</a>. It is available for Windows, macOS and Linux. A standalone version for Windows (that does not need administrator privileges to install and so is useful for using in the lab) is available and included in the required file for this lab.</p>
+    </section>
+
+     <!-- new section -->
+    <section>
+        <h2>Configuring Doxygen</h2>
+        <p>Doxygen must be configured before it can be used. It is done so through configuration files. We can generate a template config file by running the following code inside the project directory</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">eencae@EENTPC115 /m/home/109/Circle</span>
+<span style="color: #000080; font-weight: bold">$</span> ../Doxygen/doxygen.exe -g
+</pre></div>
+        <p>Note here the path to the standalone Doxygen executable i.e. we have to go up one level, then down in to the Doxygen directory. You may not have to do this if you install Doxygen on your own machine.</p>
+        <p>This step creates a configuration file named <code>Doxyfile</code> that can be edited in a text editor (e.g. Visual Studio Code). There are lots of options that must be searched through (using the find option of your editor). Below is a summary of the changes that need to be made.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">PROJECT_NAME           = Circle</span>
+<span style="color: #888888">PROJECT_NUMBER         = 1.0</span>
+<span style="color: #888888">PROJECT_BRIEF          = C++ class for calculating the area of a circle</span>
+<span style="color: #888888">OPTIMIZE_OUTPUT_FOR_C  = YES</span>
+<span style="color: #888888">GENERATE_HTML          = NO</span>
+<span style="color: #888888">GENERATE_LATEX         = NO</span>
+<span style="color: #888888">GENERATE_RTF           = YES</span>
+<span style="color: #888888">RTF_EXTENSIONS_FILE    = extensionsFile</span>
+</pre></div>
+        <p>Here we give a name and version number along with a brief description. We then tell it to optimise for C since we are using it for this language. We do not want to generate HTML (although this is useful for Internet-based documentation) or LaTeX documentation. We do however want to generate RTF format so we can open it in Microsoft Word. We also tell it the name of a configuration file for RTF output.</p>
+        <p>We can create a template to modify by running the following command.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">eencae@EENTPC115 /m/home/109/Circle</span>
+<span style="color: #000080; font-weight: bold">$</span> ../Doxygen/doxygen.exe -e rtf extensionsFile
+</pre></div>
+        <p>We can then edit <code>extensionsFile</code> in a text editor and make the following changes by uncommenting the relevant lines (remove the #) and adding the details.</p>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">Company         = University of Leeds</span>
+<span style="color: #888888">Author          = Dr Craig A. Evans</span>
+<span style="color: #888888">DocumentType    = Application Programming Interface</span>
+</pre></div>
+    </section>
+
+     <!-- new section -->
+    <section>
+        <h2>Creating the Documentation</h2>
+        <p>It is now a simple case of running Doxygen using our Doxyfile.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">eencae@EENTPC115 /m/home/109/Circle</span>
+<span style="color: #000080; font-weight: bold">$</span> ../Doxygen/doxygen.exe Doxyfile
+</pre></div>
+        <p>This will print some output to the command line and creat a directory containing our report.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;height:200px"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">Searching for include files...</span>
+<span style="color: #888888">Searching for example files...</span>
+<span style="color: #888888">Searching for images...</span>
+<span style="color: #888888">Searching for dot files...</span>
+<span style="color: #888888">Searching for msc files...</span>
+<span style="color: #888888">Searching for dia files...</span>
+<span style="color: #888888">Searching for files to exclude</span>
+<span style="color: #888888">Searching INPUT for files to process...</span>
+<span style="color: #888888">Searching for files in directory M:/home/109a/Circle</span>
+<span style="color: #888888">Reading and parsing tag files</span>
+<span style="color: #888888">Parsing files</span>
+<span style="color: #888888">Preprocessing M:/home/109a/Circle/Circle.cpp...</span>
+<span style="color: #888888">Parsing file M:/home/109a/Circle/Circle.cpp...</span>
+<span style="color: #888888">Preprocessing M:/home/109a/Circle/Circle.h...</span>
+<span style="color: #888888">Parsing file M:/home/109a/Circle/Circle.h...</span>
+<span style="color: #888888">Preprocessing M:/home/109a/Circle/main.cpp...</span>
+<span style="color: #888888">Parsing file M:/home/109a/Circle/main.cpp...</span>
+<span style="color: #888888">Building group list...</span>
+<span style="color: #888888">Building directory list...</span>
+<span style="color: #888888">Building namespace list...</span>
+<span style="color: #888888">Building file list...</span>
+<span style="color: #888888">Building class list...</span>
+<span style="color: #888888">Associating documentation with classes...</span>
+<span style="color: #888888">Computing nesting relations for classes...</span>
+<span style="color: #888888">Building example list...</span>
+<span style="color: #888888">Searching for enumerations...</span>
+<span style="color: #888888">Searching for documented typedefs...</span>
+<span style="color: #888888">Searching for members imported via using declarations...</span>
+<span style="color: #888888">Searching for included using directives...</span>
+<span style="color: #888888">Searching for documented variables...</span>
+<span style="color: #888888">Building interface member list...</span>
+<span style="color: #888888">Building member list...</span>
+<span style="color: #888888">Searching for friends...</span>
+<span style="color: #888888">Searching for documented defines...</span>
+<span style="color: #888888">Computing class inheritance relations...</span>
+<span style="color: #888888">Computing class usage relations...</span>
+<span style="color: #888888">Flushing cached template relations that have become invalid...</span>
+<span style="color: #888888">Computing class relations...</span>
+<span style="color: #888888">Add enum values to enums...</span>
+<span style="color: #888888">Searching for member function documentation...</span>
+<span style="color: #888888">Creating members for template instances...</span>
+<span style="color: #888888">Building page list...</span>
+<span style="color: #888888">Search for main page...</span>
+<span style="color: #888888">Computing page relations...</span>
+<span style="color: #888888">Determining the scope of groups...</span>
+<span style="color: #888888">Sorting lists...</span>
+<span style="color: #888888">Freeing entry tree</span>
+<span style="color: #888888">Determining which enums are documented</span>
+<span style="color: #888888">Computing member relations...</span>
+<span style="color: #888888">Building full member lists recursively...</span>
+<span style="color: #888888">Adding members to member groups.</span>
+<span style="color: #888888">Computing member references...</span>
+<span style="color: #888888">Inheriting documentation...</span>
+<span style="color: #888888">Generating disk names...</span>
+<span style="color: #888888">Adding source references...</span>
+<span style="color: #888888">Adding xrefitems...</span>
+<span style="color: #888888">Sorting member lists...</span>
+<span style="color: #888888">Computing dependencies between directories...</span>
+<span style="color: #888888">Generating citations page...</span>
+<span style="color: #888888">Counting data structures...</span>
+<span style="color: #888888">Resolving user defined references...</span>
+<span style="color: #888888">Finding anchors and sections in the documentation...</span>
+<span style="color: #888888">Transferring function references...</span>
+<span style="color: #888888">Combining using relations...</span>
+<span style="color: #888888">Adding members to index pages...</span>
+<span style="color: #888888">Loading RTF extensions extensionsFile...</span>
+<span style="color: #888888">Generating style sheet...</span>
+<span style="color: #888888">Generating search indices...</span>
+<span style="color: #888888">Generating example documentation...</span>
+<span style="color: #888888">Generating file sources...</span>
+<span style="color: #888888">Generating code for file Circle.h...</span>
+<span style="color: #888888">Generating file documentation...</span>
+<span style="color: #888888">Generating page documentation...</span>
+<span style="color: #888888">Generating group documentation...</span>
+<span style="color: #888888">Generating class documentation...</span>
+<span style="color: #888888">Generating docs for compound Circle...</span>
+<span style="color: #888888">Generating namespace index...</span>
+<span style="color: #888888">Generating graph info page...</span>
+<span style="color: #888888">Generating directory documentation...</span>
+<span style="color: #888888">Generating index page...</span>
+<span style="color: #888888">Generating page index...</span>
+<span style="color: #888888">Generating module index...</span>
+<span style="color: #888888">Generating namespace index...</span>
+<span style="color: #888888">Generating namespace member index...</span>
+<span style="color: #888888">Generating annotated compound index...</span>
+<span style="color: #888888">Generating alphabetical compound index...</span>
+<span style="color: #888888">Generating hierarchical class index...</span>
+<span style="color: #888888">Generating member index...</span>
+<span style="color: #888888">Generating file index...</span>
+<span style="color: #888888">Generating file member index...</span>
+<span style="color: #888888">Generating example index...</span>
+<span style="color: #888888">finalizing index lists...</span>
+<span style="color: #888888">writing tag file...</span>
+<span style="color: #888888">Combining RTF output...</span>
+<span style="color: #888888">lookup cache used 7/65536 hits=19 misses=7</span>
+<span style="color: #888888">finished...</span>
+</pre></div>
+    </section>
+
+      <!-- new section -->
+    <section>
+        <h2>Updating the report</h2>
+        <p>Assuming all runs as expected, the report will be generated. When it is opened in Microsoft Word, the fields must be updated for the table of contents, page numbers and index to be populated. This is done by selecting all the text, right-clicking and updating the fields.</p>
+    </section>
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

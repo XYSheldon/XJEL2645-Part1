@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Using GDB</h1>
+
+      <!-- new section -->
+    <section>
+        <h2>Introduction</h2>
+        <p><a href="https://www.gnu.org/software/gdb/">GDB</a> is the GNU Project Debugger. It is a tool that allows you to inspect (and change) the values stored in variables in your programs as they run. It comes as a part of the GNU toolchain (along with <code>g++</code> and <code>make</code> etc.) and is run from the command line.</p>
+        <p>Although <code>gdb</code> is cross-platform, I have recently been unable to get it working on macOS. Apparently LLDB (Apple's debugger) works pretty much in the same way on macOS as GDB. Thanks to Ahmad Hammouri for informing me. I guess this is installed as part of the Xcode command line tools.</p>
+    </section>
+
+     <!-- new section -->
+    <section>
+        <h2>Example</h2>
+        <p>Below is some simple code to print the sum of the first <em>n</em> numbers.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #B00040">int</span> n <span style="color: #666666">=</span> <span style="color: #666666">10</span>;
+  <span style="color: #B00040">int</span> sum <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> n; i<span style="color: #666666">++</span>) {
+    sum <span style="color: #666666">+=</span> i;
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;sum = &quot;</span> <span style="color: #666666">&lt;&lt;</span> sum <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+}
+</pre></td></tr></table></div>
+        <p>To be able to run a program in GDB, we must compile it with the <code>-g</code> flag. Note here that I have also turned on extra and pedantic warnings.</p>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">g<span style="color: #666666">++</span> <span style="color: #666666">-</span>o main.exe <span style="color: #666666">-</span>Wall <span style="color: #666666">-</span>Wextra <span style="color: #666666">-</span>Wpedantic <span style="color: #666666">-</span>g main.cpp
+</pre></div>
+
+
+    </section>
+
+     <!-- new section -->
+    <section>
+        <h2>Running GDB</h2>
+        <p>Now we have our executable, we can run it in GDB by typing the following on the command line - <code>gdb main.exe</code>. GDB will start and display some information. The GDB command line is shown as <code>(gdb)</code> and here is where we type the commands.</p>
+ <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">$ gdb main.exe</span>
+<span style="color: #888888">GNU gdb (GDB) 7.6.1</span>
+<span style="color: #888888">Copyright (C) 2013 Free Software Foundation, Inc.</span>
+<span style="color: #888888">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</span>
+<span style="color: #888888">This is free software: you are free to change and redistribute it.</span>
+<span style="color: #888888">There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;</span>
+<span style="color: #888888">and &quot;show warranty&quot; for details.</span>
+<span style="color: #888888">This GDB was configured as &quot;mingw32&quot;.</span>
+<span style="color: #888888">For bug reporting instructions, please see:</span>
+<span style="color: #888888">&lt;http://www.gnu.org/software/gdb/bugs/&gt;...</span>
+<span style="color: #888888">Reading symbols from C:\MinGW\msys\1.0\home\Craig A. Evans\108\main.exe...done.</span>
+<span style="color: #888888">(gdb)</span>
+</pre></div>
+        <p>To run the code, we simply type '<code>run</code>'</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) run</span>
+<span style="color: #888888">Starting program: C:\MinGW\msys\1.0\home\Craig A. Evans\108/main.exe</span>
+<span style="color: #888888">[New Thread 3124.0x1010]</span>
+<span style="color: #888888">sum = 0</span>
+<span style="color: #888888">sum = 1</span>
+<span style="color: #888888">sum = 3</span>
+<span style="color: #888888">sum = 6</span>
+<span style="color: #888888">sum = 10</span>
+<span style="color: #888888">sum = 15</span>
+<span style="color: #888888">sum = 21</span>
+<span style="color: #888888">sum = 28</span>
+<span style="color: #888888">sum = 36</span>
+<span style="color: #888888">sum = 45</span>
+<span style="color: #888888">[Inferior 1 (process 3124) exited normally]</span>
+</pre></div>
+        <p>Here, the program has run and exited normally.</p>
+    </section>
+
+     <!-- new section -->
+    <section>
+        <h2>Setting breakpoints</h2>
+        <p>The above example was a bit pointless - we could simply run the code on the command-line and get the same result. The power comes from setting <em>breakpoints</em> in the code. These are places in which we tell GDB to stop running the program so we can look at variable values etc.</p>
+        <p>For this example, we will stop the code at line 4. This is where we declare <code>n</code>.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) break 4</span>
+<span style="color: #888888">Breakpoint 1 at 0x401476: file main.cpp, line 4.</span>
+</pre></div>
+        <p>Now when we run the code, it will stop at line 4.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) run</span>
+<span style="color: #888888">Starting program: C:\MinGW\msys\1.0\home\Craig A. Evans\108/main.exe</span>
+<span style="color: #888888">[New Thread 1748.0x494]</span>
+
+<span style="color: #888888">Breakpoint 1, main () at main.cpp:4</span>
+<span style="color: #888888">4           int n = 10;</span>
+</pre></div>
+    </section>
+
+     <!-- new section -->
+    <section>
+        <h2>Inspecting values</h2>
+        <p>Once we are at a breakpoint, we can inspect values using <code>print</code> e.g.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) print n</span>
+<span style="color: #888888">$1 = 4200944</span>
+</pre></div>
+
+<p>Note here that <code>n</code> contains a junk value. This is because the program has stopped running before the variable is assigned a value (=10). To step through the code one line at a time we use the <code>step</code> command.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) step</span>
+<span style="color: #888888">5           int sum = 0;</span>
+</pre></div>
+<p>We are now at line 5 and can try and print <code>n</code> again.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) print n</span>
+<span style="color: #888888">$2 = 10</span>
+</pre></div>
+        <p>If we try and print <code>sum</code> we can see that it has not been initialised yet, as was the case with <code>n</code>.</p>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) print sum</span>
+<span style="color: #888888">$3 = 4201035</span>
+</pre></div>
+        <p>We can add in another breakpoint. This time we will add one on line 7. We can also specify breakpoints using just <code>b</code></p>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) b 7</span>
+<span style="color: #888888">Breakpoint 2 at 0x401493: file main.cpp, line 7.</span>
+</pre></div>
+
+        <p>Any time we wish to list our breakpoints we can use the <code>info breakpoints</code> command.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) info breakpoints</span>
+<span style="color: #888888">Num     Type           Disp Enb Address    What</span>
+<span style="color: #888888">1       breakpoint     keep y   0x00401476 in main() at main.cpp:4</span>
+<span style="color: #888888">        breakpoint already hit 1 time</span>
+<span style="color: #888888">2       breakpoint     keep y   0x00401493 in main() at main.cpp:7</span>
+</pre></div>
+        <p>We can disable breakpoints</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) disable 2</span>
+<span style="color: #888888">(gdb) info breakpoints</span>
+<span style="color: #888888">Num     Type           Disp Enb Address    What</span>
+<span style="color: #888888">1       breakpoint     keep y   0x00401476 in main() at main.cpp:4</span>
+<span style="color: #888888">        breakpoint already hit 1 time</span>
+<span style="color: #888888">2       breakpoint     keep n   0x00401493 in main() at main.cpp:7</span>
+</pre></div>
+
+        <p>Or delete them all together.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) delete 2</span>
+<span style="color: #888888">(gdb) info breakpoints</span>
+<span style="color: #888888">Num     Type           Disp Enb Address    What</span>
+<span style="color: #888888">1       breakpoint     keep y   0x00401476 in main() at main.cpp:4</span>
+<span style="color: #888888">        breakpoint already hit 1 time</span>
+</pre></div>
+
+    </section>
+
+      <!-- new section -->
+    <section>
+        <h2>Watchpoints</h2>
+        <p>With breakpoints, we specify a line on which we want execution to stop. We can then inspect the values by printing. We can also set watchpoints. This is where we tell GDB to watch a variable and then stop every time it changes value e.g.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) watch sum</span>
+<span style="color: #888888">Hardware watchpoint 3: sum</span>
+</pre></div>
+        <p>Now, when we run the code (by typing <code>continue</code> as the code is currently stopped) we will see the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) continue</span>
+<span style="color: #888888">Continuing.</span>
+<span style="color: #888888">Hardware watchpoint 3: sum</span>
+
+<span style="color: #888888">Old value = 4201035</span>
+<span style="color: #888888">New value = 0</span>
+<span style="color: #888888">main () at main.cpp:6</span>
+<span style="color: #888888">6           for (int i = 0; i &lt; n; i++) {</span>
+</pre></div>
+
+        <p>Here, GDB is telling us that the value stored in <code>sum</code> has changed and it prints the old and new value. We can see that the variable is being initialised to 0. If we continue again, it will stop the next time around the loop.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) continue</span>
+<span style="color: #888888">Continuing.</span>
+<span style="color: #888888">sum = 0</span>
+<span style="color: #888888">Hardware watchpoint 3: sum</span>
+
+<span style="color: #888888">Old value = 0</span>
+<span style="color: #888888">New value = 1</span>
+<span style="color: #888888">main () at main.cpp:8</span>
+<span style="color: #888888">8               std::cout &lt;&lt; &quot;sum = &quot; &lt;&lt; sum &lt;&lt; std::endl;</span>
+</pre></div>
+
+        <p>Here we can see the sum increment by 1, as we would expect.</p>
+        <p>We can also display information about our watchpoints.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) info watchpoints</span>
+<span style="color: #888888">Num     Type           Disp Enb Address    What</span>
+<span style="color: #888888">3       hw watchpoint  keep y              sum</span>
+<span style="color: #888888">        breakpoint already hit 2 times</span>
+</pre></div>
+        <p>If we carry on continuing with the program, we will be able to watch the value change. In this case, we may also want to print the value of the loop index to keep an eye on how many times the loop has executed.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) continue</span>
+<span style="color: #888888">Continuing.</span>
+<span style="color: #888888">sum = 28</span>
+<span style="color: #888888">Hardware watchpoint 3: sum</span>
+
+<span style="color: #888888">Old value = 28</span>
+<span style="color: #888888">New value = 36</span>
+<span style="color: #888888">main () at main.cpp:8</span>
+<span style="color: #888888">8               std::cout &lt;&lt; &quot;sum = &quot; &lt;&lt; sum &lt;&lt; std::endl;</span>
+<span style="color: #888888">(gdb) print i</span>
+<span style="color: #888888">$5 = 8</span>
+</pre></div>
+        <p>Finally, we will get to the end of the loop and then to the end of main. Here we will get a message that the watchpoint has been deleted as the program has exited main.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) continue</span>
+<span style="color: #888888">Continuing.</span>
+<span style="color: #888888">sum = 45</span>
+
+<span style="color: #888888">Watchpoint 3 deleted because the program has left the block in</span>
+<span style="color: #888888">which its expression is valid.</span>
+<span style="color: #888888">0x00401288 in _Jv_RegisterClasses ()</span>
+</pre></div>
+
+    </section>
+
+     <!-- new section -->
+    <section>
+        <h2>Displaying variables</h2>
+        <p>We can tell GDB to display the values stored in a variable everytime it stops at a breakpoint or watchpoint. This can make it easier to track a variable. Note here that a new de-bugging session was started and the same breakpoints and watchpoints were added as before.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) display i</span>
+<span style="color: #888888">1: i = 2686824</span>
+</pre></div>
+        <p>This tell GDB that from now on, it should display the value stored in <code>i</code> everytime it stops. If we then continue, it will get to a breakpoint or watchpoint and automatically display <code>i</code>.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) continue</span>
+<span style="color: #888888">Continuing.</span>
+<span style="color: #888888">sum = 0</span>
+<span style="color: #888888">Hardware watchpoint 2: sum</span>
+
+<span style="color: #888888">Old value = 0</span>
+<span style="color: #888888">New value = 1</span>
+<span style="color: #888888">main () at main.cpp:8</span>
+<span style="color: #888888">8               std::cout &lt;&lt; &quot;sum = &quot; &lt;&lt; sum &lt;&lt; std::endl;</span>
+<span style="color: #888888">1: i = 1</span>
+</pre></div>
+        <p>Every time it stops, it will print <code>i</code>.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) continue</span>
+<span style="color: #888888">Continuing.</span>
+<span style="color: #888888">sum = 1</span>
+<span style="color: #888888">Hardware watchpoint 2: sum</span>
+
+<span style="color: #888888">Old value = 1</span>
+<span style="color: #888888">New value = 3</span>
+<span style="color: #888888">main () at main.cpp:8</span>
+<span style="color: #888888">8               std::cout &lt;&lt; &quot;sum = &quot; &lt;&lt; sum &lt;&lt; std::endl;</span>
+<span style="color: #888888">1: i = 2</span>
+</pre></div>
+    </section>
+
+      <!-- new section -->
+    <section>
+        <h2>Changing variables</h2>
+        <p>It is also possible to change the values stored in variables at run-time. Re-starting the de-bugging session as above and setting a breakpoint inside the for loop.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) break 7</span>
+<span style="color: #888888">Breakpoint 1 at 0x401493: file main.cpp, line 7.</span>
+</pre></div>
+<p>We can run the code and it will stop within the loop.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) run</span>
+<span style="color: #888888">Starting program: C:\MinGW\msys\1.0\home\Craig A. Evans\108/main.exe</span>
+<span style="color: #888888">[New Thread 4724.0xf58]</span>
+
+<span style="color: #888888">Breakpoint 1, main () at main.cpp:7</span>
+<span style="color: #888888">7               sum = i;</span>
+</pre></div>
+        <p>If we print <code>i</code> we can see the following</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) print i</span>
+<span style="color: #888888">$1 = 0</span>
+</pre></div>
+        <p>We can change the values stored in variables using the <code>set var</code> command.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) set var i = 99</span>
+<span style="color: #888888">(gdb) print i</span>
+<span style="color: #888888">$2 = 99</span>
+</pre></div>
+
+        <p>Here we set <code>i</code> to 99. Since this is now greater than <code>n</code>, the for loop will exit.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">(gdb) continue</span>
+<span style="color: #888888">Continuing.</span>
+<span style="color: #888888">sum = 99</span>
+<span style="color: #888888">[Inferior 1 (process 4724) exited normally]</span>
+</pre></div>
+
+    </section>
+
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+            <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+        </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Testing projects</h1>
+
+    <!-- new section -->
+    <section>
+        <h2>Introduction</h2>
+        <p>Up to this point we have focussed on simple unit tests and everything has been placed in one source file. However, this does not scale well to larger projects. We will now consider how to split up the main file, functions (or classes) and test functions.</p>
+    </section>
+
+    <section>
+        <h2>Project Structure</h2>
+        <p>The image below shows a suggested approach for larger projects. This is assuming more of a C-like approach in which a series of functions are placed in file separate from <code>main()</code>. However, it is equally applicable for classes in which each class will have its own tests defined in a separate file.</p>
+        <p><img alt="" src="images/structure.png" height="220" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+        <p>Note how the testing files must include the function header so that it can call the functions to test them.</p>
+    </section>
+
+    <section>
+        <h2>Makefiles</h2>
+        <p>When working with projects that span multiple files, it is sensible to use a makefile for compiling. It is possible to add in extra commands to a makefile so that you can specify a debug build.</p>
+        <p><i>Makefile</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%"># Set compiler
+CC = g++
+
+#Compile flags (-c to output object file .o)
+CFLAGS = -c -Wall -Wextra -Wpedantic -std=c++11
+
+all: main.exe
+
+debug: CFLAGS += -DDEBUG -g
+debug: main.exe
+
+main.exe: main.o tests.o funcs.o
+	$(CC) main.o tests.o funcs.o -o main.exe
+
+main.o: main.cpp
+	$(CC) $(CFLAGS) main.cpp
+
+tests.o: tests.cpp
+	$(CC) $(CFLAGS) tests.cpp
+
+funcs.o: funcs.cpp
+	$(CC) $(CFLAGS) funcs.cpp
+
+clean:
+	rm *.o main.exe
+</pre>
+        </div>
+
+        <p>We can see that there are now <code>debug:</code> commands in the makefile. When this command is used, it just adds in additional flags to be used for compiling and then tells it to build <code>main.exe</code>. Note the extra flags used for warnings. These are <code>-Wextra</code> and <code>-Wpedantic</code>. These just tell the compiler to be extra pedantic when looking for potential problems with the code so we cna ensure we can as many problems as possible.</p>
+
+        <p>To build the project, we can simply type</p>
+
+        <p><code>make</code></p>
+
+        <p>or else</p>
+
+        <p><code>make all</code></p>
+
+        <p>If we wish to build the project using the debug configuration we can simply do</p>
+
+        <p><code>make debug</code></p>
+
+        <p>Note that if you then wish to build again and remove the debug, you will have to run</p>
+
+        <p><code>make clean</code></p>
+
+        <p>before you can re-build.</p>
+    </section>
+
+    <section>
+        <h2>Using only object files</h2>
+        <p>Note that you do not have to have all the source files to build the project, if you have the corresponding .o object files. For example, you may be working on a project in which you are required to write some functions. You are not involved in working on the main file and someone else has written the tests. You only need to modify <code>funcs.h</code> and <code>funcs.cpp</code>. Your team members may just provide you with <code>main.o</code> and <code>tests.o</code>. You can then focus on writing the functions and then only need to link to the provided object files. This ensures that you do not accidentally modify files you are not meant to be working on.</p>
+        <p><img alt="" src="images/link.png" height="400" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+        <p>The makefile to enable the above is shown below.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"># Set compiler
+CC = g++
+
+#Compile flags (-c to output object file .o)
+CFLAGS = -c -Wall -Wextra -Wpedantic -std=c++11
+
+all: main.exe
+
+debug: CFLAGS += -DDEBUG -g
+debug: main.exe
+
+main.exe: main.o tests.o funcs.o
+	$(CC) main.o tests.o funcs.o -o main.exe
+
+funcs.o: funcs.cpp
+	$(CC) $(CFLAGS) funcs.cpp
+
+clean:
+	rm funcs.o main.exe
+</pre></div>
+
+    </section>
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

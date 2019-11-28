@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+            <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+        </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Debug vs. release</h1>
+
+    <!-- new section -->
+    <section>
+        <h2>Introduction</h2>
+        <p>There are typically two configurations of software projects that are used at different stages of development. During the development stage, that is writing and testing the code, then the project usually has a <i>debug</i> configuration. This means that debug information is included in the executable (using the <code>-g</code> compile flag, covered later in the course) and tests may be run. When the project is deemed finished, it will be configured for <i>release</i>. This means the debug information will not be included, tests will not be run and certain optimisations may be done (e.g. using the <code>-O2</code> flag) to reduce the size of the executable or minimise memory usage.</p>
+        <p>We will now briefly look at how to easily 'switch off' the tests when we do not want to run them.</p>
+    </section>
+
+    <!-- Define -->
+    <section>
+        <h2>Define pro-processor</h2>
+        <p>When running the tests, we can just call the <code>run_sum_tests()</code> function.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%">1
+2
+3
+4</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+<span style="color: #408080; font-style: italic">// test the function</span>
+  run_sum_tests();
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p>Imagine we have finished the development stage and are ready to release the project. We can then go back through all our source files and delete or comment out lines similar to this and then re-compile. Sure, for our trivial example, this is easy. But what about projects with 100 million lines of code?</p>
+        <p>It turns out we can do it very easily using the define pre-processor and wrapping our testing functions with code like this.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5
+6</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+<span style="color: #408080; font-style: italic">// test the function</span>
+<span style="color: #BC7A00">#ifdef DEBUG</span>
+  run_sum_tests();
+<span style="color: #BC7A00">#endif</span>
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p>This basically means that if <code>DEBUG</code> is defined somewhere, then include the function call. If <code>DEBUG</code> is not defined, then it will not be included. We have seen previously that we can define things using the <code>#define</code> pre-processor macro in our source code. We can also do this when compiling using the <code>-D</code> flag. Using the following compile command will define <code>DEBUG</code> and mean that the tests are included.</p>
+        <p><code>g++ -std=c++11 -Wall -D DEBUG -o main.exe main.cpp</code></p>
+        <p>If we do not wish to include the tests (i.e. for release) you would just compile like so.</p>
+                <p><code>g++ -std=c++11 -Wall -o main.exe main.cpp</code></p>
+
+    </section>
+
+    <!-- Summary -->
+    <section>
+        <h2>A note on 'de-bugging'</h2>
+        <p>Running tests on your code will undoubtedly flag up errors that will need fixing. This is completely normal and something that even professional software engineers deal with on a daily basis. Just think of all the software updates released by Apple and Microsoft etc. These are to fix errors and mistakes made by their software engineers!</p>
+        <p>It is tempting to call these errors 'bugs'. However, this can give the impression that it is somehow not your fault and it is just an unlucky occurance. Wrong! If YOUR code does not work as expected, it is because YOU have made a mistake and it is YOUR responsibility to find and fix it!</p>
+        <p>'De-bugging' is just as big a part of software development as is writing the code itself. If you have made a mistake and your first instinct is to put your hand up and expect the teacher or lab helper to find and fix it for you, you will never learn how to 'de-bug' and by extension, never learn how to program!</p>
+        <p>I have seen this first-hand with many students over many years. The students who graduate and still cannot program are usually the ones who ask for help every 15 minutes in the lab sessions. It is the same every lab session, in every module, in every year of study. Why is it that they get more one-to-one support and help then others but still need more help 15 minutes later? It is because they have never learned how to 'de-bug' as they have always relied on someone else to do it for them!</p>
+        <p>'De-bugging' can be frustrating and painful. Trust me, I have spent months of my life finding and fixing errors in code I have written! Although at the time it may seem like a waste of time, it is crucial when it comes to building experience and learning from your mistakes. It takes patience, determination and resilience. These are inherent parts of your personality that a teacher cannot give you!</p>
+    </section>
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Command Line Arguments</h1>
+
+    <!-- Introduction -->
+    <section>
+        <h2>Introduction</h2>
+        <p>In C++ (and C) programs, command line arguments are passed in as arguments to the main function. Command line arguments are useful as they allow users to pass data values into programs when they launch the program on the command line. Consider a simple program to calculate the area of a circle. For purely educational purposes, the radius is usually hardcoded in the source file which is an extremely poor way for a real-world user to use the program. An alternative is for the user to enter it on the command line via the keyboard when prompted to by the program. Now in many real-life scenarios, a user does not interact directly with a program via the command line, but instead with a script (can be written in Bash or Python etc.) that executes multiple different programs, or runs the same program multiple times. For example, you may wish to calcualte the area of 100 different circles. You would not want to have to run the program manually 100 times and enter each value individually. In this case, you would create a script that loops over the 100 different input values, passes them into the program via command line arguments and probably print the output (and input) to a text file.</p>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>argc and argv</h2>
+        <p>Command line arguments are passed in via arguments to the main function.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%">1</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #B00040">int</span> main(<span style="color: #B00040">int</span> argc, <span style="color: #B00040">char</span> <span style="color: #008000; font-weight: bold">const</span> <span style="color: #666666">*</span>argv[])
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>Here, <i>argc</i> is the number of command line arguments passed in and <i>*argv[]</i> is basically an array of C-style strings that were entered onto the command line. A simple C++ program that prints command line arguments is shown below.</p>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5
+6
+7
+8
+9</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>(<span style="color: #B00040">int</span> argc, <span style="color: #B00040">char</span> <span style="color: #008000; font-weight: bold">const</span> <span style="color: #666666">*</span>argv[]) {
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Number of arguments : &quot;</span> <span style="color: #666666">&lt;&lt;</span> argc <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> argc; i<span style="color: #666666">++</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;argv[&quot;</span> <span style="color: #666666">&lt;&lt;</span> i <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;] = &quot;</span> <span style="color: #666666">&lt;&lt;</span> argv[i] <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+  <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">0</span>;
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>Now, suppose the program is compiled and run via the command line as follows:</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">.<span style="color: #666666">/</span>main.exe Hello, my name is Craig <span style="color: #666666">1.234</span>
+</pre>
+        </div>
+        <p>It will produce the following output:</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">Number of arguments <span style="color: #666666">:</span> <span style="color: #666666">7</span>
+argv[<span style="color: #666666">0</span>] <span style="color: #666666">=</span> .<span style="color: #666666">/</span>main.exe
+argv[<span style="color: #666666">1</span>] <span style="color: #666666">=</span> Hello,
+argv[<span style="color: #666666">2</span>] <span style="color: #666666">=</span> my
+argv[<span style="color: #666666">3</span>] <span style="color: #666666">=</span> name
+argv[<span style="color: #666666">4</span>] <span style="color: #666666">=</span> is
+argv[<span style="color: #666666">5</span>] <span style="color: #666666">=</span> Craig
+argv[<span style="color: #666666">6</span>] <span style="color: #666666">=</span> <span style="color: #666666">1.234</span>
+</pre>
+        </div>
+        <p>He we can see that 7 different arguments have been counted. Note that the first argument (the zero-index in the array) is the name of the program, as this was the first thing typed on the command line. Sometimes this may be prefixed by the path to the executable. Each subsequent argument is then determined by the space between them. To enter a string via the command line arguments, double quotes must be used e.g.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">.<span style="color: #666666">/</span>main.exe <span style="color: #BA2121">&quot;Hello, my name is Craig&quot;</span> <span style="color: #666666">1.234</span>
+</pre>
+        </div>
+
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">argv[<span style="color: #666666">0</span>] <span style="color: #666666">=</span> .<span style="color: #666666">/</span>main.exe
+argv[<span style="color: #666666">1</span>] <span style="color: #666666">=</span> Hello, my name is Craig
+argv[<span style="color: #666666">2</span>] <span style="color: #666666">=</span> <span style="color: #666666">1.234</span>
+</pre>
+        </div>
+        <p>Also note that although we have entered a number, it will not be interpreted by the compiler as a float as it is a C-style string. We need to convert any numbers contained in strings to the relevant data type before we use them in calculations.</p>
+    </section>
+
+    <!-- Entering numbers -->
+    <section>
+        <h2>Entering numbers via command line arguments</h2>
+        <p>The example below demonstrates how to convert numbers in strings into numeric data types so that they can be used in calculations. Here we enter the radius of the circle on the command line and the program will convert it to a double before calculating the area and printing it to the command line.</p>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;cmath&gt;</span>
+<span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #008000; font-weight: bold">const</span> <span style="color: #B00040">double</span> PI <span style="color: #666666">=</span> <span style="color: #666666">3.14159265359</span>;
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>(<span style="color: #B00040">int</span> argc, <span style="color: #B00040">char</span> <span style="color: #008000; font-weight: bold">const</span> <span style="color: #666666">*</span>argv[]) {
+  <span style="color: #008000; font-weight: bold">if</span> (argc <span style="color: #666666">&gt;</span> <span style="color: #666666">1</span>) {
+    <span style="color: #B00040">double</span> radius <span style="color: #666666">=</span> atof(argv[<span style="color: #666666">1</span>]);
+    <span style="color: #B00040">double</span> area <span style="color: #666666">=</span> PI <span style="color: #666666">*</span> pow(radius, <span style="color: #666666">2.0</span>);
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Circle area = &quot;</span> <span style="color: #666666">&lt;&lt;</span> area <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; m^2.</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  } <span style="color: #008000; font-weight: bold">else</span> {
+    std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Error! You haven&#39;t inputted a radius!</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">1</span>;
+  }
+  <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">0</span>;
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p>First, note that the value of pi is stored in a const double. The use of the <i>const</i> keyword prevents the user from modifying the value later in the program. This is the more 'C++ way' of handling constant values rather than <i>#define</i> pre-processor directives which are more a legacy from the C programming language.</p>
+        <p>We then check whether the user entered more than one argument. There will always be at least one, as the user must type in the name of the executable to run the program. If they do not enter a radius for the circle, we prompt them to using <i>cerr</i> which is the output stream usually used for error messages and end execution of the program by returning a value of 1. This will notify the OS that the program did not finish executation correctly.</p>
+        <p>If they have entered a radius, we convert it to a double using the <i>atof</i> function. We can also use <i>atoi</i> to convert a string to an integer. The area is then calculated and printed to the terminal.</p>
+        <p>The user would interact with the program as follows:</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">.<span style="color: #666666">/</span>main.exe <span style="color: #666666">1.0</span>
+</pre>
+        </div>
+        <p>The following output would be displayed.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">Circle area <span style="color: #666666">=</span> <span style="color: #666666">3.14159</span> m<span style="color: #666666">^2.</span>
+</pre>
+        </div>
+    </section>
+
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

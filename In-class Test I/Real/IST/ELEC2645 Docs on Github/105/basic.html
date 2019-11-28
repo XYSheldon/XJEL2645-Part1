@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+            <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+        </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Basic File Operations</h1>
+
+    <!-- Intro -->
+    <section>
+        <h2>Introduction</h2>
+        <p>Working with files is a common requirement when writing computer programs. Programs may be required to read in settings or data that is stored in text files. Additionally, programs may process some input data and then write the output data to text files. These text files are often then processed using other software such as graphing and/or databases.</p>
+        <p>We will first look at some basic file input and output file operations using the C++ <code>fstream</code> library.</p>
+    </section>
+
+    <!-- Output -->
+    <section>
+        <h2>Output</h2>
+        <p>The example code below shows how to write to a file.</p>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;fstream&gt;</span>
+<span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #408080; font-style: italic">// create an output file stream</span>
+  std<span style="color: #666666">::</span>ofstream output;
+  <span style="color: #408080; font-style: italic">// use it to open a file named &#39;output.txt&#39;</span>
+  output.open(<span style="color: #BA2121">&quot;output.txt&quot;</span>);
+  <span style="color: #408080; font-style: italic">// check if the file is not open</span>
+  <span style="color: #008000; font-weight: bold">if</span> (<span style="color: #666666">!</span>output.is_open()) {
+    <span style="color: #408080; font-style: italic">// print error message and quit if a problem occurred</span>
+    std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Error creating file!</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    exit(<span style="color: #666666">1</span>);
+  }
+  <span style="color: #408080; font-style: italic">// print to the file and then close the stream</span>
+  output <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Hello, File!&quot;</span> <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  output.close();
+
+  <span style="color: #408080; font-style: italic">// Re-open file in &#39;append&#39; mode so we can write more to it</span>
+  <span style="color: #408080; font-style: italic">// if we do not open in &#39;append&#39; mode, the original contents</span>
+  <span style="color: #408080; font-style: italic">// will be written over</span>
+  output.open(<span style="color: #BA2121">&quot;output.txt&quot;</span>, std<span style="color: #666666">::</span>fstream<span style="color: #666666">::</span>app);
+  output <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Appending a line!&quot;</span> <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #408080; font-style: italic">// always remember to close a filestream when done</span>
+  output.close();
+}
+</pre></td></tr></table></div>
+        <p>The first thing to do when working with files is to create a <i>stream</i>. In this example we create an output file stream using the <code>ofstream</code> class. We can then use the <code>open()</code> method to specify which files to write to. If the file does not exist, it will be created. If it does exist, the existing file will be over-written.</p>
+        <p>It is a good idea ot check whether the file has been opened correctly using the <code>is_open()</code> method. It is has not been opened correctly, a message is printed to <code>cerr</code> and the program exits.</p>
+        <p>If it has been opened without errors, we can simply write data to the stream using the <code><<</code> operator. When you have finished writing to a file, it is important to remember to close it using the <code>close()</code> method.</p>
+        <p>As mentioned earlier, if an existing file is opened, the contents of the file will be over-written. If you wish to open a file and <i>append</i> data to end of the file i.e. add data to the end of the file and keep any existing dat, you can specify the mode to be <code>std::fstream::app</code> when opening the output stream.</p>
+        <p>Running the example above will result in a file <code>output.txt</code> being created with the contents</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Hello, File<span style="color: #666666">!</span>
+Appending a line<span style="color: #666666">!</span>
+</pre></div>
+    </section>
+
+    <!-- Input -->
+    <section>
+        <h2>Input</h2>
+        <p>The example below demonstrates how to read in data from a file.</p>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;fstream&gt;</span>
+<span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+<span style="color: #BC7A00">#include &lt;string&gt;</span>
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+  <span style="color: #408080; font-style: italic">// create an input file stream</span>
+  std<span style="color: #666666">::</span>ifstream input;
+  <span style="color: #408080; font-style: italic">// use it to open a file named &#39;input.txt&#39;</span>
+  input.open(<span style="color: #BA2121">&quot;input.txt&quot;</span>);
+  <span style="color: #408080; font-style: italic">// check if the file is not open</span>
+  <span style="color: #008000; font-weight: bold">if</span> (<span style="color: #666666">!</span>input.is_open()) {
+    <span style="color: #408080; font-style: italic">// print error message and quit if a problem occurred</span>
+    std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Error! No input file found!</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    exit(<span style="color: #666666">1</span>);
+  }
+  <span style="color: #408080; font-style: italic">// create a string to hold the file contents</span>
+  std<span style="color: #666666">::</span>string input_string;
+  input <span style="color: #666666">&gt;&gt;</span> input_string;
+  <span style="color: #408080; font-style: italic">// print to terminal</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Read </span><span style="color: #BB6622; font-weight: bold">\&quot;</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">&lt;&lt;</span> input_string <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\&quot;</span><span style="color: #BA2121"> from file.&quot;</span> <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #408080; font-style: italic">// convert string to integer</span>
+  <span style="color: #B00040">int</span> input_value <span style="color: #666666">=</span> std<span style="color: #666666">::</span>stoi(input_string);
+  <span style="color: #B00040">int</span> output_value <span style="color: #666666">=</span> input_value <span style="color: #666666">*</span> input_value;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;This value squared is &quot;</span> <span style="color: #666666">&lt;&lt;</span> output_value <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;.&quot;</span> <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+}
+</pre></td></tr></table></div>
+        <p>This examples assumes that there is a file named 'input.txt' in the working directory that contains a number.</p>
+        <p>An input file stream is first created using the <code>ifstream</code> class. The input file is then opened. It is does not exist, then the program will exit and print an error message.</p>
+        <p>If the file does exist, the content of the file will be written into a string using the <code>>></code> operator. If the input data is a number, we need to using one of the string conversion functions to convert a string into the correct data type. In this example, the file contains an integer and so we use <code>std::stoi</code> to covert a string to an integer. <code>std::stod</code> can be used to convert a string to a double.</p>
+        <p>Once the value has been converted into the correct data type, we can carry out any required operations on the number.</p>
+        <p>Supposing the input file contain '3', the following output will be displayed.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Read <span style="color: #BA2121">&quot;3&quot;</span> from file.
+This value squared is <span style="color: #666666">9.</span>
+</pre></div>
+
+
+
+    </section>
+
+    <!-- Input -->
+    <section>
+        <h2>Note</h2>
+        <p>In these examples, we have created specific input and output files streams using <code>ifstream</code> and <code>ofstream</code> respectively. Note it is also possible to create a general I/O stream (able to read and write to/from files) using the <code>fstream</code> class.</p>
+
+    </section>
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

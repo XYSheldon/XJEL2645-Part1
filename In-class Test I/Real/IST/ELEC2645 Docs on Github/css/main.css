@@ -1,0 +1,99 @@
+html {
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.0em;
+    line-height: 120%;
+    margin: 60px auto;
+    width: 80%;
+}
+
+footer {
+    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-top: 1px solid gray;
+    font-size: .8em;
+}
+
+nav ul li,
+footer ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+    line-height: 1.0;
+}
+
+a {
+    text-decoration: none;
+    color: gray;
+}
+
+b,
+strong {
+    font-weight: 600;
+}
+
+/* https://philarcher.org/diary/2013/headingnumbers/ */
+
+body {
+    counter-reset: h2
+}
+
+h2 {
+    counter-reset: h3
+}
+
+h3 {
+    counter-reset: h4
+}
+
+h4 {
+    counter-reset: h5
+}
+
+h5 {
+    counter-reset: h6
+}
+
+h2:before {
+    counter-increment: h2;
+    content: counter(h2) ". "
+}
+
+h3:before {
+    counter-increment: h3;
+    content: counter(h2) "." counter(h3) " "
+}
+
+h4:before {
+    counter-increment: h4;
+    content: counter(h2) "." counter(h3) "." counter(h4) " "
+}
+
+h5:before {
+    counter-increment: h5;
+    content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " "
+}
+
+h6:before {
+    counter-increment: h6;
+    content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " "
+}
+
+h2.nocount:before,
+h3.nocount:before,
+h4.nocount:before,
+h5.nocount:before,
+h6.nocount:before {
+    content: "";
+    counter-increment: none
+}

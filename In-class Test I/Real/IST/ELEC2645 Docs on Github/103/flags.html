@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Flags</h1>
+
+    <!-- Introduction -->
+    <section>
+        <h2>Introduction</h2>
+        <p>The previous method for passing in values is generally fine if a single value is being passed in. Suppose we have a similar program for interacting with a rectangle. We could pass in the height and width as command line arguments. But the user would need to remember the correct order to enter them i.e. height width or width height. Some programs may even have 10 or more inputs. How can the user be expected to remember the correct order? It is a sure fire way of entering incorrect data.</p>
+        <p>We can prevent this by using flags. These are very common and indeed, you have come across them already when using <i>g++</i>. In that case, we specify the output file using the <i>-o</i> flag.</p>
+    </section>
+
+    <!-- Using flags -->
+    <section>
+        <h2>Using flags</h2>
+
+        <p>The example below demonstrates how we could implement a flag system for our circle program.</p>
+        <p><i>main.cpp</i></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;cmath&gt;</span>
+<span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+
+<span style="color: #008000; font-weight: bold">const</span> <span style="color: #B00040">double</span> PI <span style="color: #666666">=</span> <span style="color: #666666">3.14159265359</span>;
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">parse_flags</span>(<span style="color: #B00040">int</span> argc, <span style="color: #B00040">char</span> <span style="color: #008000; font-weight: bold">const</span> <span style="color: #666666">*</span>argv[]);
+<span style="color: #B00040">void</span> <span style="color: #0000FF">print_usage</span>(<span style="color: #B00040">char</span> <span style="color: #008000; font-weight: bold">const</span> <span style="color: #666666">*</span>argv[]);
+<span style="color: #B00040">void</span> <span style="color: #0000FF">print_version</span>();
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>(<span style="color: #B00040">int</span> argc, <span style="color: #B00040">char</span> <span style="color: #008000; font-weight: bold">const</span> <span style="color: #666666">*</span>argv[]) {
+  <span style="color: #008000; font-weight: bold">if</span> (argc <span style="color: #666666">==</span> <span style="color: #666666">1</span>) {
+    std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">ERROR! No flags supplied! </span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    print_usage(argv);
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">1</span>;
+  }
+  parse_flags(argc, argv);
+  <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">0</span>;
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">parse_flags</span>(<span style="color: #B00040">int</span> argc, <span style="color: #B00040">char</span> <span style="color: #008000; font-weight: bold">const</span> <span style="color: #666666">*</span>argv[]) {
+  <span style="color: #408080; font-style: italic">// this flag is used to check for valid input</span>
+  <span style="color: #B00040">bool</span> valid <span style="color: #666666">=</span> <span style="color: #008000">false</span>;
+  <span style="color: #408080; font-style: italic">// start at 1 so not to include the program name</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">1</span>; i <span style="color: #666666">&lt;</span> argc; i<span style="color: #666666">++</span>) {
+    <span style="color: #408080; font-style: italic">// check for valid flags, use if,if,if rather than if,else if so we can</span>
+    <span style="color: #408080; font-style: italic">// supply multiple (valid) flags</span>
+    <span style="color: #008000; font-weight: bold">if</span> (std<span style="color: #666666">::</span>string(argv[i]) <span style="color: #666666">==</span> <span style="color: #BA2121">&quot;-h&quot;</span> <span style="color: #666666">||</span> std<span style="color: #666666">::</span>string(argv[i]) <span style="color: #666666">==</span> <span style="color: #BA2121">&quot;--help&quot;</span>) {
+      print_usage(argv);
+      valid <span style="color: #666666">=</span> <span style="color: #008000">true</span>;
+    }
+    <span style="color: #008000; font-weight: bold">if</span> (std<span style="color: #666666">::</span>string(argv[i]) <span style="color: #666666">==</span> <span style="color: #BA2121">&quot;-v&quot;</span> <span style="color: #666666">||</span> std<span style="color: #666666">::</span>string(argv[i]) <span style="color: #666666">==</span> <span style="color: #BA2121">&quot;--version&quot;</span>) {
+      print_version();
+      valid <span style="color: #666666">=</span> <span style="color: #008000">true</span>;
+    }
+    <span style="color: #008000; font-weight: bold">if</span> (std<span style="color: #666666">::</span>string(argv[i]) <span style="color: #666666">==</span> <span style="color: #BA2121">&quot;-r&quot;</span> <span style="color: #666666">||</span> std<span style="color: #666666">::</span>string(argv[i]) <span style="color: #666666">==</span> <span style="color: #BA2121">&quot;--radius&quot;</span>) {
+      valid <span style="color: #666666">=</span> <span style="color: #008000">true</span>;
+      <span style="color: #408080; font-style: italic">// need to make sure a value has been entered as well as -r</span>
+      <span style="color: #008000; font-weight: bold">if</span> (i <span style="color: #666666">+</span> <span style="color: #666666">1</span> <span style="color: #666666">&lt;</span> argc) {
+        <span style="color: #B00040">double</span> radius <span style="color: #666666">=</span> atof(argv[i <span style="color: #666666">+</span> <span style="color: #666666">1</span>]);
+        <span style="color: #B00040">double</span> area <span style="color: #666666">=</span> PI <span style="color: #666666">*</span> pow(radius, <span style="color: #666666">2.0</span>);
+        std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">Circle area = &quot;</span> <span style="color: #666666">&lt;&lt;</span> area <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; m^2.</span><span style="color: #BB6622; font-weight: bold">\n\n</span><span style="color: #BA2121">&quot;</span>;
+      } <span style="color: #008000; font-weight: bold">else</span> {
+        std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">ERROR! -r option requires radius value!</span><span style="color: #BB6622; font-weight: bold">\n\n</span><span style="color: #BA2121">&quot;</span>;
+        print_usage(argv);
+        exit(<span style="color: #666666">1</span>);
+      }
+    }
+  }
+  <span style="color: #408080; font-style: italic">// if not come across valid flag, then print usage instructions and exit</span>
+  <span style="color: #008000; font-weight: bold">if</span> (valid <span style="color: #666666">==</span> <span style="color: #008000">false</span>) {
+    std<span style="color: #666666">::</span>cerr <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">ERROR! Invalid flags supplied!</span><span style="color: #BB6622; font-weight: bold">\n\n</span><span style="color: #BA2121">&quot;</span>;
+    print_usage(argv);
+    exit(<span style="color: #666666">1</span>);
+  }
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">print_usage</span>(<span style="color: #B00040">char</span> <span style="color: #008000; font-weight: bold">const</span> <span style="color: #666666">*</span>argv[]) {
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">Usage: &quot;</span> <span style="color: #666666">&lt;&lt;</span> argv[<span style="color: #666666">0</span>] <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; FLAGS</span><span style="color: #BB6622; font-weight: bold">\n\n</span><span style="color: #BA2121">&quot;</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Flags:</span><span style="color: #BB6622; font-weight: bold">\n\n</span><span style="color: #BA2121">-r,--radius RADIUS</span><span style="color: #BB6622; font-weight: bold">\t</span><span style="color: #BA2121">input circle radius.</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;-h,--help</span><span style="color: #BB6622; font-weight: bold">\t\t</span><span style="color: #BA2121">print usage instructions.</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;-v,--version</span><span style="color: #BB6622; font-weight: bold">\t\t</span><span style="color: #BA2121">print version number.</span><span style="color: #BB6622; font-weight: bold">\n\n</span><span style="color: #BA2121">&quot;</span>;
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">print_version</span>() { std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">Version 1.0.1</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>; }
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p>This example has several functions. In the <i>parse_flags</i> function, we loop through the flags and check for hard-coded options. The possible options are help, version number and for entering the radius. Note that each option has two ways of entering the flag e.g. <i>-h</i> or <i>--help</i> for printing the usage instructions. This is a common way of implementing flags. Depending on which flag is entered, then the relevant function is called. Note that a boolean flag is used. This is set to 'true' when a valid flag is entered. If no valid flag is entered, it will remain false. This boolean flag is checked and used to print an error message.</p>
+
+        <h2>Usage sceanrios</h2>
+
+        <p>Some usage scenarios are shown below.</p>
+        <p>No command line arguments entered.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">.<span style="color: #666666">/</span>main.exe
+</pre>
+        </div>
+
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">ERROR<span style="color: #666666">!</span> No flags supplied<span style="color: #666666">!</span>
+
+<span style="color: #A0A000">Usage:</span> .<span style="color: #666666">/</span>main.exe FLAGS
+
+<span style="color: #A0A000">Flags:</span>
+
+<span style="color: #666666">-</span>r,<span style="color: #666666">--</span>radius RADIUS      input circle radius.
+<span style="color: #666666">-</span>h,<span style="color: #666666">--</span>help               print usage instructions.
+<span style="color: #666666">-</span>v,<span style="color: #666666">--</span>version            print version number.
+</pre>
+        </div>
+
+        <p>Entering an incorrect flag</p>
+
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">.<span style="color: #666666">/</span>main.exe <span style="color: #666666">--</span>wrong
+</pre>
+        </div>
+
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">ERROR<span style="color: #666666">!</span> Invalid flags supplied<span style="color: #666666">!</span>
+
+
+<span style="color: #A0A000">Usage:</span> .<span style="color: #666666">/</span>main.exe FLAGS
+
+<span style="color: #A0A000">Flags:</span>
+
+<span style="color: #666666">-</span>r,<span style="color: #666666">--</span>radius RADIUS      input circle radius.
+<span style="color: #666666">-</span>h,<span style="color: #666666">--</span>help               print usage instructions.
+<span style="color: #666666">-</span>v,<span style="color: #666666">--</span>version            print version number.
+</pre>
+        </div>
+
+
+
+        <p>Printing the version number</p>
+
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">.<span style="color: #666666">/</span>main.exe -v
+</pre>
+        </div>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">.<span style="color: #666666">/</span>main.exe --version
+</pre>
+        </div>
+
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">Version <span style="color: #666666">1.0.1</span>
+</pre>
+        </div>
+
+        <p>Asking for usage instructions.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">.<span style="color: #666666">/</span>main.exe -h
+</pre>
+        </div>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">.<span style="color: #666666">/</span>main.exe --help
+</pre>
+        </div>
+
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%"><span style="color: #A0A000">Usage:</span> .<span style="color: #666666">/</span>main.exe FLAGS
+
+<span style="color: #A0A000">Flags:</span>
+
+<span style="color: #666666">-</span>r,<span style="color: #666666">--</span>radius RADIUS      input circle radius.
+<span style="color: #666666">-</span>h,<span style="color: #666666">--</span>help               print usage instructions.
+<span style="color: #666666">-</span>v,<span style="color: #666666">--</span>version            print version number.
+</pre>
+        </div>
+
+
+        <p>Entering a radius.</p>
+
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">.<span style="color: #666666">/</span>main.exe <span style="color: #666666">--</span>radius <span style="color: #666666">1.0</span>
+</pre>
+        </div>
+
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">.<span style="color: #666666">/</span>main.exe <span style="color: #666666">-</span>r <span style="color: #666666">1.0</span>
+</pre>
+        </div>
+
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <pre style="margin: 0; line-height: 125%">Circle area <span style="color: #666666">=</span> <span style="color: #666666">3.14159</span> m<span style="color: #666666">^2.</span>
+</pre>
+        </div>
+
+        <p>Note that multiple flags can be used on the command line at any one time as we have used multiple if statements in the <i>parse_flags</i> function. If an if, else if, else construct had been used, as soon as a valid flag was detected, the rest would have been ignored. Finally, note the use of blank lines and tabs in order to nicely format the usage instructions and make it easier for the user to read them.</p>
+
+
+    </section>
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

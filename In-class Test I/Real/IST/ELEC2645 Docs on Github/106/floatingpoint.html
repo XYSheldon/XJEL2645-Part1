@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+            <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+        </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Floating-point tests</h1>
+
+    <!-- Intro -->
+    <section>
+        <h2>Introduction</h2>
+        <p>We saw in the simple <code>sum()</code> example that we can easily check a function is working by comparing the return value with the expected correct value using the equivalence operator <code>==</code>. However, this only works reliably for integer and boolean data types. When using floating-point data types (<code>float</code> and <code>double</code>) the <code>==</code> operator may not work as expected due to the way floating-point numbers are stored in memory. We may have two <code>double</code>'s holding the value <code>1.0</code>, but in fact one may actually be <code>1.000000000003232</code> and the other may be <code>1.000000000012565</code>. There is no saying that the <code>==</code> operator will return <code>true</code> and hence the test may fail.</p>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>Almost equal</h2>
+        <p>It is surprisingly difficult to compare floating-point numbers and the C++ language has no simple, native way of doing so. Hence we need to write our own function.</p>
+        <p>The following is a home-brew function that works in most cases. Note that is relies on the C++ maths library <code>cmath</code></p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5
+6</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">// checks whether 2 double&#39;s are almost equal</span>
+<span style="color: #B00040">bool</span> <span style="color: #0000FF">almost_equal</span>(<span style="color: #B00040">double</span> a, <span style="color: #B00040">double</span> b) {
+  <span style="color: #408080; font-style: italic">// == may return true, but also check whether the relative difference</span>
+  <span style="color: #408080; font-style: italic">// between the numbers is less than a small threshold</span>
+  <span style="color: #008000; font-weight: bold">return</span> a <span style="color: #666666">==</span> b <span style="color: #666666">||</span> (std<span style="color: #666666">::</span>abs(a <span style="color: #666666">-</span> b) <span style="color: #666666">/</span> std<span style="color: #666666">::</span>max(a, b) <span style="color: #666666">&lt;=</span> <span style="color: #666666">1e-6</span>);
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p>The return value is made up of the logical OR of two operations. One operation uses <code> a == b</code> as the <code>==</code> does work in some cases. If that returns <code>true</code> then the return value of the function will be <code>true</code> due to the logical OR. If that does not work and returns <code>false</code> then the second operation may return <code>true</code> if the numbers are close enough together.</p>
+        <p><code>std::abs(a - b) / std::max(a, b) &lt;= 1e-6</code></p>
+        <p>This operation gets the absolute difference between the numbers and divides it by the biggest of the two numbers. This gives us an idea of their relative difference. If that difference is less that a threshold value, then the operation will return <code>true</code> and we will consider the numbers to be essentially equal.</p>
+    </section>
+
+     <!-- Example -->
+    <section>
+        <h2>Example</h2>
+        <p>This example is very similar to the <code>sum()</code> one but instead considers a function <code>sqr()</code> that returns the square of a floating-point (<code>double</code>) value.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;height:400px;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;cmath&gt;  </span><span style="color: #408080; font-style: italic">// for std::abs</span>
+<span style="color: #BC7A00">#include &lt;iostream&gt;</span>
+<span style="color: #BC7A00">#include &lt;limits&gt;</span>
+
+<span style="color: #408080; font-style: italic">// function we have written</span>
+<span style="color: #B00040">double</span> <span style="color: #0000FF">sqr</span>(<span style="color: #B00040">double</span> a);
+<span style="color: #408080; font-style: italic">// function to test function</span>
+<span style="color: #B00040">bool</span> <span style="color: #0000FF">test_sqr</span>(<span style="color: #B00040">double</span> a, <span style="color: #B00040">double</span> expected);
+<span style="color: #408080; font-style: italic">// function to run the tests</span>
+<span style="color: #B00040">int</span> <span style="color: #0000FF">run_sqr_tests</span>();
+<span style="color: #408080; font-style: italic">// tests whether two double are almost equal</span>
+<span style="color: #B00040">bool</span> <span style="color: #0000FF">almost_equal</span>(<span style="color: #B00040">double</span> a, <span style="color: #B00040">double</span> b);
+
+<span style="color: #B00040">int</span> <span style="color: #0000FF">main</span>() {
+<span style="color: #408080; font-style: italic">// test the function</span>
+<span style="color: #BC7A00">#ifdef DEBUG</span>
+  run_sqr_tests();
+<span style="color: #BC7A00">#endif</span>
+}
+
+<span style="color: #408080; font-style: italic">// function we have implemented</span>
+<span style="color: #B00040">double</span> <span style="color: #0000FF">sqr</span>(<span style="color: #B00040">double</span> a) { <span style="color: #008000; font-weight: bold">return</span> a <span style="color: #666666">*</span> a; }
+
+<span style="color: #408080; font-style: italic">// function to test sqr</span>
+<span style="color: #B00040">bool</span> <span style="color: #0000FF">test_sqr</span>(<span style="color: #B00040">double</span> a, <span style="color: #B00040">double</span> expected) {
+  std<span style="color: #666666">::</span>cout.precision(std<span style="color: #666666">::</span>numeric_limits<span style="color: #666666">&lt;</span><span style="color: #B00040">double</span><span style="color: #666666">&gt;::</span>max_digits10);
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;sqr(&quot;</span> <span style="color: #666666">&lt;&lt;</span> a <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;) : &quot;</span>;
+  <span style="color: #B00040">double</span> val <span style="color: #666666">=</span> sqr(a);  <span style="color: #408080; font-style: italic">// calc value and compare to expected</span>
+  <span style="color: #008000; font-weight: bold">if</span> (almost_equal(val, expected)) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;passed</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">true</span>;
+  } <span style="color: #008000; font-weight: bold">else</span> {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;FAILED! &quot;</span> <span style="color: #666666">&lt;&lt;</span> val <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; (expecting &quot;</span> <span style="color: #666666">&lt;&lt;</span> expected <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;).</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">false</span>;
+  }
+}
+
+<span style="color: #408080; font-style: italic">// function to run the tests</span>
+<span style="color: #B00040">int</span> <span style="color: #0000FF">run_sqr_tests</span>() {
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">Testing sqr()...</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #408080; font-style: italic">// initialise counter for number of tests passed</span>
+  <span style="color: #B00040">int</span> passed <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  <span style="color: #408080; font-style: italic">// do various tests</span>
+  <span style="color: #008000; font-weight: bold">if</span> (test_sqr(<span style="color: #666666">-1.123456789</span>, <span style="color: #666666">1.2621551568</span>)) passed<span style="color: #666666">++</span>;
+  <span style="color: #008000; font-weight: bold">if</span> (test_sqr(<span style="color: #666666">1.123456789e25</span>, <span style="color: #666666">1.2621552e+50</span>)) passed<span style="color: #666666">++</span>;
+  <span style="color: #008000; font-weight: bold">if</span> (test_sqr(<span style="color: #666666">1.123456789e-5</span>, <span style="color: #666666">1.2621552e-10</span>)) passed<span style="color: #666666">++</span>;
+  <span style="color: #008000; font-weight: bold">if</span> (test_sqr(<span style="color: #666666">3.0</span>, <span style="color: #666666">9</span>)) passed<span style="color: #666666">++</span>;
+  <span style="color: #008000; font-weight: bold">if</span> (test_sqr(<span style="color: #666666">7.678</span>, <span style="color: #666666">58.951684</span>)) passed<span style="color: #666666">++</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">sqr() passed &quot;</span> <span style="color: #666666">&lt;&lt;</span> passed <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; tests.</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  <span style="color: #008000; font-weight: bold">return</span> passed;
+}
+<span style="color: #408080; font-style: italic">// checks whether 2 double&#39;s are almost equal</span>
+<span style="color: #B00040">bool</span> <span style="color: #0000FF">almost_equal</span>(<span style="color: #B00040">double</span> a, <span style="color: #B00040">double</span> b) {
+  <span style="color: #408080; font-style: italic">// == may return true, but also check whether the relative difference</span>
+  <span style="color: #408080; font-style: italic">// between the numbers is less than a small threshold</span>
+  <span style="color: #008000; font-weight: bold">return</span> a <span style="color: #666666">==</span> b <span style="color: #666666">||</span> (std<span style="color: #666666">::</span>abs(a <span style="color: #666666">-</span> b) <span style="color: #666666">/</span> std<span style="color: #666666">::</span>max(a, b) <span style="color: #666666">&lt;=</span> <span style="color: #666666">1e-6</span>);
+}
+</pre></td></tr></table></div>
+
+
+
+            <p>Note that the test cases cover a HUGE range in numbers with answers ranging from 10<sup>50</sup> to 10<sup>-10</sup>. That is 60 orders of magnitude and is pretty much unimaginable. If you imagine distance, 10<sup>-10</sup> m is on the atomic scale while the diameter of the observable universe is thought to be on the order of 10<sup>26</sup> m! Hence the difficulty in comparing numbers that can vary over such a huge range.</p>
+        <p>Running the code outputs the following. Note that the <code>test_sqr()</code> function sets the precision of <code>cout</code> to be the maximum so we can see more decimal places.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Testing sqr()...
+
+sqr(<span style="color: #666666">-1.123456789</span>) <span style="color: #666666">:</span> passed
+sqr(<span style="color: #666666">1.123456789e+25</span>) <span style="color: #666666">:</span> passed
+sqr(<span style="color: #666666">1.123456789e-05</span>) <span style="color: #666666">:</span> passed
+sqr(<span style="color: #666666">3</span>) <span style="color: #666666">:</span> passed
+sqr(<span style="color: #666666">7.6779999999999999</span>) <span style="color: #666666">:</span> passed
+
+sqr() passed <span style="color: #666666">5</span> tests.
+</pre></div>
+    </section>
+          <!-- Smaller threshold -->
+    <section>
+        <h2>Smaller threshold</h2>
+    </section>
+    <p>We will now quickly look at what happens when the threshold in the <code>almost_equal()</code> function is reduced to 10<sup>-9</sup>. The following output is obtained.</p>
+    <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Testing sqr()...
+
+sqr(<span style="color: #666666">-1.123456789</span>) <span style="color: #666666">:</span> passed
+sqr(<span style="color: #666666">1.123456789e+25</span>) <span style="color: #666666">:</span> FAILED<span style="color: #666666">!</span> <span style="color: #666666">1.2621551567501904e+50</span> (expecting <span style="color: #666666">1.2621551999999999e+50</span>).
+sqr(<span style="color: #666666">1.123456789e-05</span>) <span style="color: #666666">:</span> FAILED<span style="color: #666666">!</span> <span style="color: #666666">1.2621551567501907e-10</span> (expecting <span style="color: #666666">1.2621552e-10</span>).
+sqr(<span style="color: #666666">3</span>) <span style="color: #666666">:</span> passed
+sqr(<span style="color: #666666">7.6779999999999999</span>) <span style="color: #666666">:</span> passed
+
+sqr() passed <span style="color: #666666">3</span> tests.
+</pre></div>
+
+<p>We can see that two tests now fail. These tests are for the extremely small and extremely large numbers. This can be caused by the limited accuracy of our expected answers that we provide to the testing function.</p>
+<p>It is also worth pointing out that the difference between two big numbers can actually be very big, when they look to be very close. Consider the numbers 1.2345 x 10<sup>6</sup> and 1.23456 x 10 <sup>6</sup>. They look to be very close, but they are actually different by 500. This is the reason we use the <i>relative</i> difference between the double values. Think about currency. &pound;500 is a 'big' discount when buying  a car that costs &pound;10000, but not when buying a mansion that costs &pound;1.2 million!</p>
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

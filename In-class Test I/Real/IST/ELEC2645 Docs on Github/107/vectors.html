@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Vectors</h1>
+
+      <!-- new section -->
+    <section>
+        <h2>Containers</h2>
+        <p>The C++ standard library contains several <em>containers</em>. As the name suggests, these are classes that act as containers for storing data. There is a specific C++ array class (note that these are not the same as C-like arrays). As is the case with C-like arrays, once an array has been created, it is difficult to change the size and modify the contents by removing or adding in new element. There is another type of container that exists called <a href="http://www.cplusplus.com/reference/vector/vector/">vector</a>. This class is useful as it is possible to remove specific element and add in extra elements very easily. The class handles increasing or decreasing the size of the array.</p>
+        <p>It can be used by including the following header.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;vector&gt;</span>
+</pre></div>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>Creating a vector</h2>
+        <p>The example below demonstrates how to create an empty vector. Note this emample is for an <code>int</code> vector, but it possible to create vectors for other data types, custom <code>struct</code>'s and classes such as <code>complex</code>.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">  <span style="color: #408080; font-style: italic">// create an empty vector</span>
+  std<span style="color: #666666">::</span>vector<span style="color: #666666">&lt;</span><span style="color: #B00040">int</span><span style="color: #666666">&gt;</span> v;
+
+  <span style="color: #408080; font-style: italic">// add some values (push_back() adds values to the end)</span>
+  v.push_back(<span style="color: #666666">2</span>);
+  v.push_back(<span style="color: #666666">9</span>);
+  v.push_back(<span style="color: #666666">8</span>);
+  v.push_back(<span style="color: #666666">3</span>);
+  v.push_back(<span style="color: #666666">4</span>);
+  v.push_back(<span style="color: #666666">1</span>);
+  v.push_back(<span style="color: #666666">5</span>);
+  v.push_back(<span style="color: #666666">7</span>);
+  v.push_back(<span style="color: #666666">6</span>);
+  v.push_back(<span style="color: #666666">0</span>);
+
+  <span style="color: #408080; font-style: italic">// get the size</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;The vector has &quot;</span> <span style="color: #666666">&lt;&lt;</span> v.size() <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; elements.</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+
+  <span style="color: #408080; font-style: italic">// we can access specific elements</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Element 2 is &quot;</span> <span style="color: #666666">&lt;&lt;</span> v[<span style="color: #666666">2</span>] <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+</pre></div>
+        <p>This will produce the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">The vector has <span style="color: #666666">10</span> elements.
+Element <span style="color: #666666">2</span> is <span style="color: #666666">8</span>
+</pre></div>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>Iterators</h2>
+        <p>By now you should be familiar with iterating through things such as arrays. This is typically done using a <code>for</code> loop to iterate through an index and then using that index to select a specific element. The example below is for a string.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">  <span style="color: #408080; font-style: italic">// create a string</span>
+  std<span style="color: #666666">::</span>string alphabet <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span>;
+
+  <span style="color: #408080; font-style: italic">// the &#39;old&#39; C-like way of iterating over the string would be</span>
+  <span style="color: #408080; font-style: italic">// something like this</span>
+  <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">unsigned</span> <span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> alphabet.size(); i<span style="color: #666666">++</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> alphabet[i] <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+</pre></div>
+        <p>There is actually a more powerful 'C++' way that can be used for all container classes. This involves using an <em>iterator</em> from the C++ Standard Template Library (STL). This is demonstrated below.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">// the &#39;new&#39; C++ way of iterating through a container (e.g. string, array)</span>
+  <span style="color: #408080; font-style: italic">// is to use an &#39;standard template library&#39; (STL) iterator</span>
+  <span style="color: #008000; font-weight: bold">for</span> (std<span style="color: #666666">::</span>string<span style="color: #666666">::</span>iterator i <span style="color: #666666">=</span> alphabet.begin(); i <span style="color: #666666">&lt;</span> alphabet.end(); i<span style="color: #666666">++</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">*</span>i <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+</pre></div>
+        <p>Here we create a string iterator. When using an array or vector, we must create the relevant iterator type. We can then use the <code>begin</code> and <code>end</code> methods to easily get bounds of the container and since the iterator is of the same type as the element we can then use it directly using the <code>*</code> operator (a bit like de-referencing a pointer).</p>
+        <p>The code below shows how to iterate through the vector we created earlier.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;The contents are:</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  <span style="color: #408080; font-style: italic">// iterate through and print values</span>
+  <span style="color: #008000; font-weight: bold">for</span> (std<span style="color: #666666">::</span>vector<span style="color: #666666">&lt;</span><span style="color: #B00040">int</span><span style="color: #666666">&gt;::</span>iterator i <span style="color: #666666">=</span> v.begin(); i <span style="color: #666666">&lt;</span> v.end(); i<span style="color: #666666">++</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">*</span>i <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+</pre></div>
+        <p>This would then produce the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">The contents are<span style="color: #666666">:</span>
+<span style="color: #666666">2</span>
+<span style="color: #666666">9</span>
+<span style="color: #666666">8</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">4</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">7</span>
+<span style="color: #666666">6</span>
+<span style="color: #666666">0</span>
+</pre></div>
+    </section>
+    <!-- new section -->
+    <section>
+        <h2>Popping elements</h2>
+        <p>It is easy to remove the last element.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">// we can easy delete the last element</span>
+  v.pop_back();
+
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;The contents are now:</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  <span style="color: #408080; font-style: italic">// iterate through and print values</span>
+  <span style="color: #008000; font-weight: bold">for</span> (std<span style="color: #666666">::</span>vector<span style="color: #666666">&lt;</span><span style="color: #B00040">int</span><span style="color: #666666">&gt;::</span>iterator i <span style="color: #666666">=</span> v.begin(); i <span style="color: #666666">&lt;</span> v.end(); i<span style="color: #666666">++</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">*</span>i <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+</pre></div>
+        <p>Which would produce the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">The contents are now<span style="color: #666666">:</span>
+<span style="color: #666666">2</span>
+<span style="color: #666666">9</span>
+<span style="color: #666666">8</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">4</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">7</span>
+<span style="color: #666666">6</span>
+</pre></div>
+    </section>
+
+    <!-- new section -->
+    <section>
+        <h2>Sorting</h2>
+        <p>Another advantage of using C++ containers is that it becomes easy to sort the elements. This can be done using the <code>sort</code> function. Note that to use this the <code>algorithm</code> header file must be included.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">  <span style="color: #408080; font-style: italic">// we can use the &#39;sort&#39; method from &lt;algorithm&gt; to sort values</span>
+  std<span style="color: #666666">::</span>sort(v.begin(), v.end());
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;The contents are now:</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  <span style="color: #408080; font-style: italic">// iterate through and print values</span>
+  <span style="color: #008000; font-weight: bold">for</span> (std<span style="color: #666666">::</span>vector<span style="color: #666666">&lt;</span><span style="color: #B00040">int</span><span style="color: #666666">&gt;::</span>iterator i <span style="color: #666666">=</span> v.begin(); i <span style="color: #666666">&lt;</span> v.end(); i<span style="color: #666666">++</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">*</span>i <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+</pre></div>
+        <p>We can simply pass in the beginning and end of the vector and the sort algorithm will arrange the elements in ascending order. The following output would be produced.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">The contents are now<span style="color: #666666">:</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">2</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">4</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">6</span>
+<span style="color: #666666">7</span>
+<span style="color: #666666">8</span>
+<span style="color: #666666">9</span>
+</pre></div>
+        <p>To sort the elements in descending order, a custom sorting function must be created. This is just a simple function that takes in two values of the correct datatype. It then just returns <code>true</code> or <code>false</code> depending on which of the two arguments is the largest.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #B00040">bool</span> <span style="color: #0000FF">sort_descending</span>(<span style="color: #B00040">int</span> i, <span style="color: #B00040">int</span> j) { <span style="color: #008000; font-weight: bold">return</span> i <span style="color: #666666">&gt;</span> j; }
+</pre></div>
+        <p>We can then pass this function into the sort function to sort the elements in descending order.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">std<span style="color: #666666">::</span>sort(v.begin(), v.end(), sort_descending);
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;The contents are now:</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  <span style="color: #408080; font-style: italic">// iterate through and print values</span>
+  <span style="color: #008000; font-weight: bold">for</span> (std<span style="color: #666666">::</span>vector<span style="color: #666666">&lt;</span><span style="color: #B00040">int</span><span style="color: #666666">&gt;::</span>iterator i <span style="color: #666666">=</span> v.begin(); i <span style="color: #666666">&lt;</span> v.end(); i<span style="color: #666666">++</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">*</span>i <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+</pre></div>
+        <p>If this code was then executed, the following output would be produced.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">The contents are now<span style="color: #666666">:</span>
+<span style="color: #666666">9</span>
+<span style="color: #666666">8</span>
+<span style="color: #666666">7</span>
+<span style="color: #666666">6</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">4</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">2</span>
+<span style="color: #666666">1</span>
+</pre></div>
+    </section>
+
+
+    <!-- new section -->
+    <section>
+        <h2>Inserting and erasing specific elements</h2>
+        <p>We have seen that we can use the <code>push_back()</code> and <code>pop_back()</code> methods in order to add and remove elements to/from the end of the vector. We can also insert and erase elements (or ranges of elements) from specific places in the vector. To erase:</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"> <span style="color: #408080; font-style: italic">// we can also erase elements by specifing either a single element</span>
+  v.erase(v.begin());  <span style="color: #408080; font-style: italic">// delete the first element (0)</span>
+  <span style="color: #408080; font-style: italic">// or by specifying a range (0,1,2,3)</span>
+  v.erase(v.begin(), v.begin() <span style="color: #666666">+</span> <span style="color: #666666">3</span>);
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;The contents are now:</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  <span style="color: #408080; font-style: italic">// iterate through and print values</span>
+  <span style="color: #008000; font-weight: bold">for</span> (std<span style="color: #666666">::</span>vector<span style="color: #666666">&lt;</span><span style="color: #B00040">int</span><span style="color: #666666">&gt;::</span>iterator i <span style="color: #666666">=</span> v.begin(); i <span style="color: #666666">&lt;</span> v.end(); i<span style="color: #666666">++</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">*</span>i <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+</pre></div>
+        <p>This would produce the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">The contents are now<span style="color: #666666">:</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">4</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">2</span>
+<span style="color: #666666">1</span>
+</pre></div>
+        <p>Similarly, we can insert values in specific places.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"> <span style="color: #408080; font-style: italic">// it is also possible to insert values at the specified position</span>
+  v.insert(v.begin(), <span style="color: #666666">6</span>);
+  v.insert(v.end(), <span style="color: #666666">0</span>);
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;The contents are now:</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  <span style="color: #408080; font-style: italic">// iterate through and print values</span>
+  <span style="color: #008000; font-weight: bold">for</span> (std<span style="color: #666666">::</span>vector<span style="color: #666666">&lt;</span><span style="color: #B00040">int</span><span style="color: #666666">&gt;::</span>iterator i <span style="color: #666666">=</span> v.begin(); i <span style="color: #666666">&lt;</span> v.end(); i<span style="color: #666666">++</span>) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">*</span>i <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+</pre></div>
+        <p>This would produce the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">The contents are now<span style="color: #666666">:</span>
+<span style="color: #666666">6</span>
+<span style="color: #666666">5</span>
+<span style="color: #666666">4</span>
+<span style="color: #666666">3</span>
+<span style="color: #666666">2</span>
+<span style="color: #666666">1</span>
+<span style="color: #666666">0</span>
+</pre></div>
+
+
+
+
+    </section>
+
+
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

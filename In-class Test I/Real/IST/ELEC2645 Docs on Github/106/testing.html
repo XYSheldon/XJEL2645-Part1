@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+            <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+        </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Introduction to testing</h1>
+
+    <!-- Intro -->
+    <section>
+        <h2>Introduction</h2>
+        <p>Testing code is an extremely important part of the software development cycle. A top-of-the-range car, jammed pack with electronics and sensors, may have upwards of 100 million lines of code. The fact that a 'bug' in the code may cause a fatal accident means that every single block of code will be tested. Indeed, the software engineers will write tests to test the code, before they have even written the code. This is known as <i>test-driven development</i> (TDD). In essence, before a function is written, a test to test the function will be written.</p>
+        <p>For example, the engineer is told to write a function to calculate the area of a circle and probably be given an API to define its behaviour. The function will have a single argument (the radius) and will return the area of the circle. Before they write the function, they will write a test function that ensures the function returns the correct area for a given radius. For example, a circle of radius 1.0 m has an area of 3.1415926536 m<sup>2</sup>. So they write a function that passes 1.0 to the function and checks that the return value is 3.1415926536. Several test cases are usually included that use values that may potentially cause problems such as negative numbers, very large numbers (overflow) and zero etc.</p>
+        <p>The tests that test individual blocks (or units) of code are called <i>unit-tests</i>. The principle is that by testing each function as you go will save you time in the long run. For example, the software engineers working on the car will not write 100 million lines of code and then test it all at once at the end! It would be impossible to track down the errors!</p>
+    </section>
+
+    <!-- Example -->
+    <section>
+        <h2>Example</h2>
+        <p>This example will look at writing a test to test a function that calculates the sum of two integer numbers. Although it is an artificially simple example, it highlights the process. A simple unit test may look something like below.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">// function to test sum</span>
+<span style="color: #B00040">bool</span> <span style="color: #0000FF">test_sum</span>(<span style="color: #B00040">int</span> a, <span style="color: #B00040">int</span> b, <span style="color: #B00040">int</span> expected) {
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;sum(&quot;</span> <span style="color: #666666">&lt;&lt;</span> a <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;,&quot;</span> <span style="color: #666666">&lt;&lt;</span> b <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;) : &quot;</span>;
+  <span style="color: #B00040">int</span> val <span style="color: #666666">=</span> sum(a, b);  <span style="color: #408080; font-style: italic">// calc value and compare to expected</span>
+  <span style="color: #008000; font-weight: bold">if</span> (val <span style="color: #666666">==</span> expected) {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;passed</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">true</span>;
+  } <span style="color: #008000; font-weight: bold">else</span> {
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;FAILED! &quot;</span> <span style="color: #666666">&lt;&lt;</span> val <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; (expecting &quot;</span> <span style="color: #666666">&lt;&lt;</span> expected <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;).</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">false</span>;
+  }
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>Here we pass in the two arugments to the function <code>a</code> and <code>b</code> along with the expected (correct) answer. We then pass <code>a</code> and <code>b</code> into the <code>sum()</code> function and store the return value. We can then compare the return value to the expect answer. We then return <code>true</code> or <code>false</code> depending on whether the test passed. Note that there are several debug messages printed to the console to enable the developer to see the results of the test.</p>
+        <p>We can then write another function to run several of these tests.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">// function to run the tests</span>
+<span style="color: #B00040">int</span> <span style="color: #0000FF">run_sum_tests</span>() {
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">Testing sum()...</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #408080; font-style: italic">// initialise counter for number of tests passed</span>
+  <span style="color: #B00040">int</span> passed <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+  <span style="color: #408080; font-style: italic">// do various tests</span>
+  <span style="color: #008000; font-weight: bold">if</span> (test_sum(<span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>)) passed<span style="color: #666666">++</span>;
+  <span style="color: #008000; font-weight: bold">if</span> (test_sum(<span style="color: #666666">-1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">0</span>)) passed<span style="color: #666666">++</span>;
+  <span style="color: #008000; font-weight: bold">if</span> (test_sum(<span style="color: #666666">2</span>, <span style="color: #666666">3</span>, <span style="color: #666666">5</span>)) passed<span style="color: #666666">++</span>;
+  <span style="color: #008000; font-weight: bold">if</span> (test_sum(<span style="color: #666666">826109</span>, <span style="color: #666666">78657567</span>, <span style="color: #666666">79483676</span>)) passed<span style="color: #666666">++</span>;
+  <span style="color: #008000; font-weight: bold">if</span> (test_sum(<span style="color: #666666">-99</span>, <span style="color: #666666">-1</span>, <span style="color: #666666">-100</span>)) passed<span style="color: #666666">++</span>;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">sum() passed &quot;</span> <span style="color: #666666">&lt;&lt;</span> passed <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; tests.</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+  <span style="color: #008000; font-weight: bold">return</span> passed;
+}
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p>Here we create an integer counter to count the number of tests passed. We then call the unit test several times with different parameters. If the test returns true, we increcemnt the counter. Note the code style of the <code>if</code> statements, this is fine for short statements like this and can help to condense the code, making it more readable. At the end of the testing function, we return the number of tests passed.</p>
+        <p>Now we have to acutally write the function itself. This example is trivial.</p>
+        <!-- HTML generated using hilite.me -->
+        <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+            <table>
+                <tr>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%">1</pre>
+                    </td>
+                    <td>
+                        <pre style="margin: 0; line-height: 125%"><span style="color: #B00040">int</span> <span style="color: #0000FF">sum</span>(<span style="color: #B00040">int</span> a, <span style="color: #B00040">int</span> b) { <span style="color: #008000; font-weight: bold">return</span> a <span style="color: #666666">+</span> b; }
+</pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>Again, note the code styling for this short function.</p>
+    </section>
+
+    <!-- Results-->
+    <section>
+        <h2>Results</h2>
+    </section>
+
+    <p>Now we have written the function, we can test it by running <code>run_sum_tests()</code>. The output of the tests is shown below.</p>
+    <!-- HTML generated using hilite.me -->
+    <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">Testing sum()...
+
+sum(<span style="color: #666666">0</span>,<span style="color: #666666">0</span>) <span style="color: #666666">:</span> passed
+sum(<span style="color: #666666">-1</span>,<span style="color: #666666">1</span>) <span style="color: #666666">:</span> passed
+sum(<span style="color: #666666">2</span>,<span style="color: #666666">3</span>) <span style="color: #666666">:</span> passed
+sum(<span style="color: #666666">826109</span>,<span style="color: #666666">78657567</span>) <span style="color: #666666">:</span> passed
+sum(<span style="color: #666666">-99</span>,<span style="color: #666666">-1</span>) <span style="color: #666666">:</span> passed
+
+sum() passed <span style="color: #666666">5</span> tests.
+</pre>
+    </div>
+
+    <p>Here we can see that the code has passed all of the tests and we can proceed with more confidence in our code.</p>
+    <p>Now, imagine we made a mistake with our function.</p>
+    <!-- HTML generated using hilite.me -->
+    <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <table>
+            <tr>
+                <td>
+                    <pre style="margin: 0; line-height: 125%">1</pre>
+                </td>
+                <td>
+                    <pre style="margin: 0; line-height: 125%"><span style="color: #B00040">int</span> <span style="color: #0000FF">sum</span>(<span style="color: #B00040">int</span> a, <span style="color: #B00040">int</span> b) { <span style="color: #008000; font-weight: bold">return</span> a <span style="color: #666666">-</span> b; }
+</pre>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <p>When we ran the tests, we would see the following output.</p>
+    <!-- HTML generated using hilite.me -->
+    <div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <pre style="margin: 0; line-height: 125%">Testing sum()...
+
+sum(<span style="color: #666666">0</span>,<span style="color: #666666">0</span>) <span style="color: #666666">:</span> passed
+sum(<span style="color: #666666">-1</span>,<span style="color: #666666">1</span>) <span style="color: #666666">:</span> FAILED<span style="color: #666666">!</span> <span style="color: #666666">-2</span> (expecting <span style="color: #666666">0</span>).
+sum(<span style="color: #666666">2</span>,<span style="color: #666666">3</span>) <span style="color: #666666">:</span> FAILED<span style="color: #666666">!</span> <span style="color: #666666">-1</span> (expecting <span style="color: #666666">5</span>).
+sum(<span style="color: #666666">826109</span>,<span style="color: #666666">78657567</span>) <span style="color: #666666">:</span> FAILED<span style="color: #666666">!</span> <span style="color: #666666">-77831458</span> (expecting <span style="color: #666666">79483676</span>).
+sum(<span style="color: #666666">-99</span>,<span style="color: #666666">-1</span>) <span style="color: #666666">:</span> FAILED<span style="color: #666666">!</span> <span style="color: #666666">-98</span> (expecting <span style="color: #666666">-100</span>).
+
+sum() passed <span style="color: #666666">1</span> tests.
+</pre>
+    </div>
+
+    <p>Here we can clearly see that the function is not working correctly and then we can go back, knowing that the problem is in that specific function. Imagine not doing this and then going on writing several more functions before doing some tests. You would not be sure where the error was originating from and then have to spend much more time de-bugging.</p>
+    <p>Note also how one of the tests passed. Both 0 + 0 = 0  and 0 - 0 = 0. This highlights the importance of including several test cases covering issues such as zeros and negative numbers.</p>
+
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>

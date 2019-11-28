@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Header -->
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <title>ELEC2645 Embedded Systems Project</title>
+</head>
+
+<!-- Body -->
+
+<body>
+    <!-- Top matter -->
+    <section>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="https://github.com/ELEC2645">GitHub</a>
+        </nav>
+
+        <a href="http://www.leeds.ac.uk">
+    <img src="../images/logo.png" alt="University of Leeds" style="float:right;width:200px;height:80px;">
+    </a>
+    </section>
+
+    <!-- Title -->
+    <h1>Strings</h1>
+
+      <!-- new section -->
+    <section>
+        <h2>Introduction</h2>
+        <p>You should already be comfortable in using the string class and be able to create and use strings to store text data (usually from user-input <code>cin</code>). The C++ <a href="http://www.cplusplus.com/reference/string/string">string class</a> is an improvement on the C-like strings which are essentially character arrays. It contains several methods for manipulating and creating strings.</p>
+        <p>It can be used by including the following header.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;string&gt;</span>
+</pre></div>
+
+
+
+        <p>Note that C-like strings can be manipulated using the <code>cstring</code> <a href="http://www.cplusplus.com/reference/cstring/">functions</a>.</p>
+    </section>
+
+    <section>
+        <h2>Conversion</h2>
+        <p>Several methods exist to convert strings to numeric data types as well as converting numeric data types to strings.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">  <span style="color: #408080; font-style: italic">// create a string</span>
+  std<span style="color: #666666">::</span>string my_string <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;1&quot;</span>;
+  <span style="color: #408080; font-style: italic">// then conver to an int</span>
+  <span style="color: #B00040">int</span> my_int <span style="color: #666666">=</span> std<span style="color: #666666">::</span>stoi(my_string);
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;My int is &quot;</span> <span style="color: #666666">&lt;&lt;</span> my_int <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  <span style="color: #408080; font-style: italic">// do similar for a double</span>
+  std<span style="color: #666666">::</span>string my_new_string <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;1.23456789&quot;</span>;
+  <span style="color: #B00040">double</span> my_double <span style="color: #666666">=</span> std<span style="color: #666666">::</span>stod(my_new_string);
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;My double is &quot;</span> <span style="color: #666666">&lt;&lt;</span> my_double <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  <span style="color: #408080; font-style: italic">// we can also go to other way</span>
+  <span style="color: #B00040">int</span> my_new_int <span style="color: #666666">=</span> <span style="color: #666666">6</span>;
+  std<span style="color: #666666">::</span>string another_new_string <span style="color: #666666">=</span> std<span style="color: #666666">::</span>to_string(my_new_int);
+
+  <span style="color: #408080; font-style: italic">// to string also works with doubles</span>
+  <span style="color: #B00040">double</span> my_new_double <span style="color: #666666">=</span> <span style="color: #666666">9.999999</span>;
+  std<span style="color: #666666">::</span>string yet_another_new_string <span style="color: #666666">=</span> std<span style="color: #666666">::</span>to_string(my_new_double);
+</pre></div>
+    </section>
+
+      <!-- new section -->
+    <section>
+        <h2>Concatentating</h2>
+        <p>Using the string class, it is trival to concatenate (join) strings using the <code>+</code> operator.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">  <span style="color: #408080; font-style: italic">// we easily concatenate strings using the string class</span>
+  std<span style="color: #666666">::</span>string forename <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;Craig&quot;</span>;
+  std<span style="color: #666666">::</span>string surname <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;Evans&quot;</span>;
+  std<span style="color: #666666">::</span>string fullname <span style="color: #666666">=</span> forename <span style="color: #666666">+</span> <span style="color: #BA2121">&quot; &quot;</span> <span style="color: #666666">+</span> surname;
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;My name is &quot;</span> <span style="color: #666666">&lt;&lt;</span> fullname <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+</pre></div>
+        <p>Thids gives the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">My name is Craig Evans
+</pre></div>
+    </section>
+
+      <!-- new section -->
+    <section>
+        <h2>Other methods</h2>
+        <p>There are several useful methods for extracting characters and getting to size of a string. note that is also possible to access specific characters using array like syntax e.g. <code>str[4]</code>.</p>
+         <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">  <span style="color: #408080; font-style: italic">// we can also do some more interesting stuff</span>
+  <span style="color: #B00040">char</span> first_initial <span style="color: #666666">=</span> forename.front();
+  <span style="color: #B00040">char</span> second_initial <span style="color: #666666">=</span> surname.front();
+  <span style="color: #408080; font-style: italic">// front gets the first character of string</span>
+  <span style="color: #408080; font-style: italic">// you can probably guess what back() does</span>
+  <span style="color: #408080; font-style: italic">// we could also treat it like an array i.e. forename[0]</span>
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;My initials are &quot;</span> <span style="color: #666666">&lt;&lt;</span> first_initial <span style="color: #666666">&lt;&lt;</span> second_initial
+            <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;My surname has &quot;</span> <span style="color: #666666">&lt;&lt;</span> surname.size() <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; letters.</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&quot;</span>;
+</pre></div>
+        <p>This will produce the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">My initials are CE
+My surname has <span style="color: #666666">5</span> letters.
+</pre></div>
+    </section>
+
+      <!-- new section -->
+    <section>
+        <h2>Inserting substrings</h2>
+        <p>We can also insert substrings into existing strings.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">// we can insert a substring into a string</span>
+  std<span style="color: #666666">::</span>string middle_initial <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;A. &quot;</span>;
+  fullname.insert(<span style="color: #666666">6</span>, middle_initial);
+  std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;My full name is &quot;</span> <span style="color: #666666">&lt;&lt;</span> fullname <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+</pre></div>
+        <p>This will produce the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">My full name is Craig A. Evans
+</pre></div>
+    </section>
+          <!-- new section -->
+    <section>
+        <h2>Finding sub-strings</h2>
+        <p>It is also possible to search a string to see whether it contains a specific character or sub-string. This example demonstrates how to split a CSV string (i.e. look for a comma).</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">// create a csv string</span>
+  std<span style="color: #666666">::</span>string csv <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;Evans,87&quot;</span>;
+
+  <span style="color: #408080; font-style: italic">// find the position of the comma</span>
+  std<span style="color: #666666">::</span><span style="color: #B00040">size_t</span> pos <span style="color: #666666">=</span> csv.find(<span style="color: #BA2121">&#39;,&#39;</span>);
+  std<span style="color: #666666">::</span>string name;
+  <span style="color: #B00040">int</span> score;
+  <span style="color: #408080; font-style: italic">// if the string contains a comma</span>
+  <span style="color: #008000; font-weight: bold">if</span> (pos <span style="color: #666666">!=</span> std<span style="color: #666666">::</span>string<span style="color: #666666">::</span>npos) {
+    <span style="color: #408080; font-style: italic">// the name is from the beginning (0) to the comma (pos)</span>
+    name <span style="color: #666666">=</span> csv.substr(<span style="color: #666666">0</span>, pos);
+    <span style="color: #408080; font-style: italic">// the score is after the comma (pos+1) to the end</span>
+    score <span style="color: #666666">=</span> std<span style="color: #666666">::</span>stoi(csv.substr(pos <span style="color: #666666">+</span> <span style="color: #666666">1</span>));
+    std<span style="color: #666666">::</span>cout <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot;Name: &quot;</span> <span style="color: #666666">&lt;&lt;</span> name <span style="color: #666666">&lt;&lt;</span> <span style="color: #BA2121">&quot; Score = &quot;</span> <span style="color: #666666">&lt;&lt;</span> score <span style="color: #666666">&lt;&lt;</span> std<span style="color: #666666">::</span>endl;
+  }
+</pre></div>
+        <p>This produces the following output.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;font-family: 'courier new', courier, monospace;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #A0A000">Name:</span> Evans Score <span style="color: #666666">=</span> <span style="color: #666666">87</span>
+</pre></div>
+    </section>
+
+
+
+
+</body>
+
+
+<!-- footer -->
+<footer>
+    <ul>
+        <li> &copy Dr Craig A. Evans, 2018 </li>
+        <li> <a href="mailto:C.A.Evans@leeds.ac.uk">email</a></li>
+        <li> <a href="https://engineering.leeds.ac.uk/staff/347/Dr_Craig_A_Evans">webpage</a></li>
+    </ul>
+</footer>
+
+</html>
